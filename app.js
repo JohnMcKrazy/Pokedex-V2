@@ -585,7 +585,7 @@ const createEvoChainBtns = async (speciesLink) => {
         cardBtn.setAttribute("data-name", name);
         cardImg.setAttribute("src", img);
         cardImg.setAttribute("alt", name);
-        cardName.textContent = name;
+        cardName.textContent = properCase(name);
         cardId.textContent = id;
         fragmentDataDetails.appendChild(cardClone);
     };
