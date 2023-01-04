@@ -52,6 +52,7 @@ const pokeId = document.querySelector("#poke_id");
 const pokeName = document.querySelector("#poke_name");
 const pokeTypes = document.querySelector("#poke_types");
 const pokeBg = document.querySelector(".poke_bg");
+const evoSubtitle = document.querySelector("#evo_subtitle");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentEvoCards = document.createDocumentFragment();
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -97,6 +98,7 @@ const personalizedActionBtns = document.querySelectorAll(".personalized_action_b
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const savedModal = document.querySelector("#saved_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const titleSavedModal = document.querySelector("#title_saved_modal");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 //! |||||||||||||||||||||||||||||||//
@@ -107,7 +109,7 @@ const savedModal = document.querySelector("#saved_modal");
 const close = "close";
 const open = "open";
 const accepted = "accepted";
-const decline = "decline";
+const denied = "denied";
 const save = "save";
 const cancel = "cancel";
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -129,9 +131,10 @@ const storageAlert = "page_alert_status";
 const storageView = "page_view_count";
 const storageThemes = "page_themes";
 const storageThemeSaved = "theme_saved";
+const storageSaved = "saved_pokemon";
+const storageBackgrounds = "background_colors";
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let itsFirstPokemonSearch = true;
-const storageSearched = "pokemon_searched";
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const errorText = "Error";
 const goodText = "Good";
@@ -148,7 +151,6 @@ const enNameNoSearch = "Search your favorite pokemon by name or ID number";
 let pastModal = "";
 let currentPersonilizedTheme = {};
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 let configMenuStatus = close;
 let themeMenuStatus = close;
 let alertModalStatus = close;
@@ -158,18 +160,18 @@ let langMenuModalStartStatus = close;
 let langMenuModalThemeStatus = close;
 let langMenuModalPersonalizedThemeStatus = close;
 let langMenuModalSavedStatus = close;
-
 let selectListStatus = close;
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let currentLang = es;
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const pokemonSearch = [];
-
 const pokemonTypesEn = [];
 const pokemonTypesEs = [];
 let currentPokemon = 1;
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+let evoLink = "";
+let itemToSave = {};
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const pokeThemes = {};
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //! ||||||||||||||//
@@ -206,7 +208,7 @@ let storagePokedex = {
     ],
     theme_saved: {},
     page_view_count: 0,
-    pokemon_searched: [],
+    saved_pokemon: [],
     background_colors: {
         ghost: {
             img: "url(./assets/images/ghost.jpg)",
@@ -509,7 +511,10 @@ const closeMenu = (menu, delay = 250) => {
         menu.style.display = "none";
     }, delay);
 };
+//! /
+const closeInnerModal = () => {};
 
+//! /
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const changeLang = (lang) => {
     const varietiesListText = document.querySelector("#selection_list_first_text");
@@ -530,6 +535,8 @@ const changeLang = (lang) => {
         searchInputName.setAttribute("placeholder", "Nombre");
         titleStartModal.textContent = "Bienvenido";
         textStartModal.textContent = "Estas entrando a una pagina fan made, la unica intension es entretenimiento";
+        evoSubtitle.textContent = "Cadena De Evolución";
+        titleSavedModal.textContent = "Pokemon Salvados";
         acceptBtnStartModal.textContent = "Aceptar";
         deniedBtnStartModal.textContent = "Rechazar";
         console.log(dataDetailsTitle.getAttribute("data-info"));
@@ -549,6 +556,8 @@ const changeLang = (lang) => {
         searchInputName.setAttribute("placeholder", "Name");
         titleStartModal.textContent = "Welcome";
         textStartModal.textContent = "You'r enter in a fan made page, only with the propouse of training";
+        evoSubtitle.textContent = "Evolution Chain";
+        titleSavedModal.textContent = "Saved Pokemon";
         acceptBtnStartModal.textContent = "Accept";
         deniedBtnStartModal.textContent = "Denied";
         console.log(dataDetailsTitle.getAttribute("data-info"));
@@ -589,7 +598,7 @@ const createItemCard = async (id, name, img, fragDoc) => {
     cardBtn.setAttribute("data-name", name);
     cardImg.setAttribute("src", img);
     cardImg.setAttribute("alt", name);
-    console.log(name);
+    /*     console.log(name); */
     cardName.textContent = properCase(name);
     cardId.textContent = id;
     fragDoc.appendChild(cardClone);
@@ -604,7 +613,7 @@ const createEvoChainBtns = async (speciesLink) => {
             console.log(item);
             const dataEvoDetails = item.evolution_details;
             dataEvoDetails.forEach((detail) => {
-                console.log(detail);
+                console.log(detail.trigger.name);
             });
 
             const evoTypeData = await fetchFunc(item.species.url);
@@ -613,24 +622,24 @@ const createEvoChainBtns = async (speciesLink) => {
             const evoTypeImg = fetchEvoType.sprites.front_default;
             const evoTypeName = fetchEvoType.name;
 
-            console.log(fetchEvoType);
+            /* console.log(fetchEvoType); */
 
-            console.log(evoTypeId, evoTypeName);
-            console.log(evoTypeImg);
+            /* console.log(evoTypeId, evoTypeName); */
+            /* console.log(evoTypeImg); */
             createItemCard(evoTypeId, evoTypeName, evoTypeImg, fragmentEvoCards);
             evoCardsContainer.appendChild(fragmentEvoCards);
             const nextEvoData = item.evolves_to;
             evoTypesCount++;
             if (nextEvoData) {
-                console.log(nextEvoData);
+                /* console.log(nextEvoData); */
                 createEvoData(nextEvoData);
                 if (evoTypesCount === 1) {
-                    console.log(`Tienes 1na evolucion`);
+                    /* console.log(`Tienes 1na evolucion`); */
                 } else {
-                    console.log(`Tienes ${evoTypesCount} evoluciones`);
+                    /* console.log(`Tienes ${evoTypesCount} evoluciones`); */
                 }
             } else {
-                console.log(`No tienes ${evoTypesCount + 1} evoluciones`);
+                /* console.log(`No tienes ${evoTypesCount + 1} evoluciones`); */
             }
         });
     };
@@ -674,8 +683,6 @@ const createEvoChainBtns = async (speciesLink) => {
         });
     }, 500);
 };
-let evoLink = "";
-let itemToSave = {};
 const createPokeData = async (data) => {
     deleteArrElements(pokemonTypesEn);
     deleteArrElements(pokemonTypesEs);
@@ -751,6 +758,17 @@ const createPokeData = async (data) => {
         const dataId = data.id;
         console.log(dataId);
         currentPokemon = dataId;
+        updatePokedex();
+        console.log(storagePokedex[storageSaved]);
+        storagePokedex[storageSaved].forEach((item) => {
+            switch (item.id) {
+                case dataId:
+                    savePokemonBtn.disable = true;
+                    break;
+                default:
+                    break;
+            }
+        });
         itemToSave = {
             name: data.name,
             id: data.id,
@@ -810,7 +828,7 @@ const createPokeData = async (data) => {
             }
         }
 
-        const newBackground = storagePokedex["background_colors"][data.types[0].type.name].url;
+        const newBackground = storagePokedex[storageBackgrounds][data.types[0].type.name].url;
         pokeBg.style.background = `url(${newBackground})`;
         pokeImg.setAttribute("src", artworkImg);
         pokeImg.setAttribute("alt", dataName);
@@ -929,9 +947,10 @@ const startModalActions = (action) => {
     console.log(action);
     if (action === accepted) {
         updatePokedex();
-        storagePokedex["page_alert_status"] = close;
+        storagePokedex[storageAlert] = close;
+    } else if (action === denied) {
+        console.log(denied);
     }
-
     animationOut(startModal, 500);
     setTimeout(() => {
         animationOut(modal, 500);
@@ -969,10 +988,39 @@ const configMenuOptions = (option) => {
 const savePokemonFav = () => {
     console.log("preparando salvar pokemon function");
     console.log(itemToSave);
-    createItemCard(itemToSave.id, itemToSave.name, itemToSave.sprite, fragmentsavedCards);
-    savedCardsContainer.appendChild(fragmentsavedCards);
+    updatePokedex();
+    if (storagePokedex[storageSaved].length === 0) {
+        storagePokedex[storageSaved].push(itemToSave);
+        console.log(storagePokedex);
+        console.log("Salvando por primera vez pokemon en favoritos");
+        savePokedex();
+    } else if (storagePokedex[storageSaved].length >= 1) {
+        console.log(storagePokedex[storageSaved]);
+        const cleanIndex = storagePokedex[storageSaved].filter((item) => item.id !== itemToSave.id);
+        console.log(cleanIndex);
+        cleanIndex.push(itemToSave);
+        storagePokedex[storageSaved] = cleanIndex;
+        /* storagePokedex[storageSaved].forEach((item) => {
+            console.log(item);
+            switch (itemToSave.id === item.id) {
+                case false:
+                    storagePokedex[storageSaved].push(itemToSave);
+                    console.log(storagePokedex);
+                    console.log("Salvando pokemon en favoritos");
+                    break;
+                case true:
+                    console.log("Este pokemon ya se encuentra en favoritos");
+                    break;
+            }
+        }); */
+
+        console.log("Salvando pokemon, actualizando base de favoritos");
+        savePokedex();
+    }
 };
 const savedMenuActions = () => {
+    deleteChildElements(fragmentsavedCards);
+    deleteChildElements(savedCardsContainer);
     if (savedModalStatus === close) {
         oldTheme = BODY.className;
         savedModalStatus = open;
@@ -985,6 +1033,12 @@ const savedMenuActions = () => {
             animationOut(modal, 500);
         }, 1500);
     }
+    updatePokedex();
+    storagePokedex[storageSaved].forEach((item) => {
+        createItemCard(item.id, item.name, item.sprite, fragmentsavedCards);
+    });
+
+    savedCardsContainer.appendChild(fragmentsavedCards);
 };
 const themeMenuActions = () => {
     if (themeMenuStatus === close) {
@@ -1138,7 +1192,6 @@ const checkStorageAnswer = () => {
         console.log("tienes temas");
         createPersonalizedBtns();
     }
-    console.log(storageContent[storageThemeSaved]);
     if (storageContent && storageContent[storageThemeSaved] !== {} && storageContent && storageContent[storageThemeSaved]["tag"] === personalizedT) {
         console.log(storageContent[storageThemeSaved]);
         BODY.className = personalizedT;
@@ -1216,7 +1269,7 @@ const pikerThemeActionBtns = (action) => {
                 textColor: currentTextColor,
                 bgAccent: currentBgAccent,
             };
-            storagePokedex.page_themes.push(newItem);
+            storagePokedex[storageThemes].push(newItem);
             console.log(storagePokedex);
             createPersonalizedBtns();
             savePokedex();
