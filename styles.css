@@ -774,6 +774,7 @@ MAIN {
     object-fit: contain;
 }
 .poke_bg {
+    position: relative;
     width: 100%;
     height: 25rem;
     transition: var(--transitionM);
@@ -781,6 +782,13 @@ MAIN {
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
+}
+.save_btn {
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+    background: var(--white);
+    border: none;
 }
 .varieties_btns_container {
     position: absolute;

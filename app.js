@@ -8,7 +8,7 @@ const basicDataBtn = document.querySelector("#basic_data_btn");
 const evoChainBtn = document.querySelector("#evo_chain_btn");
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const fragment = document.createDocumentFragment();
+const frafgmentPersonalizedThemeBtns = document.createDocumentFragment();
 const themeBtnTemplate = document.querySelector("#theme_btn_template").content;
 const personalizedBtnsContainer = document.querySelector("#personalized_themes_btns_container");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -34,9 +34,17 @@ const fragmentListVarieties = document.createDocumentFragment();
 const selectionListTemplate = document.querySelector("#selection_list_template").content;
 const optionListTemplate = document.querySelector("#option_list_btn_template").content;
 const searchBtnsContainer = document.querySelector("#search_varieties_btns_container");
+const savePokemonBtn = document.querySelector("#save_pokemon_btn");
 const imgContainer = document.querySelector("#img_container");
 const btnPrevious = document.querySelector(".previous_btn");
 const btnNext = document.querySelector(".next_btn");
+
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const fragmentsavedCards = document.createDocumentFragment();
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const savedCardsContainer = document.querySelector("#btns_saved_container");
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const dataContainer = document.querySelector(".data_container");
 const pokeImg = document.querySelector("#poke_img");
@@ -45,7 +53,7 @@ const pokeName = document.querySelector("#poke_name");
 const pokeTypes = document.querySelector("#poke_types");
 const pokeBg = document.querySelector(".poke_bg");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const fragmentDataDetails = document.createDocumentFragment();
+const fragmentEvoCards = document.createDocumentFragment();
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const evoCardTemplate = document.querySelector("#evo_card_template").content;
 const evoCardsContainer = document.querySelector("#btns_evo_chain_container");
@@ -572,23 +580,25 @@ const fetchFunc = async (url) => {
         console.log(error);
     }
 };
+const createItemCard = async (id, name, img, fragDoc) => {
+    const cardClone = evoCardTemplate.cloneNode(true);
+    const cardImg = cardClone.querySelector(".card_img");
+    const cardId = cardClone.querySelector(".card_id");
+    const cardName = cardClone.querySelector(".card_name");
+    const cardBtn = cardClone.querySelector(".card_btn");
+    cardBtn.setAttribute("data-name", name);
+    cardImg.setAttribute("src", img);
+    cardImg.setAttribute("alt", name);
+    console.log(name);
+    cardName.textContent = properCase(name);
+    cardId.textContent = id;
+    fragDoc.appendChild(cardClone);
+};
 const createEvoChainBtns = async (speciesLink) => {
     deleteChildElements(evoCardsContainer);
-    deleteChildElements(fragmentDataDetails);
+    deleteChildElements(fragmentEvoCards);
     /* ! INTERNAL FUNCTIONS */
-    const createEvoCard = async (id, name, img) => {
-        const cardClone = evoCardTemplate.cloneNode(true);
-        const cardImg = cardClone.querySelector(".card_img");
-        const cardId = cardClone.querySelector(".card_id");
-        const cardName = cardClone.querySelector(".card_name");
-        const cardBtn = cardClone.querySelector(".card_btn");
-        cardBtn.setAttribute("data-name", name);
-        cardImg.setAttribute("src", img);
-        cardImg.setAttribute("alt", name);
-        cardName.textContent = properCase(name);
-        cardId.textContent = id;
-        fragmentDataDetails.appendChild(cardClone);
-    };
+
     const createEvoData = async (evoList) => {
         evoList.forEach(async (item) => {
             console.log(item);
@@ -607,8 +617,8 @@ const createEvoChainBtns = async (speciesLink) => {
 
             console.log(evoTypeId, evoTypeName);
             console.log(evoTypeImg);
-            createEvoCard(evoTypeId, evoTypeName, evoTypeImg);
-            evoCardsContainer.appendChild(fragmentDataDetails);
+            createItemCard(evoTypeId, evoTypeName, evoTypeImg, fragmentEvoCards);
+            evoCardsContainer.appendChild(fragmentEvoCards);
             const nextEvoData = item.evolves_to;
             evoTypesCount++;
             if (nextEvoData) {
@@ -643,8 +653,8 @@ const createEvoChainBtns = async (speciesLink) => {
     const evoFromPokeId = fetchEvolvesFromData.id;
     const evoFromPokeName = fetchEvolvesFromData.name;
     const evoFromPokeImg = fetchEvolvesFromData.sprites.front_default;
-    createEvoCard(evoFromPokeId, evoFromPokeName, evoFromPokeImg);
-    evoCardsContainer.appendChild(fragmentDataDetails);
+    createItemCard(evoFromPokeId, evoFromPokeName, evoFromPokeImg, fragmentEvoCards);
+    evoCardsContainer.appendChild(fragmentEvoCards);
     const firstEvoData = dataEvoChain.chain.evolves_to;
     const hasEvoTypes = firstEvoData.length > 0;
     let evoTypesCount = 0;
@@ -665,6 +675,7 @@ const createEvoChainBtns = async (speciesLink) => {
     }, 500);
 };
 let evoLink = "";
+let itemToSave = {};
 const createPokeData = async (data) => {
     deleteArrElements(pokemonTypesEn);
     deleteArrElements(pokemonTypesEs);
@@ -733,14 +744,18 @@ const createPokeData = async (data) => {
     searchInputNumber.value = "";
     searchInputNumber.value = "";
     pokeImg.classList.remove("animation_spin");
-    const artworkImg = data.sprites.other["official-artwork"]["front_default"];
-    /* console.log(artworkImg); */
-    const dataName = properCase(data.name);
     /* console.log(dataName); */
     if (data) {
+        const artworkImg = data.sprites.other["official-artwork"]["front_default"];
+        const dataName = properCase(data.name);
         const dataId = data.id;
         console.log(dataId);
         currentPokemon = dataId;
+        itemToSave = {
+            name: data.name,
+            id: data.id,
+            sprite: data.sprites.front_default,
+        };
         if (data.types.length > 1) {
             data.types.forEach(async (type) => {
                 const typeData = await fetchFunc(type.type.url);
@@ -951,6 +966,12 @@ const configMenuOptions = (option) => {
     }
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const savePokemonFav = () => {
+    console.log("preparando salvar pokemon function");
+    console.log(itemToSave);
+    createItemCard(itemToSave.id, itemToSave.name, itemToSave.sprite, fragmentsavedCards);
+    savedCardsContainer.appendChild(fragmentsavedCards);
+};
 const savedMenuActions = () => {
     if (savedModalStatus === close) {
         oldTheme = BODY.className;
@@ -1076,16 +1097,16 @@ const deletePersonalizedTheme = () => {
     setCurrentColors();
 };
 const createPersonalizedBtns = () => {
-    deleteChildElements(fragment);
+    deleteChildElements(frafgmentPersonalizedThemeBtns);
     deleteChildElements(personalizedBtnsContainer);
     storagePokedex[storageThemes].forEach((theme) => {
         let cloneTemplate = themeBtnTemplate.cloneNode(true);
         let btn = cloneTemplate.querySelector(".personalized_theme_btn");
         btn.textContent = theme.name;
         btn.setAttribute("data-name", theme.name);
-        fragment.appendChild(cloneTemplate);
+        frafgmentPersonalizedThemeBtns.appendChild(cloneTemplate);
     });
-    personalizedBtnsContainer.appendChild(fragment);
+    personalizedBtnsContainer.appendChild(frafgmentPersonalizedThemeBtns);
     const personalizedThemeBtns = document.querySelectorAll(".personalized_theme_btn");
     personalizedThemeBtns.forEach((btn) => btn.addEventListener("click", () => changePersonalizedTheme(btn.getAttribute("data-name"))));
 };
@@ -1117,6 +1138,7 @@ const checkStorageAnswer = () => {
         console.log("tienes temas");
         createPersonalizedBtns();
     }
+    console.log(storageContent[storageThemeSaved]);
     if (storageContent && storageContent[storageThemeSaved] !== {} && storageContent && storageContent[storageThemeSaved]["tag"] === personalizedT) {
         console.log(storageContent[storageThemeSaved]);
         BODY.className = personalizedT;
@@ -1218,7 +1240,6 @@ const pikerThemeActionBtns = (action) => {
     }
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 colorPikers.forEach((btn) => {
     btn.addEventListener("input", () => {
         let target = btn.getAttribute("data-name");
@@ -1290,7 +1311,7 @@ searchBtn.addEventListener("click", searchFunction);
 searchInputNumber.addEventListener("click", () => (searchInputName.value = ""));
 
 searchInputName.addEventListener("click", () => (searchInputNumber.value = ""));
-
+savePokemonBtn.addEventListener("click", savePokemonFav);
 btnNext.addEventListener("click", next);
 btnPrevious.addEventListener("click", previous);
 deletePersonalizedThemeBtn.addEventListener("click", deletePersonalizedTheme);
