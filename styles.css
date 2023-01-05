@@ -33,6 +33,7 @@ HTML {
     --fontSizeG: 1.8em;
     --fontSizeN: 1.2em;
     --fontSizeS: 1em;
+    --fontSizeXS: 0.8em;
     /*¿ FONT WEIGHT--START */
     /*¿TRANSITIONS--START */
     --transitionUF: all 250ms ease;
@@ -401,7 +402,7 @@ NAV {
     margin: 2rem 0 1rem;
     clear: right;
 }
-.last {
+.margin_b {
     margin-bottom: 2rem;
 }
 .btn {
@@ -415,6 +416,9 @@ NAV {
     background: transparent;
     padding: 0.5rem 1rem;
     color: var(--textColor);
+}
+.accent_color {
+    color: var(--firstColor);
 }
 .btn .icon_svg {
     fill: var(--textColor);
@@ -480,6 +484,7 @@ NAV {
     grid-template-columns: repeat(auto-fill, 18rem);
     justify-content: center;
     row-gap: 1rem;
+    padding: 0.25rem;
 }
 .btns_column_container {
     display: flex;
@@ -529,23 +534,58 @@ NAV {
 #btns_evo_chain_container {
     margin-top: 0.5rem;
 }
+#fav_cards_container {
+    margin-top: 1.5rem;
+}
+.fav_card,
 .card_btn {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     width: 10rem;
-    height: 10rem;
     background: var(--bgAccent);
+}
+.card_btn {
+    height: 10rem;
+}
+.fav_card {
+    position: relative;
+    height: 13rem;
+}
+.card_btn .accent_color,
+.fav_card .accent_color {
+    font-size: var(--fontSizeS);
+    font-weight: 600;
+}
+.fav_card .btns_row_container {
+    position: absolute;
+    width: calc(100% - 1rem);
+    bottom: 0.5rem;
+    left: 50%;
+    translate: -50% 0;
+}
+.fav_card_btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.25rem;
+}
+.fav_card_btn .icon_svg {
+    fill: var(--textColor);
+}
+.fav_card_btn:hover .icon_svg {
+    fill: var(--firstColor);
 }
 .card_img {
     width: 7rem;
     height: 7rem;
 }
 .data_card {
-    font-size: 6px;
     text-align: center;
     color: var(--textColor);
+}
+.data_card H1 {
+    font-size: var(--fontSizeN);
 }
 .return_btn_container {
     position: fixed;

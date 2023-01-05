@@ -4,8 +4,12 @@
 const delateDBBtn = document.querySelector("#delate_DB_Btn");
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const BODY = document.querySelector("body");
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const closeBtns = document.querySelectorAll(".close_modal_btn");
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const basicDataBtn = document.querySelector("#basic_data_btn");
 const evoChainBtn = document.querySelector("#evo_chain_btn");
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const frafgmentPersonalizedThemeBtns = document.createDocumentFragment();
@@ -28,7 +32,7 @@ const langMenuNav = document.querySelector(".lang_menu_nav");
 const langMenuModalStart = document.querySelector("#lang_menu_modal_start");
 const langMenuModalTheme = document.querySelector("#lang_menu_modal_theme");
 const langMenuModalPersonalizedTheme = document.querySelector("#lang_menu_modal_personalized_theme");
-const langMenuModalSaved = document.querySelector("#lang_menu_modal_saved");
+const langMenuModalfav = document.querySelector("#lang_menu_modal_fav");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentListVarieties = document.createDocumentFragment();
 const selectionListTemplate = document.querySelector("#selection_list_template").content;
@@ -40,9 +44,9 @@ const btnPrevious = document.querySelector(".previous_btn");
 const btnNext = document.querySelector(".next_btn");
 
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const fragmentsavedCards = document.createDocumentFragment();
+const fragmentFavCards = document.createDocumentFragment();
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const savedCardsContainer = document.querySelector("#btns_saved_container");
+const favCardsContainer = document.querySelector("#fav_cards_container");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -72,11 +76,18 @@ const acceptBtnStartModal = document.querySelector("#accept_start_modal_btn");
 const deniedBtnStartModal = document.querySelector("#denied_start_modal_btn");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const alertModal = document.querySelector("#alert_modal");
+const simpleAlertModal = document.querySelector("#simple_alert_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const acceptBtnAlertModal = document.querySelector("#accept_alert_modal_btn");
-const titleAlertModal = document.querySelector("#title_alert_modal");
-const textAlertModal = document.querySelector("#text_alert_modal");
+const acceptBtnSimpleAlertModal = document.querySelector("#accept_simple_alert_modal_btn");
+const titleSimpleAlertModal = document.querySelector("#title_simple_alert_modal");
+const textSimpleAlertModal = document.querySelector("#text_simple_alert_modal");
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const innerAlertModal = document.querySelector("#inner_alert_modal");
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const acceptBtnInnerAlertModal = document.querySelector("#accept_inner_alert_modal_btn");
+const titleInnerAlertModal = document.querySelector("#title_inner_alert_modal");
+const textInnerAlertModal = document.querySelector("#text_inner_alert_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const extraModal = document.querySelector("#extra_modal");
@@ -96,9 +107,10 @@ const colorPikers = document.querySelectorAll(".color_piker");
 const personalizedActionBtns = document.querySelectorAll(".personalized_action_btn");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const savedModal = document.querySelector("#saved_modal");
+const favModal = document.querySelector("#fav_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const titleSavedModal = document.querySelector("#title_saved_modal");
+const favCardTemplate = document.querySelector("#fav_card_template").content;
+const titlefavModal = document.querySelector("#title_fav_modal");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 //! |||||||||||||||||||||||||||||||//
@@ -154,12 +166,12 @@ let currentPersonilizedTheme = {};
 let configMenuStatus = close;
 let themeMenuStatus = close;
 let alertModalStatus = close;
-let savedModalStatus = close;
+let favModalStatus = close;
 let langMenuNavStatus = close;
 let langMenuModalStartStatus = close;
 let langMenuModalThemeStatus = close;
 let langMenuModalPersonalizedThemeStatus = close;
-let langMenuModalSavedStatus = close;
+let langMenuModalfavStatus = close;
 let selectListStatus = close;
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let currentLang = es;
@@ -536,10 +548,9 @@ const changeLang = (lang) => {
         titleStartModal.textContent = "Bienvenido";
         textStartModal.textContent = "Estas entrando a una pagina fan made, la unica intension es entretenimiento";
         evoSubtitle.textContent = "Cadena De Evolución";
-        titleSavedModal.textContent = "Pokemon Salvados";
+        titlefavModal.textContent = "Pokemon Favoritos";
         acceptBtnStartModal.textContent = "Aceptar";
         deniedBtnStartModal.textContent = "Rechazar";
-        console.log(dataDetailsTitle.getAttribute("data-info"));
     } else if (lang === en) {
         currentLang = en;
         console.log("cambiando idioma a ingles");
@@ -557,10 +568,9 @@ const changeLang = (lang) => {
         titleStartModal.textContent = "Welcome";
         textStartModal.textContent = "You'r enter in a fan made page, only with the propouse of training";
         evoSubtitle.textContent = "Evolution Chain";
-        titleSavedModal.textContent = "Saved Pokemon";
+        titlefavModal.textContent = "Favorite Pokemon";
         acceptBtnStartModal.textContent = "Accept";
         deniedBtnStartModal.textContent = "Denied";
-        console.log(dataDetailsTitle.getAttribute("data-info"));
     }
 
     document.documentElement.setAttribute("lang", currentLang);
@@ -569,16 +579,16 @@ const changeLang = (lang) => {
 const lunchAlert = (alertError) => {
     alertModalStatus = open;
     animationIn(modal);
-    titleAlertModal.textContent = errorText;
+    titleSimpleAlertModal.textContent = errorText;
     if (alertError === "name") {
         if (currentLang === es) {
-            textAlertModal.textContent = esIncName;
+            textSimpleAlertModal.textContent = esIncName;
         } else if (currentLang === en) {
-            textAlertModal.textContent = enIncName;
+            textSimpleAlertModal.textContent = enIncName;
         }
     }
     setTimeout(() => {
-        animationIn(alertModal);
+        animationIn(simpleAlertModal);
     }, 1000);
 };
 const fetchFunc = async (url) => {
@@ -589,7 +599,7 @@ const fetchFunc = async (url) => {
         console.log(error);
     }
 };
-const createItemCard = async (id, name, img, fragDoc) => {
+const createEvoCard = async (id, name, img) => {
     const cardClone = evoCardTemplate.cloneNode(true);
     const cardImg = cardClone.querySelector(".card_img");
     const cardId = cardClone.querySelector(".card_id");
@@ -601,7 +611,22 @@ const createItemCard = async (id, name, img, fragDoc) => {
     /*     console.log(name); */
     cardName.textContent = properCase(name);
     cardId.textContent = id;
-    fragDoc.appendChild(cardClone);
+    fragmentEvoCards.appendChild(cardClone);
+};
+
+const createFavCard = async (id, name, img) => {
+    const cardClone = favCardTemplate.cloneNode(true);
+    const cardImg = cardClone.querySelector(".fav_card_img");
+    const cardId = cardClone.querySelector(".fav_card_id");
+    const cardName = cardClone.querySelector(".fav_card_name");
+    const cardBtn = cardClone.querySelector(".fav_card_btn");
+    cardBtn.setAttribute("data-name", name);
+    cardImg.setAttribute("src", img);
+    cardImg.setAttribute("alt", name);
+    /*     console.log(name); */
+    cardName.textContent = properCase(name);
+    cardId.textContent = id;
+    fragmentFavCards.appendChild(cardClone);
 };
 const createEvoChainBtns = async (speciesLink) => {
     deleteChildElements(evoCardsContainer);
@@ -626,7 +651,7 @@ const createEvoChainBtns = async (speciesLink) => {
 
             /* console.log(evoTypeId, evoTypeName); */
             /* console.log(evoTypeImg); */
-            createItemCard(evoTypeId, evoTypeName, evoTypeImg, fragmentEvoCards);
+            createEvoCard(evoTypeId, evoTypeName, evoTypeImg);
             evoCardsContainer.appendChild(fragmentEvoCards);
             const nextEvoData = item.evolves_to;
             evoTypesCount++;
@@ -662,7 +687,7 @@ const createEvoChainBtns = async (speciesLink) => {
     const evoFromPokeId = fetchEvolvesFromData.id;
     const evoFromPokeName = fetchEvolvesFromData.name;
     const evoFromPokeImg = fetchEvolvesFromData.sprites.front_default;
-    createItemCard(evoFromPokeId, evoFromPokeName, evoFromPokeImg, fragmentEvoCards);
+    createEvoCard(evoFromPokeId, evoFromPokeName, evoFromPokeImg);
     evoCardsContainer.appendChild(fragmentEvoCards);
     const firstEvoData = dataEvoChain.chain.evolves_to;
     const hasEvoTypes = firstEvoData.length > 0;
@@ -711,7 +736,7 @@ const createPokeData = async (data) => {
 
             //~~  */
             const optionListTemplateClone = optionListTemplate.cloneNode(true);
-            const newOptionBtn = optionListTemplateClone.querySelector(".option_list_btn");
+            const newOptionBtn = optionListTemplateClone.querySelector(".option_list_varients_btn");
 
             const newOptionText = optionListTemplateClone.querySelector(".option_list_text");
 
@@ -725,8 +750,8 @@ const createPokeData = async (data) => {
         fragmentListVarieties.appendChild(newList);
         searchBtnsContainer.appendChild(fragmentListVarieties);
 
-        const typesOfProjectOptionList = document.querySelectorAll(".option_list_btn");
-        typesOfProjectOptionList.forEach((btn) => {
+        const typesOfProjectOptionListBtns = document.querySelectorAll(".option_list_varients_btn");
+        typesOfProjectOptionListBtns.forEach((btn) => {
             //* console.log(optionType);
 
             btn.addEventListener("click", async () => {
@@ -873,14 +898,14 @@ const searchFunction = () => {
         itsFirstPokemonSearch = false;
     }
     if (myName === "" && myNumber === "") {
-        titleAlertModal.textContent = errorText;
+        titleSimpleAlertModal.textContent = errorText;
         if (currentLang === es) {
-            textAlertModal.textContent = esEmpty;
+            textSimpleAlertModal.textContent = esEmpty;
         } else if (currentLang === en) {
-            textAlertModal.textContent = enEmpty;
+            textSimpleAlertModal.textContent = enEmpty;
         }
         animationIn(modal, block, 1000);
-        setTimeout(() => animationIn(alertModal, block, 1000), 1500);
+        setTimeout(() => animationIn(simpleAlertModal, block, 1000), 1500);
     } else if (myNumber === "" || myNumber === null || myNumber === NaN) {
         currentPokemon = myName;
     } else if (myName === "") {
@@ -931,13 +956,13 @@ const langMenuModalActions = (action) => {
                 closeMenu(langMenuModalPersonalizedTheme);
             }
             break;
-        case "lang_saved":
-            if (langMenuModalSavedStatus === close) {
-                langMenuModalSavedStatus = open;
-                openMenu(langMenuModalSaved);
-            } else if (langMenuModalSavedStatus === open) {
-                langMenuModalSavedStatus = close;
-                closeMenu(langMenuModalSaved);
+        case "lang_fav":
+            if (langMenuModalfavStatus === close) {
+                langMenuModalfavStatus = open;
+                openMenu(langMenuModalfav);
+            } else if (langMenuModalfavStatus === open) {
+                langMenuModalfavStatus = close;
+                closeMenu(langMenuModalfav);
             }
             break;
     }
@@ -977,8 +1002,8 @@ const configMenuOptions = (option) => {
     } else if (option === "theme") {
         themeMenuActions();
         configMenuActions();
-    } else if (option === "saved") {
-        savedMenuActions();
+    } else if (option === "fav") {
+        favMenuActions();
         configMenuActions();
     } else {
         configMenuActions();
@@ -988,6 +1013,7 @@ const configMenuOptions = (option) => {
 const savePokemonFav = () => {
     console.log("preparando salvar pokemon function");
     console.log(itemToSave);
+    const actualDate = new Date();
     updatePokedex();
     if (storagePokedex[storageSaved].length === 0) {
         storagePokedex[storageSaved].push(itemToSave);
@@ -1018,27 +1044,28 @@ const savePokemonFav = () => {
         savePokedex();
     }
 };
-const savedMenuActions = () => {
-    deleteChildElements(fragmentsavedCards);
-    deleteChildElements(savedCardsContainer);
-    if (savedModalStatus === close) {
+//! CHECAR LOS BOTONES DE POKEMON FAVORITOS, QUE DESPLIEGUEN INFORMACION, CREAR FILTRO (FECHA, ID, NOMBRE), CREAR UN NUEVO ITEMcARD CON FECHA Y QUE PUEDA GENERARLE  //
+const favMenuActions = () => {
+    deleteChildElements(fragmentFavCards);
+    deleteChildElements(favCardsContainer);
+    if (favModalStatus === close) {
         oldTheme = BODY.className;
-        savedModalStatus = open;
+        favModalStatus = open;
         animationIn(modal, block, 500);
-        setTimeout(() => animationIn(savedModal, block, 500), 1500);
-    } else if (savedModalStatus === open) {
-        savedModalStatus = close;
-        animationOut(savedModal, 500);
+        setTimeout(() => animationIn(favModal, block, 500), 1500);
+    } else if (favModalStatus === open) {
+        favModalStatus = close;
+        animationOut(favModal, 500);
         setTimeout(() => {
             animationOut(modal, 500);
         }, 1500);
     }
     updatePokedex();
     storagePokedex[storageSaved].forEach((item) => {
-        createItemCard(item.id, item.name, item.sprite, fragmentsavedCards);
+        createFavCard(item.id, item.name, item.sprite, item.date);
     });
 
-    savedCardsContainer.appendChild(fragmentsavedCards);
+    favCardsContainer.appendChild(fragmentFavCards);
 };
 const themeMenuActions = () => {
     if (themeMenuStatus === close) {
@@ -1281,18 +1308,24 @@ const pikerThemeActionBtns = (action) => {
             animationOut(personalizedThemeModal);
             pastModal = personalizedThemeModal;
             setTimeout(() => {
-                titleAlertModal.textContent = errorText;
+                titleSimpleAlertModal.textContent = errorText;
                 if (currentLang === es) {
-                    textAlertModal.textContent = esEmptyThemeName;
+                    textSimpleAlertModal.textContent = esEmptyThemeName;
                 } else if (currentLang === en) {
-                    textAlertModal.textContent = enEmptyThemeName;
+                    textSimpleAlertModal.textContent = enEmptyThemeName;
                 }
-                animationIn(alertModal, block);
+                animationIn(simpleAlertModal, block);
             }, 1000);
         }
     }
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const closeModal = (window) => {
+    console.log(window);
+};
+closeBtns.forEach((btn) => {
+    btn.addEventListener("click", () => closeModal(btn.getAttribute("data-name")));
+});
 colorPikers.forEach((btn) => {
     btn.addEventListener("input", () => {
         let target = btn.getAttribute("data-name");
@@ -1354,9 +1387,9 @@ pikerThemeModalBtns.forEach((btn) => {
         pikerThemeActionBtns(btn.getAttribute("data-name"));
     });
 });
-acceptBtnAlertModal.addEventListener("click", () => {
+acceptBtnSimpleAlertModal.addEventListener("click", () => {
     console.log("click activo");
-    animationOut(alertModal);
+    animationOut(simpleAlertModal);
     setTimeout(() => animationIn(pastModal, block, 1000));
 });
 
