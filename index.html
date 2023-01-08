@@ -29,7 +29,7 @@
                         </button>
                         <input type="number" id="search_input_number" min="1" max="898" placeholder="#Id" />
                     </div>
-                    <button type="button" class="config_btn" id="config_menu_btn" data-name="open-close">
+                    <button type="button" class="config_btn config_menu_btn_action" id="config_menu_btn" data-name="open-close">
                         <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                             <path class="cls-1" d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" />
                         </svg>
@@ -438,21 +438,36 @@
                     </button>
                 </div>
                 <h1 class="title_modal" id="title_fav_modal">Favoritos</h1>
-                <div class="option_list_btns_container">
-                    <div class="option_list" id="option_list_fav">
-                        <button type="button" class="option_list_btn option_list_fav_btn option_list_btn_search" data-name="open-close">
-                            <span id="option_list_fav_first_text">Ordenar</span>
-                            <div class="icon_container">
-                                <svg class="icon_svg" id="arrow_btn_select_list_fav_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path class="cls-1" d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                                </svg>
+                <div class="btns_row_container margin_b">
+                    <div class="btns_row_center">
+                        <div class="option_list_btns_container">
+                            <div class="option_list" id="option_list_fav">
+                                <button type="button" class="option_list_btn option_list_fav_btn option_list_btn_search" data-name="open-close">
+                                    <span id="option_list_fav_first_text">Ordenar</span>
+                                    <div class="icon_container">
+                                        <svg class="icon_svg" id="arrow_btn_select_list_fav_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <path class="cls-1" d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                                        </svg>
+                                    </div>
+                                </button>
+                                <button type="button" class="option_list_btn option_list_fav_btn" data-name="name" id="name_option_list_fav_btn">Nombre</button>
+                                <button type="button" class="option_list_btn option_list_fav_btn" data-name="id">Id</button>
                             </div>
+                        </div>
+                        <button type="button" class="config_btn sort_fav_btn" data-name="sort_decendent">
+                            <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="cls-1" d="M20 4v12h3l-4 5-4-5h3V4h2zm-8 14v2H3v-2h9zm2-7v2H3v-2h11zm0-7v2H3V4h11z" /></svg>
                         </button>
-                        <button type="button" class="option_list_btn option_list_fav_btn" data-name="name" id="name_option_list_fav_btn">Nombre</button>
-                        <button type="button" class="option_list_btn option_list_fav_btn" data-name="id">Id</button>
+                        <button type="button" class="config_btn sort_fav_btn" data-name="sort_acendent">
+                            <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M19 3l4 5h-3v12h-2V8h-3l4-5zm-5 15v2H3v-2h11zm0-7v2H3v-2h11zm-2-7v2H3V4h9z" /></svg>
+                        </button>
+                        <button type="button" class="config_btn sort_fav_btn" data-name="sort_time">
+                            <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm1-8h4v2h-6V7h2v5z" />
+                            </svg>
+                        </button>
                     </div>
+                    <div class="btns_row_center"></div>
                 </div>
-
                 <div class="cards_row_container" id="fav_cards_container"></div>
             </div>
         </div>

@@ -19,6 +19,7 @@
 HTML {
     /*¿GENERAL COLORS START */
     --lightGray: rgb(180, 180, 180);
+    --lightGrayShadow: rgba(180, 180, 180, 7);
     --midGray: rgb(166, 166, 166);
     --darkGray: rgb(77, 77, 77);
     --black: rgb(10, 10, 10);
@@ -479,6 +480,13 @@ NAV {
     justify-content: space-between;
     align-items: center;
 }
+.btns_row_center {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+}
 .btns_grid_row_container {
     display: grid;
     grid-template-columns: repeat(auto-fill, 18rem);
@@ -541,11 +549,11 @@ NAV {
     background: var(--bgAccent);
 }
 .card_btn {
-    height: 10rem;
+    height: 12rem;
 }
 .fav_card {
     position: relative;
-    height: 13rem;
+    height: 14rem;
 }
 .card_btn .accent_color,
 .fav_card .accent_color {
@@ -558,6 +566,10 @@ NAV {
     bottom: 0.5rem;
     left: 50%;
     translate: -50% 0;
+}
+.card_btn .data_card,
+.fav_card .data_card {
+    margin-top: 0.5rem;
 }
 .fav_card_btn {
     width: 2.5rem;
@@ -725,10 +737,7 @@ NAV {
     font-size: var(--fontSizeN);
 }
 /* ^PAGE */
-
-.modal_content .btns_row_container {
-    margin-top: 1rem;
-} /* 
+/* 
 .extra_btn:hover {
     background: var(--firstColor);
 }
@@ -849,6 +858,7 @@ MAIN {
     overflow: hidden;
     user-select: none;
     transition: var(--transitionF);
+    box-shadow: 2px 2px 0.5rem var(--lightGrayShadow);
 }
 .option_list_btn_search {
     position: relative;
@@ -896,6 +906,10 @@ MAIN {
 .option_list_btn_search:hover .icon_svg {
     fill: var(--textContrastColor);
 }
+.btns_row_center .option_list_btns_container {
+    width: fit-content;
+    position: initial;
+}
 #config_menu {
     display: none;
     position: absolute;
@@ -914,7 +928,7 @@ MAIN {
     background: var(--white);
     fill: var(--black);
 }
-.config_btn:not(.config_menu_btn_action) {
+.config_btn:not(.config_menu_btn_action, .sort_fav_btn) {
     border-radius: 1rem;
 }
 .config_btn:hover {
@@ -979,8 +993,9 @@ MAIN {
 #btns_evo_chain_container {
     margin-top: 0.5rem;
 }
-#fav_cards_container {
-    margin-top: 5.5rem;
+#fav_modal .btns_row_container,
+#fav_modal .btns_row_center {
+    height: 3rem;
 }
 @media screen and (min-width: 420px) {
     HTML {

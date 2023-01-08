@@ -16,7 +16,7 @@ const frafgmentPersonalizedThemeBtns = document.createDocumentFragment();
 const themeBtnTemplate = document.querySelector("#theme_btn_template").content;
 const personalizedBtnsContainer = document.querySelector("#personalized_themes_btns_container");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const configBtns = document.querySelectorAll(".config_btn");
+const navConfigBtns = document.querySelectorAll(".config_menu_btn_action");
 const configMenu = document.querySelector("#config_menu");
 
 const themeBtns = document.querySelectorAll(".theme_btn");
@@ -113,7 +113,7 @@ const favModal = document.querySelector("#fav_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const favCardTemplate = document.querySelector("#fav_card_template").content;
 const titlefavModal = document.querySelector("#title_fav_modal");
-
+const sortBtns = document.querySelectorAll(".sort_fav_btn");
 const favListFirstBtnText = document.querySelector("#option_list_fav_first_text");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -186,7 +186,8 @@ let langMenuModalStartStatus = close;
 let langMenuModalThemeStatus = close;
 let langMenuModalPersonalizedThemeStatus = close;
 let langMenuModalfavStatus = close;
-let selectListVarientsStatus = close;
+let optionListVarientsStatus = close;
+let optionListFavStatus = close;
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let currentLang = es;
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -459,8 +460,10 @@ const next = () => {
         closeMenu(langMenuNav);
     }
 
-    if (selectListVarientsStatus === open) {
-        selectListActions(optionListVarients, optionListVarientsArrow);
+    if (optionListVarientsStatus === open) {
+        optionListVarientsStatus = close;
+        optionListVarientsArrow.style.transform = "rotate(0)";
+        optionListVarients.style.height = "3rem";
     }
     if (itsFirstPokemonSearch === true) {
         itsFirstPokemonSearch = false;
@@ -488,8 +491,10 @@ const previous = () => {
         closeMenu(langMenuNav);
     }
 
-    if (selectListVarientsStatus === open) {
-        selectListActions(optionListVarients, optionListVarientsArrow);
+    if (optionListVarientsStatus === open) {
+        optionListVarientsStatus = close;
+        optionListVarientsArrow.style.transform = "rotate(0)";
+        optionListVarients.style.height = "3rem";
     }
     if (itsFirstPokemonSearch === true) {
         itsFirstPokemonSearch = false;
@@ -818,11 +823,27 @@ const createPokeData = async (data) => {
                 btn.addEventListener("click", async () => {
                     const actionName = btn.getAttribute("data-name");
                     if (actionName === "open-close") {
-                        selectListActions(optionListVarients, optionListVarientsArrow);
+                        if (optionListVarientsStatus === open) {
+                            optionListVarientsStatus = close;
+                            optionListVarientsArrow.style.transform = "rotate(0)";
+                            optionListVarients.style.height = "3rem";
+                        } else if (optionListVarientsStatus === close) {
+                            optionListVarientsStatus = open;
+                            optionListVarientsArrow.style.transform = "rotate(180deg)";
+                            optionListVarients.style.height = "fit-content";
+                        }
                     } else if (actionName === "item") {
                         let newSearch = await fetchFunc(btn.getAttribute("data-url"));
                         /* console.log(newSearch); */
-                        selectListActions(optionListVarients, optionListVarientsArrow);
+                        if (optionListVarientsStatus === open) {
+                            optionListVarientsStatus = close;
+                            optionListVarientsArrow.style.transform = "rotate(0)";
+                            optionListVarients.style.height = "3rem";
+                        } else if (optionListVarientsStatus === close) {
+                            optionListVarientsStatus = open;
+                            optionListVarientsArrow.style.transform = "rotate(180deg)";
+                            optionListVarients.style.height = "fit-content";
+                        }
                         catchEmAll(btn.id);
                     }
                 });
@@ -943,17 +964,6 @@ const createPokeData = async (data) => {
     }
 };
 //&OPEN SELECT LIST--START
-const selectListActions = (list, arrowList) => {
-    if (selectListVarientsStatus === close) {
-        selectListVarientsStatus = open;
-        arrowList.style.transform = "rotate(180deg)";
-        list.style.height = "fit-content";
-    } else if (selectListVarientsStatus === open) {
-        selectListVarientsStatus = close;
-        arrowList.style.transform = "rotate(0)";
-        list.style.height = "3rem";
-    }
-};
 const catchEmAll = async (id) => {
     if (itsFirstPokemonSearch === true) {
         itsFirstPokemonSearch = false;
@@ -1478,7 +1488,7 @@ langBtnsModal.forEach((btn) => {
 langMenuNavBtns.forEach((btn) => {
     btn.addEventListener("click", () => changeLang(btn.getAttribute("data-name")));
 });
-configBtns.forEach((btn) => {
+navConfigBtns.forEach((btn) => {
     btn.addEventListener("click", () => configMenuOptions(btn.getAttribute("data-name")));
 });
 themeBtns.forEach((btn) => {
@@ -1511,7 +1521,33 @@ btnPrevious.addEventListener("click", previous);
 deletePersonalizedThemeBtn.addEventListener("click", deletePersonalizedTheme);
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 optionListFavBtns.forEach((btn) => {
-    btn.addEventListener("click", () => selectListActions(optionListFav, optionListFavArrow));
+    btn.addEventListener("click", () => {
+        if (optionListFavStatus === close) {
+            optionListFavStatus = open;
+            optionListFavArrow.style.transform = "rotate(180deg)";
+            optionListFav.style.height = "fit-content";
+        } else if (optionListFavStatus === open) {
+            optionListFavStatus = close;
+            optionListFavArrow.style.transform = "rotate(0)";
+            optionListFav.style.height = "3rem";
+        }
+    });
+});
+sortBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        if (optionListFavStatus === open) {
+            optionListFavStatus = close;
+            optionListFavArrow.style.transform = "rotate(0)";
+            optionListFav.style.height = "3rem";
+        }
+        if (btn.getAttribute("data-name") === "sort_decendent") {
+            console.log("ordenar por decendente");
+        } else if (btn.getAttribute("data-name") === "sort_acendent") {
+            console.log("ordenar por acendente");
+        } else if (btn.getAttribute("data-name") === "sort_time") {
+            console.log("ordenar por tiempo");
+        }
+    });
 });
 //! |||||||||||||||||||||||||//
 //!  DELETE WHEN YOUR FINISH //
