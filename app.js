@@ -78,11 +78,11 @@ const acceptBtnStartModal = document.querySelector("#accept_start_modal_btn");
 const deniedBtnStartModal = document.querySelector("#denied_start_modal_btn");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const simpleAlertModal = document.querySelector("#simple_alert_modal");
+const alertModal = document.querySelector("#alert_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const acceptBtnSimpleAlertModal = document.querySelector("#accept_simple_alert_modal_btn");
-const titleSimpleAlertModal = document.querySelector("#title_simple_alert_modal");
-const textSimpleAlertModal = document.querySelector("#text_simple_alert_modal");
+const acceptBtnAlertModal = document.querySelector("#accept_alert_modal_btn");
+const titleAlertModal = document.querySelector("#title_alert_modal");
+const textAlertModal = document.querySelector("#text_alert_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const innerAlertModal = document.querySelector("#inner_alert_modal");
@@ -176,9 +176,11 @@ let pastModal = "";
 let currentPersonilizedTheme = {};
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let configMenuStatus = close;
-let themeMenuStatus = close;
+let themeModalStatus = close;
 let alertModalStatus = close;
+let startModalStatus = close;
 let favModalStatus = close;
+let personalizedThemeModalStatus = close;
 let langMenuNavStatus = close;
 let langMenuModalStartStatus = close;
 let langMenuModalThemeStatus = close;
@@ -562,7 +564,7 @@ const changeLang = (lang) => {
         titleStartModal.textContent = "Bienvenido";
         textStartModal.textContent = "Estas entrando a una pagina fan made, la unica intension es entretenimiento";
         evoSubtitle.textContent = "Cadena De Evolución";
-        titlefavModal.textContent = "Pokemon Favoritos";
+        titlefavModal.textContent = "Favoritos";
         favListFirstBtnText.textContent = "Ordenar";
         nameOptioListFavBtn.textContent = "Nombre";
         acceptBtnStartModal.textContent = "Aceptar";
@@ -584,7 +586,7 @@ const changeLang = (lang) => {
         titleStartModal.textContent = "Welcome";
         textStartModal.textContent = "You'r enter in a fan made page, only with the propouse of training";
         evoSubtitle.textContent = "Evolution Chain";
-        titlefavModal.textContent = "Favorite Pokemon";
+        titlefavModal.textContent = "Favorite";
         favListFirstBtnText.textContent = "Sort";
         nameOptioListFavBtn.textContent = "Name";
         acceptBtnStartModal.textContent = "Accept";
@@ -597,16 +599,16 @@ const changeLang = (lang) => {
 const lunchAlert = (alertError) => {
     alertModalStatus = open;
     animationIn(modal);
-    titleSimpleAlertModal.textContent = errorText;
+    titleAlertModal.textContent = errorText;
     if (alertError === "name") {
         if (currentLang === es) {
-            textSimpleAlertModal.textContent = esIncName;
+            textAlertModal.textContent = esIncName;
         } else if (currentLang === en) {
-            textSimpleAlertModal.textContent = enIncName;
+            textAlertModal.textContent = enIncName;
         }
     }
     setTimeout(() => {
-        animationIn(simpleAlertModal);
+        animationIn(alertModal);
     }, 1000);
 };
 const fetchFunc = async (url) => {
@@ -659,8 +661,13 @@ const setFavCardBtns = () => {
             if (btnName === "search_fav") {
                 console.log("buscando fav");
                 console.log(btnId);
+                catchEmAll(btnId);
+                animationOut(favModal);
+                favModalStatus = close;
+                setTimeout(() => animationOut(modal), 250);
             } else if (btnName === "delete_fav") {
                 console.log("borrando fav");
+                console.log(btnId);
             }
         });
     });
@@ -969,14 +976,14 @@ const searchFunction = () => {
         itsFirstPokemonSearch = false;
     }
     if (myName === "" && myNumber === "") {
-        titleSimpleAlertModal.textContent = errorText;
+        titleAlertModal.textContent = errorText;
         if (currentLang === es) {
-            textSimpleAlertModal.textContent = esEmpty;
+            textAlertModal.textContent = esEmpty;
         } else if (currentLang === en) {
-            textSimpleAlertModal.textContent = enEmpty;
+            textAlertModal.textContent = enEmpty;
         }
         animationIn(modal, block, 1000);
-        setTimeout(() => animationIn(simpleAlertModal, block, 1000), 1500);
+        setTimeout(() => animationIn(alertModal, block, 1000), 1500);
     } else if (myNumber === "" || myNumber === null || myNumber === NaN) {
         currentPokemon = myName;
     } else if (myName === "") {
@@ -1147,14 +1154,13 @@ const favMenuActions = () => {
     setTimeout(() => setFavCardBtns(), 100);
 };
 const themeMenuActions = () => {
-    if (themeMenuStatus === close) {
+    if (themeModalStatus === close) {
         oldTheme = BODY.className;
-        themeMenuStatus = open;
-
+        themeModalStatus = open;
         animationIn(modal, block, 500);
         setTimeout(() => animationIn(themeModal, block, 500), 1500);
-    } else if (themeMenuStatus === open) {
-        themeMenuStatus = close;
+    } else if (themeModalStatus === open) {
+        themeModalStatus = close;
         animationOut(themeModal, 500);
         setTimeout(() => {
             animationOut(modal, 500);
@@ -1318,8 +1324,10 @@ const personalizedThemeActionsBtnsActiions = (tm) => {
         BODY.className = personalizedT;
         setCurrentColors();
         animationOut(themeModal);
+        themeModalStatus = close;
         setTimeout(() => {
             animationIn(personalizedThemeModal, block);
+            personalizedThemeModalStatus = open;
         }, 1500);
     } else if (tm === "edit_theme") {
         console.log("checando edit");
@@ -1330,13 +1338,13 @@ const themeActionsBtnsActions = (action) => {
         BODY.className = oldTheme;
         deletePersonalizedTheme();
     } else if (action === "try") {
-        themeMenuStatus = close;
+        themeModalStatus = close;
         animationOut(themeModal);
         setTimeout(() => {
             animationOut(modal);
         }, 1000);
     } else if (action === cancel) {
-        themeMenuStatus = close;
+        themeModalStatus = close;
         BODY.className = oldTheme;
         deletePersonalizedTheme();
         animationOut(themeModal);
@@ -1344,7 +1352,7 @@ const themeActionsBtnsActions = (action) => {
             animationOut(modal);
         }, 1000);
     } else if (action === save) {
-        themeMenuStatus = close;
+        themeModalStatus = close;
         storagePokedex[storageThemeSaved] = currentPersonilizedTheme;
         savePokedex();
         animationOut(personalizedThemeModal);
@@ -1387,13 +1395,13 @@ const pikerThemeActionBtns = (action) => {
             animationOut(personalizedThemeModal);
             pastModal = personalizedThemeModal;
             setTimeout(() => {
-                titleSimpleAlertModal.textContent = errorText;
+                titleAlertModal.textContent = errorText;
                 if (currentLang === es) {
-                    textSimpleAlertModal.textContent = esEmptyThemeName;
+                    textAlertModal.textContent = esEmptyThemeName;
                 } else if (currentLang === en) {
-                    textSimpleAlertModal.textContent = enEmptyThemeName;
+                    textAlertModal.textContent = enEmptyThemeName;
                 }
-                animationIn(simpleAlertModal, block);
+                animationIn(alertModal, block);
             }, 1000);
         }
     }
@@ -1401,12 +1409,25 @@ const pikerThemeActionBtns = (action) => {
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //! ARREGLAR EL BOTON DE CERRAR Y CHECRA SI LAS ACCIONES ESTAN BIEN //
 const closeModal = (action) => {
+    console.log(action);
     switch (action) {
-        case "search_fav":
+        case "close_fav":
             console.log(action);
+            animationOut(favModal);
+            setTimeout(() => animationOut(modal), 500);
+            favModalStatus = close;
             break;
-        case "delete_fav":
+        case "close_theme":
             console.log(action);
+            animationOut(themeModal);
+            setTimeout(() => animationOut(modal), 500);
+            themeModalStatus = close;
+            break;
+        case "close_personalized_theme":
+            console.log(action);
+            animationOut(personalizedThemeModal);
+            setTimeout(() => animationOut(modal), 500);
+            personalizedThemeModalStatus = close;
             break;
     }
 };
@@ -1474,9 +1495,9 @@ pikerThemeModalBtns.forEach((btn) => {
         pikerThemeActionBtns(btn.getAttribute("data-name"));
     });
 });
-acceptBtnSimpleAlertModal.addEventListener("click", () => {
+acceptBtnAlertModal.addEventListener("click", () => {
     console.log("click activo");
-    animationOut(simpleAlertModal);
+    animationOut(alertModal);
     setTimeout(() => animationIn(pastModal, block, 1000));
 });
 

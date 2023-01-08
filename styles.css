@@ -971,6 +971,7 @@ MAIN {
     max-height: 30vh;
     height: fit-content;
     overflow-y: auto;
+    grid-template-columns: repeat(auto-fill, 14rem);
 }
 #theme_btns_container {
     min-height: 200px;
@@ -993,5 +994,9 @@ MAIN {
 @media screen and (min-width: 900px) {
     HTML {
         --fontSize: 12px;
+    }
+
+    #themes_btns_container {
+        max-height: fit-content;
     }
 }
