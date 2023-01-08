@@ -35,7 +35,7 @@ const langMenuModalPersonalizedTheme = document.querySelector("#lang_menu_modal_
 const langMenuModalfav = document.querySelector("#lang_menu_modal_fav");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentListVarieties = document.createDocumentFragment();
-const selectionListTemplate = document.querySelector("#selection_list_template").content;
+const selectionListTemplate = document.querySelector("#option_list_template").content;
 const optionListTemplate = document.querySelector("#option_list_btn_template").content;
 const searchBtnsContainer = document.querySelector("#search_varieties_btns_container");
 const savePokemonBtn = document.querySelector("#save_pokemon_btn");
@@ -47,6 +47,8 @@ const btnNext = document.querySelector(".next_btn");
 const fragmentFavCards = document.createDocumentFragment();
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const favCardsContainer = document.querySelector("#fav_cards_container");
+const nameOptioListFavBtn = document.querySelector("#name_option_list_fav_btn");
+const idOptioListFavBtn = document.querySelector("#id_option_list_fav_btn");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -111,6 +113,8 @@ const favModal = document.querySelector("#fav_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const favCardTemplate = document.querySelector("#fav_card_template").content;
 const titlefavModal = document.querySelector("#title_fav_modal");
+
+const favListFirstBtnText = document.querySelector("#option_list_fav_first_text");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 //! |||||||||||||||||||||||||||||||//
@@ -160,6 +164,14 @@ const enEmpty = "You need to fill some data to search";
 const esNameNoSearch = "Busca tus pokemon favoritos por nombre o por numero ID";
 const enNameNoSearch = "Search your favorite pokemon by name or ID number";
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+let optionListVarients;
+let optionListVarientsArrow;
+let optionListVarientsBtns;
+const optionListFav = document.querySelector("#option_list_fav");
+const optionListFavArrow = document.querySelector("#arrow_btn_select_list_fav_svg");
+const optionListFavFirstBtnText = document.querySelector("#option_list_fav_first_text");
+const optionListFavBtns = document.querySelectorAll(".option_list_fav_btn");
+
 let pastModal = "";
 let currentPersonilizedTheme = {};
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -172,16 +184,18 @@ let langMenuModalStartStatus = close;
 let langMenuModalThemeStatus = close;
 let langMenuModalPersonalizedThemeStatus = close;
 let langMenuModalfavStatus = close;
-let selectListStatus = close;
+let selectListVarientsStatus = close;
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let currentLang = es;
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const pokemonSearch = [];
 const pokemonTypesEn = [];
 const pokemonTypesEs = [];
+const currentPokemonFlavors = [];
 let currentPokemon = 1;
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-let evoLink = "";
+let speciesLink = "";
+let evoChainLink = "";
 let itemToSave = {};
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const pokeThemes = {};
@@ -443,8 +457,8 @@ const next = () => {
         closeMenu(langMenuNav);
     }
 
-    if (selectListStatus === open) {
-        selectListActions();
+    if (selectListVarientsStatus === open) {
+        selectListActions(optionListVarients, optionListVarientsArrow);
     }
     if (itsFirstPokemonSearch === true) {
         itsFirstPokemonSearch = false;
@@ -472,8 +486,8 @@ const previous = () => {
         closeMenu(langMenuNav);
     }
 
-    if (selectListStatus === open) {
-        selectListActions();
+    if (selectListVarientsStatus === open) {
+        selectListActions(optionListVarients, optionListVarientsArrow);
     }
     if (itsFirstPokemonSearch === true) {
         itsFirstPokemonSearch = false;
@@ -529,7 +543,7 @@ const closeInnerModal = () => {};
 //! /
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const changeLang = (lang) => {
-    const varietiesListText = document.querySelector("#selection_list_first_text");
+    const varietiesListFirstBtnText = document.querySelector("#option_list_varients_first_text");
     if (lang === es) {
         currentLang = es;
         console.log("cambiando idioma a español");
@@ -541,14 +555,16 @@ const changeLang = (lang) => {
         } else if (pokemonTypesEs.length === 0) {
             pokeTypes.textContent = esNameNoSearch;
         }
-        if (varietiesListText) {
-            varietiesListText.textContent = "Variantes";
+        if (varietiesListFirstBtnText) {
+            varietiesListFirstBtnText.textContent = "Variantes";
         }
         searchInputName.setAttribute("placeholder", "Nombre");
         titleStartModal.textContent = "Bienvenido";
         textStartModal.textContent = "Estas entrando a una pagina fan made, la unica intension es entretenimiento";
         evoSubtitle.textContent = "Cadena De Evolución";
         titlefavModal.textContent = "Pokemon Favoritos";
+        favListFirstBtnText.textContent = "Ordenar";
+        nameOptioListFavBtn.textContent = "Nombre";
         acceptBtnStartModal.textContent = "Aceptar";
         deniedBtnStartModal.textContent = "Rechazar";
     } else if (lang === en) {
@@ -561,14 +577,16 @@ const changeLang = (lang) => {
         } else if (pokemonTypesEn.length === 0) {
             pokeTypes.textContent = enNameNoSearch;
         }
-        if (varietiesListText) {
-            varietiesListText.textContent = "Varieties";
+        if (varietiesListFirstBtnText) {
+            varietiesListFirstBtnText.textContent = "Varieties";
         }
         searchInputName.setAttribute("placeholder", "Name");
         titleStartModal.textContent = "Welcome";
         textStartModal.textContent = "You'r enter in a fan made page, only with the propouse of training";
         evoSubtitle.textContent = "Evolution Chain";
         titlefavModal.textContent = "Favorite Pokemon";
+        favListFirstBtnText.textContent = "Sort";
+        nameOptioListFavBtn.textContent = "Name";
         acceptBtnStartModal.textContent = "Accept";
         deniedBtnStartModal.textContent = "Denied";
     }
@@ -613,35 +631,49 @@ const createEvoCard = async (id, name, img) => {
     cardId.textContent = id;
     fragmentEvoCards.appendChild(cardClone);
 };
-
 const createFavCard = async (id, name, img) => {
     const cardClone = favCardTemplate.cloneNode(true);
     const cardImg = cardClone.querySelector(".fav_card_img");
     const cardId = cardClone.querySelector(".fav_card_id");
     const cardName = cardClone.querySelector(".fav_card_name");
-    const cardBtn = cardClone.querySelector(".fav_card_btn");
-    cardBtn.setAttribute("data-name", name);
+    const searchCardBtn = cardClone.querySelector(".search_fav_card_btn");
+    const deleteCardBtn = cardClone.querySelector(".delete_fav_card_btn");
     cardImg.setAttribute("src", img);
     cardImg.setAttribute("alt", name);
+    searchCardBtn.setAttribute("data-id", id);
+    deleteCardBtn.setAttribute("data-id", id);
+    searchCardBtn.id = `search_fav_card_btn_${name}`;
+    deleteCardBtn.id = `delete_fav_card_btn_${name}`;
     /*     console.log(name); */
     cardName.textContent = properCase(name);
     cardId.textContent = id;
     fragmentFavCards.appendChild(cardClone);
+};
+const setFavCardBtns = () => {
+    //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
+    const favCardBtns = document.querySelectorAll(".fav_card_btn");
+    favCardBtns.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+            let btnName = e.target.getAttribute("data-name");
+            let btnId = e.target.getAttribute("data-id");
+            if (btnName === "search_fav") {
+                console.log("buscando fav");
+                console.log(btnId);
+            } else if (btnName === "delete_fav") {
+                console.log("borrando fav");
+            }
+        });
+    });
+    //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
 };
 const createEvoChainBtns = async (speciesLink) => {
     deleteChildElements(evoCardsContainer);
     deleteChildElements(fragmentEvoCards);
     /* ! INTERNAL FUNCTIONS */
 
-    const createEvoData = async (evoList) => {
-        evoList.forEach(async (item) => {
-            console.log(item);
-            const dataEvoDetails = item.evolution_details;
-            dataEvoDetails.forEach((detail) => {
-                console.log(detail.trigger.name);
-            });
-
-            const evoTypeData = await fetchFunc(item.species.url);
+    const createEvoData = async (speciesList) => {
+        speciesList.forEach(async (specie) => {
+            const evoTypeData = await fetchFunc(specie.species.url);
             const evoTypeId = evoTypeData.id;
             const fetchEvoType = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${evoTypeId}`);
             const evoTypeImg = fetchEvoType.sprites.front_default;
@@ -653,7 +685,7 @@ const createEvoChainBtns = async (speciesLink) => {
             /* console.log(evoTypeImg); */
             createEvoCard(evoTypeId, evoTypeName, evoTypeImg);
             evoCardsContainer.appendChild(fragmentEvoCards);
-            const nextEvoData = item.evolves_to;
+            const nextEvoData = specie.evolves_to;
             evoTypesCount++;
             if (nextEvoData) {
                 /* console.log(nextEvoData); */
@@ -670,20 +702,20 @@ const createEvoChainBtns = async (speciesLink) => {
     };
     /*! EXTRA DATA */
     const pokeExtraData = await fetchFunc(speciesLink);
-    console.log(pokeExtraData);
+    /* console.log(pokeExtraData); */
 
     const dataColor = pokeExtraData.color.name;
     const dataEvoChainLink = pokeExtraData.evolution_chain.url;
-    console.log(dataEvoChainLink);
+    /* console.log(dataEvoChainLink); */
     const dataEvoChain = await fetchFunc(dataEvoChainLink);
-    console.log(dataEvoChain);
-    console.log(dataEvoChain.chain.species.name);
+    /* console.log(dataEvoChain); */
+    /* console.log(dataEvoChain.chain.species.name); */
 
     const fetchEvolvesFromDataPokemonId = await fetchFunc(dataEvoChain.chain.species.url);
     const fetchEvolvesFromData = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${fetchEvolvesFromDataPokemonId.id}`);
-    console.log(fetchEvolvesFromData);
-    console.log(fetchEvolvesFromData.id, fetchEvolvesFromData.name);
-    console.log(fetchEvolvesFromData.sprites.front_default);
+    /* console.log(fetchEvolvesFromData); */
+    /* console.log(fetchEvolvesFromData.id, fetchEvolvesFromData.name); */
+    /*  console.log(fetchEvolvesFromData.sprites.front_default); */
     const evoFromPokeId = fetchEvolvesFromData.id;
     const evoFromPokeName = fetchEvolvesFromData.name;
     const evoFromPokeImg = fetchEvolvesFromData.sprites.front_default;
@@ -709,96 +741,138 @@ const createEvoChainBtns = async (speciesLink) => {
     }, 500);
 };
 const createPokeData = async (data) => {
-    deleteArrElements(pokemonTypesEn);
-    deleteArrElements(pokemonTypesEs);
-    deleteChildElements(searchBtnsContainer);
-    deleteChildElements(fragmentListVarieties);
-    evoLink = data.species.url;
-    const newCheckData = await fetchFunc(evoLink);
-    console.log(newCheckData);
-    const varieties = newCheckData.varieties;
+    if (data) {
+        deleteArrElements(pokemonTypesEn);
+        deleteArrElements(pokemonTypesEs);
+        deleteChildElements(searchBtnsContainer);
+        deleteChildElements(fragmentListVarieties);
+        deleteArrElements(currentPokemonFlavors);
+        searchInputNumber.value = "";
+        searchInputNumber.value = "";
+        pokeImg.classList.remove("animation_spin");
+        speciesLink = data.species.url;
+        const speciesData = await fetchFunc(speciesLink);
+        console.log(speciesData);
+        const {
+            base_happiness,
+            shape,
+            color,
+            generation,
+            habitat,
+            forms_switchable: switchableForms,
+            gender_rate: genderRate,
+            growth_rate: growthRate,
+            has_gender_differences: genderDifferences,
+            is_baby: isBaby,
+            is_legendary: isLegendary,
+            is_mythical: isMythical,
+            pal_park_encounters: palParkEncounters,
+            pokedex_numbers: pokedexNumbers,
+            varieties,
+        } = speciesData;
+        console.log(generation);
+        createEvoChainBtns(speciesLink);
+        //! PRUEBA DE LISTA DE VARIEDADES  //
+        /* console.log(varieties.length); */
+        if (varieties.length > 1) {
+            /* console.log("este pokemon tiene variantes"); */
+            const selectionListTemplateClone = selectionListTemplate.cloneNode(true);
+            const newList = selectionListTemplateClone.querySelector("#option_list_varients");
+            const varietiesListFirstBtnText = selectionListTemplateClone.querySelector("#option_list_varients_first_text");
+            if (currentLang === es) {
+                varietiesListFirstBtnText.textContent = "Variantes";
+            } else if (currentLang === en) {
+                varietiesListFirstBtnText.textContent = "Varients";
+            }
+            varieties.forEach((variation) => {
+                /* console.log(variation); */
+                /* console.log(variation.pokemon.name); */
 
-    //! PRUEBA DE LISTA DE VARIEDADES  //
-    console.log(varieties.length);
-    if (varieties.length > 1) {
-        console.log("este pokemon tiene variantes");
-        const selectionListTemplateClone = selectionListTemplate.cloneNode(true);
-        const newList = selectionListTemplateClone.querySelector(".selection_list");
-        const varietiesListText = selectionListTemplateClone.querySelector("#selection_list_first_text");
-        if (currentLang === es) {
-            varietiesListText.textContent = "Variantes";
-        } else if (currentLang === en) {
-            varietiesListText.textContent = "Varients";
+                //~~  */
+                const optionListTemplateClone = optionListTemplate.cloneNode(true);
+                const newOptionBtn = optionListTemplateClone.querySelector(".option_list_varients_btn");
+
+                newOptionBtn.id = variation.pokemon.name;
+                newOptionBtn.setAttribute("data-url", variation.pokemon.url);
+                newOptionBtn.textContent = properCase(variation.pokemon.name);
+                newList.appendChild(newOptionBtn);
+                //~~  */
+            });
+
+            fragmentListVarieties.appendChild(newList);
+            searchBtnsContainer.appendChild(fragmentListVarieties);
+
+            optionListVarients = document.querySelector("#option_list_varients");
+            optionListVarientsArrow = document.querySelector("#arrow_btn_option_list_varients_svg");
+            optionListVarientsBtns = document.querySelectorAll(".option_list_varients_btn");
+            optionListVarientsBtns.forEach((btn) => {
+                //* console.log(optionType);
+
+                btn.addEventListener("click", async () => {
+                    const actionName = btn.getAttribute("data-name");
+                    if (actionName === "open-close") {
+                        selectListActions(optionListVarients, optionListVarientsArrow);
+                    } else if (actionName === "item") {
+                        let newSearch = await fetchFunc(btn.getAttribute("data-url"));
+                        /* console.log(newSearch); */
+                        selectListActions(optionListVarients, optionListVarientsArrow);
+                        catchEmAll(btn.id);
+                    }
+                });
+            });
+        } else if (varieties.length === 1) {
+            /* console.log("este pokemon no tiene variantes"); */
         }
-        varieties.forEach((variation) => {
-            console.log(variation);
-            console.log(variation.pokemon.name);
-
-            //~~  */
-            const optionListTemplateClone = optionListTemplate.cloneNode(true);
-            const newOptionBtn = optionListTemplateClone.querySelector(".option_list_varients_btn");
-
-            const newOptionText = optionListTemplateClone.querySelector(".option_list_text");
-
-            newOptionBtn.id = variation.pokemon.name;
-            newOptionBtn.setAttribute("data-url", variation.pokemon.url);
-            newOptionText.textContent = properCase(variation.pokemon.name);
-            newList.appendChild(newOptionBtn);
-            //~~  */
-        });
-
-        fragmentListVarieties.appendChild(newList);
-        searchBtnsContainer.appendChild(fragmentListVarieties);
-
-        const typesOfProjectOptionListBtns = document.querySelectorAll(".option_list_varients_btn");
-        typesOfProjectOptionListBtns.forEach((btn) => {
-            //* console.log(optionType);
-
-            btn.addEventListener("click", async () => {
-                const actionName = btn.getAttribute("data-name");
-                if (actionName === "open-close") {
-                    selectListActions();
-                } else if (actionName === "item") {
-                    let newSearch = await fetchFunc(btn.getAttribute("data-url"));
-                    console.log(newSearch);
-                    selectListActions();
-                    catchEmAll(btn.id);
+        //! PRUEBA DE LISTA DE VARIEDADES  //
+        //! PRUEBAS DETALLES TIPO DE EVOLUCION  */
+        evoChainLink = speciesData.evolution_chain.url;
+        const evoData = await fetchFunc(evoChainLink);
+        console.log(evoData.chain);
+        const pokemonEvoDetails = evoData.chain.evolves_to.filter((item) => item.species.name === data.name);
+        if (pokemonEvoDetails.length >= 1) {
+            const typesOfEvolution = pokemonEvoDetails[0].evolution_details;
+            console.log("evo data", typesOfEvolution);
+            typesOfEvolution.forEach((type) => {
+                /* console.log(type); */
+                if (type.trigger.name === "use-item") {
+                    console.log("Item de evolucion type item - ", type.item.name);
+                } else if (type.trigger.name === "Level-up" || type.trigger.name === "level-up") {
+                    console.log("Level-up type data", type);
+                } else {
+                    console.log("data type evolucion no capturada", type);
                 }
             });
+        }
+        //! PRUEBAS DETALLES TIPO DE EVOLUCION  */
+        /* console.log(dataName); */
+        //! PRUEBA DE DATOS A IMPRIMIR  /
+        const pokeFlavors = speciesData.flavor_text_entries;
+        pokeFlavors.forEach((flavor) => {
+            /* console.log(flavor); */
+            if (flavor.language.name === en || flavor.language.name === es) {
+                /* console.log(flavor); */
+                currentPokemonFlavors.push(flavor);
+            }
         });
-    } else if (varieties.length === 1) {
-        console.log("este pokemon no tiene variantes");
-    }
+        const pokemonFlavorsEn = currentPokemonFlavors.filter((flavor) => flavor.language.name === en);
+        const pokemonFlavorsEs = currentPokemonFlavors.filter((flavor) => flavor.language.name === es);
+        console.log("flavors en ingles", pokemonFlavorsEn);
+        console.log("flavors en español", pokemonFlavorsEs);
+        //! PRUEBA DE DATOS A IMPRIMIR  /
 
-    //! PRUEBA DE LISTA DE VARIEDADES  //
-
-    createEvoChainBtns(evoLink);
-    searchInputNumber.value = "";
-    searchInputNumber.value = "";
-    pokeImg.classList.remove("animation_spin");
-    /* console.log(dataName); */
-    if (data) {
         const artworkImg = data.sprites.other["official-artwork"]["front_default"];
         const dataName = properCase(data.name);
         const dataId = data.id;
-        console.log(dataId);
+        /* console.log(dataId); */
         currentPokemon = dataId;
         updatePokedex();
-        console.log(storagePokedex[storageSaved]);
-        storagePokedex[storageSaved].forEach((item) => {
-            switch (item.id) {
-                case dataId:
-                    savePokemonBtn.disable = true;
-                    break;
-                default:
-                    break;
-            }
-        });
+
         itemToSave = {
             name: data.name,
             id: data.id,
             sprite: data.sprites.front_default,
         };
+
         if (data.types.length > 1) {
             data.types.forEach(async (type) => {
                 const typeData = await fetchFunc(type.type.url);
@@ -862,19 +936,15 @@ const createPokeData = async (data) => {
     }
 };
 //&OPEN SELECT LIST--START
-const selectListActions = () => {
-    if (selectListStatus === close) {
-        selectListStatus = open;
-        const selectionTypesList = document.querySelector("#selection_list_varieties");
-        const arrowSvg = document.querySelector("#arrow_btn_select_list_svg");
-        arrowSvg.style.transform = "rotate(180deg)";
-        selectionTypesList.style.height = "fit-content";
-    } else if (selectListStatus === open) {
-        selectListStatus = close;
-        const selectionTypesList = document.querySelector("#selection_list_varieties");
-        const arrowSvg = document.querySelector("#arrow_btn_select_list_svg");
-        arrowSvg.style.transform = "rotate(0)";
-        selectionTypesList.style.height = "3rem";
+const selectListActions = (list, arrowList) => {
+    if (selectListVarientsStatus === close) {
+        selectListVarientsStatus = open;
+        arrowList.style.transform = "rotate(180deg)";
+        list.style.height = "fit-content";
+    } else if (selectListVarientsStatus === open) {
+        selectListVarientsStatus = close;
+        arrowList.style.transform = "rotate(0)";
+        list.style.height = "3rem";
     }
 };
 const catchEmAll = async (id) => {
@@ -883,7 +953,8 @@ const catchEmAll = async (id) => {
     }
     try {
         const data = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${id}`);
-        console.log(data);
+
+        console.log("Primera fetch data", data);
         createPokeData(data);
     } catch (error) {
         lunchAlert("name");
@@ -1045,6 +1116,12 @@ const savePokemonFav = () => {
     }
 };
 //! CHECAR LOS BOTONES DE POKEMON FAVORITOS, QUE DESPLIEGUEN INFORMACION, CREAR FILTRO (FECHA, ID, NOMBRE), CREAR UN NUEVO ITEMcARD CON FECHA Y QUE PUEDA GENERARLE  //
+
+const favCardBtnsActions = (btn) => {
+    console.log(btn);
+    console.log(btn.getAttribute("data-name"));
+    console.log(btn.getAttribute("data-id"));
+};
 const favMenuActions = () => {
     deleteChildElements(fragmentFavCards);
     deleteChildElements(favCardsContainer);
@@ -1066,6 +1143,8 @@ const favMenuActions = () => {
     });
 
     favCardsContainer.appendChild(fragmentFavCards);
+
+    setTimeout(() => setFavCardBtns(), 100);
 };
 const themeMenuActions = () => {
     if (themeMenuStatus === close) {
@@ -1320,8 +1399,16 @@ const pikerThemeActionBtns = (action) => {
     }
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const closeModal = (window) => {
-    console.log(window);
+//! ARREGLAR EL BOTON DE CERRAR Y CHECRA SI LAS ACCIONES ESTAN BIEN //
+const closeModal = (action) => {
+    switch (action) {
+        case "search_fav":
+            console.log(action);
+            break;
+        case "delete_fav":
+            console.log(action);
+            break;
+    }
 };
 closeBtns.forEach((btn) => {
     btn.addEventListener("click", () => closeModal(btn.getAttribute("data-name")));
@@ -1402,6 +1489,9 @@ btnNext.addEventListener("click", next);
 btnPrevious.addEventListener("click", previous);
 deletePersonalizedThemeBtn.addEventListener("click", deletePersonalizedTheme);
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+optionListFavBtns.forEach((btn) => {
+    btn.addEventListener("click", () => selectListActions(optionListFav, optionListFavArrow));
+});
 //! |||||||||||||||||||||||||//
 //!  DELETE WHEN YOUR FINISH //
 //! |||||||||||||||||||||||||//

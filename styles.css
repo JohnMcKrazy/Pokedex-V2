@@ -531,12 +531,6 @@ NAV {
     font-size: var(--fontSizeS);
     margin-top: 1rem;
 }
-#btns_evo_chain_container {
-    margin-top: 0.5rem;
-}
-#fav_cards_container {
-    margin-top: 1.5rem;
-}
 .fav_card,
 .card_btn {
     display: flex;
@@ -661,7 +655,7 @@ NAV {
     position: absolute;
     bottom: 0;
     width: auto;
-    z-index: 5;
+    z-index: 50;
     opacity: 0;
     translate: 0 calc(100% + 0.5rem);
     transition: all ease 500ms;
@@ -830,14 +824,17 @@ MAIN {
     background: var(--white);
     border: none;
 }
-.varieties_btns_container {
+.save_btn .icon_svg {
+    fill: var(--firstColor);
+}
+.option_list_btns_container {
     position: absolute;
     top: 5rem;
     left: 0;
     width: 100%;
     z-index: 10;
 }
-.selection_list {
+.option_list {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -856,6 +853,7 @@ MAIN {
 .option_list_btn_search {
     position: relative;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -879,10 +877,6 @@ MAIN {
     z-index: 10;
     cursor: pointer;
 }
-.option_list_btn_search {
-    display: flex;
-    flex-direction: row;
-}
 .option_list_btn_search .icon_container {
     display: flex;
     justify-content: center;
@@ -895,16 +889,12 @@ MAIN {
     transition: transform ease 500ms;
     fill: var(--firstColor);
 }
-.open_list_btn:hover {
+.option_list_btn:hover {
     background: var(--firstColor);
     color: var(--textContrastColor);
 }
 .option_list_btn_search:hover .icon_svg {
     fill: var(--textContrastColor);
-}
-.option_list_btn:hover {
-    background: var(--firstColor);
-    color: var(--textContrastColor);
 }
 #config_menu {
     display: none;
@@ -977,7 +967,6 @@ MAIN {
     height: fit-content;
     overflow-y: auto;
 }
-
 #personalized_themes_btns_container {
     max-height: 30vh;
     height: fit-content;
@@ -985,6 +974,12 @@ MAIN {
 }
 #theme_btns_container {
     min-height: 200px;
+}
+#btns_evo_chain_container {
+    margin-top: 0.5rem;
+}
+#fav_cards_container {
+    margin-top: 5.5rem;
 }
 @media screen and (min-width: 420px) {
     HTML {
