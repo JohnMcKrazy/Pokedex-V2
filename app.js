@@ -66,7 +66,7 @@ const evoCardTemplate = document.querySelector("#evo_card_template").content;
 const evoCardsContainer = document.querySelector("#btns_evo_chain_container");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const modal = document.querySelector(".modal");
+const modal = document.querySelector("#modal");
 //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const startModal = document.querySelector("#start_modal");
@@ -81,8 +81,8 @@ const deniedBtnStartModal = document.querySelector("#denied_start_modal_btn");
 const alertModal = document.querySelector("#alert_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const acceptBtnAlertModal = document.querySelector("#accept_alert_modal_btn");
-const titleAlertModal = document.querySelector("#title_alert_modal");
-const textAlertModal = document.querySelector("#text_alert_modal");
+const titleAlertModal = document.querySelector("#title_modal_alert");
+const textAlertModal = document.querySelector("#text_modal_alert");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const innerAlertModal = document.querySelector("#inner_alert_modal");
@@ -544,10 +544,6 @@ const closeMenu = (menu, delay = 250) => {
         menu.style.display = "none";
     }, delay);
 };
-//! /
-const closeInnerModal = () => {};
-
-//! /
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const changeLang = (lang) => {
     const varietiesListFirstBtnText = document.querySelector("#option_list_varients_first_text");
@@ -963,7 +959,6 @@ const createPokeData = async (data) => {
         pokeId.textContent = dataId;
     }
 };
-//&OPEN SELECT LIST--START
 const catchEmAll = async (id) => {
     if (itsFirstPokemonSearch === true) {
         itsFirstPokemonSearch = false;
@@ -1132,8 +1127,6 @@ const savePokemonFav = () => {
         savePokedex();
     }
 };
-//! CHECAR LOS BOTONES DE POKEMON FAVORITOS, QUE DESPLIEGUEN INFORMACION, CREAR FILTRO (FECHA, ID, NOMBRE), CREAR UN NUEVO ITEMcARD CON FECHA Y QUE PUEDA GENERARLE  //
-
 const favCardBtnsActions = (btn) => {
     console.log(btn);
     console.log(btn.getAttribute("data-name"));
@@ -1417,7 +1410,6 @@ const pikerThemeActionBtns = (action) => {
     }
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//! ARREGLAR EL BOTON DE CERRAR Y CHECRA SI LAS ACCIONES ESTAN BIEN //
 const closeModal = (action) => {
     console.log(action);
     switch (action) {
@@ -1441,6 +1433,13 @@ const closeModal = (action) => {
             break;
     }
 };
+
+//! ******************************************************************************************************** //
+
+//! ||||||||||||||||//
+//!  FOR EACH LOOPS //
+//! ||||||||||||||||//
+
 closeBtns.forEach((btn) => {
     btn.addEventListener("click", () => closeModal(btn.getAttribute("data-name")));
 });
@@ -1467,15 +1466,9 @@ colorPikers.forEach((btn) => {
         }, 250);
     });
 });
-
-//! |||||||||||||||||||||//
-//!  ADD EVENT LISTENERS //
-//! |||||||||||||||||||||//
-
 startBtns.forEach((btn) => {
     btn.addEventListener("click", () => startModalActions(btn.getAttribute("data-name")));
 });
-
 langMenuBtns.forEach((btn) => {
     btn.addEventListener("click", () => langMenuModalActions(btn.getAttribute("data-name")));
 });
@@ -1505,21 +1498,6 @@ pikerThemeModalBtns.forEach((btn) => {
         pikerThemeActionBtns(btn.getAttribute("data-name"));
     });
 });
-acceptBtnAlertModal.addEventListener("click", () => {
-    console.log("click activo");
-    animationOut(alertModal);
-    setTimeout(() => animationIn(pastModal, block, 1000));
-});
-
-searchBtn.addEventListener("click", searchFunction);
-searchInputNumber.addEventListener("click", () => (searchInputName.value = ""));
-
-searchInputName.addEventListener("click", () => (searchInputNumber.value = ""));
-savePokemonBtn.addEventListener("click", savePokemonFav);
-btnNext.addEventListener("click", next);
-btnPrevious.addEventListener("click", previous);
-deletePersonalizedThemeBtn.addEventListener("click", deletePersonalizedTheme);
-//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 optionListFavBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
         if (optionListFavStatus === close) {
@@ -1533,6 +1511,11 @@ optionListFavBtns.forEach((btn) => {
         }
     });
 });
+
+//^ ||||||||||||||||||||||||||||||||||||||||||||||||||||||//
+//^ SOLUCIONAR LOS ACOMODOS EN LAS TARJETAS DE FAVORITOS  //
+//^ ||||||||||||||||||||||||||||||||||||||||||||||||||||||//
+
 sortBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
         if (optionListFavStatus === open) {
@@ -1542,6 +1525,9 @@ sortBtns.forEach((btn) => {
         }
         if (btn.getAttribute("data-name") === "sort_decendent") {
             console.log("ordenar por decendente");
+            updatePokedex();
+            storagePokedex[storageSaved];
+            numericalOrder(storagePokedex[storageSaved]);
         } else if (btn.getAttribute("data-name") === "sort_acendent") {
             console.log("ordenar por acendente");
         } else if (btn.getAttribute("data-name") === "sort_time") {
@@ -1549,6 +1535,23 @@ sortBtns.forEach((btn) => {
         }
     });
 });
+
+//! |||||||||||||||||||||//
+//!  ADD EVENT LISTENERS //
+//! |||||||||||||||||||||//
+acceptBtnAlertModal.addEventListener("click", () => {
+    console.log("click activo");
+    animationOut(alertModal);
+    setTimeout(() => animationIn(pastModal, block, 1000));
+});
+searchBtn.addEventListener("click", searchFunction);
+searchInputNumber.addEventListener("click", () => (searchInputName.value = ""));
+searchInputName.addEventListener("click", () => (searchInputNumber.value = ""));
+savePokemonBtn.addEventListener("click", savePokemonFav);
+btnNext.addEventListener("click", next);
+btnPrevious.addEventListener("click", previous);
+deletePersonalizedThemeBtn.addEventListener("click", deletePersonalizedTheme);
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //! |||||||||||||||||||||||||//
 //!  DELETE WHEN YOUR FINISH //
 //! |||||||||||||||||||||||||//
