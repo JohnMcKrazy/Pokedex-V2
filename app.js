@@ -49,6 +49,12 @@ const fragmentFavCards = document.createDocumentFragment();
 const favCardsContainer = document.querySelector("#fav_cards_container");
 const nameOptioListFavBtn = document.querySelector("#name_option_list_fav_btn");
 const idOptioListFavBtn = document.querySelector("#id_option_list_fav_btn");
+const typeOptioListFavBtn = document.querySelector("#type_option_list_fav_btn");
+
+const optionListFav = document.querySelector("#option_list_fav");
+const optionListFavArrow = document.querySelector("#arrow_btn_select_list_fav_svg");
+const optionListFavFirstBtnText = document.querySelector("#option_list_fav_first_text");
+const optionListFavBtns = document.querySelectorAll(".option_list_fav_btn");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -167,10 +173,6 @@ const enNameNoSearch = "Search your favorite pokemon by name or ID number";
 let optionListVarients;
 let optionListVarientsArrow;
 let optionListVarientsBtns;
-const optionListFav = document.querySelector("#option_list_fav");
-const optionListFavArrow = document.querySelector("#arrow_btn_select_list_fav_svg");
-const optionListFavFirstBtnText = document.querySelector("#option_list_fav_first_text");
-const optionListFavBtns = document.querySelectorAll(".option_list_fav_btn");
 
 let pastModal = "";
 let currentPersonilizedTheme = {};
@@ -568,6 +570,7 @@ const changeLang = (lang) => {
         titlefavModal.textContent = "Favoritos";
         favListFirstBtnText.textContent = "Ordenar";
         nameOptioListFavBtn.textContent = "Nombre";
+        typeOptioListFavBtn.textContent = "Tipo";
         acceptBtnStartModal.textContent = "Aceptar";
         deniedBtnStartModal.textContent = "Rechazar";
     } else if (lang === en) {
@@ -590,6 +593,7 @@ const changeLang = (lang) => {
         titlefavModal.textContent = "Favorite";
         favListFirstBtnText.textContent = "Sort";
         nameOptioListFavBtn.textContent = "Name";
+        typeOptioListFavBtn.textContent = "Type";
         acceptBtnStartModal.textContent = "Accept";
         deniedBtnStartModal.textContent = "Denied";
     }
@@ -620,6 +624,82 @@ const fetchFunc = async (url) => {
         console.log(error);
     }
 };
+
+const closeOptionList = (list) => {
+    switch (list) {
+        case "option_list_fav":
+            optionListFavStatus = close;
+            optionListFavArrow.style.transform = "rotate(0)";
+            optionListFav.style.height = "3rem";
+            break;
+        case "option_list_varients":
+            optionListVarientsStatus = close;
+            optionListVarientsArrow.style.transform = "rotate(0)";
+            optionListVarients.style.height = "3rem";
+            break;
+    }
+};
+
+const optionListVarientsActions = (status) => {
+    if (status === close) {
+        optionListVarientsStatus = open;
+        optionListVarientsArrow.style.transform = "rotate(180deg)";
+        optionListVarients.style.height = "fit-content";
+    } else if (status === open) {
+        closeOptionList("option_list_varients");
+    }
+};
+const optionListFavActions = (status) => {
+    if (status === close) {
+        optionListFavStatus = open;
+        optionListFavArrow.style.transform = "rotate(180deg)";
+        optionListFav.style.height = "fit-content";
+    } else if (status === open) {
+        closeOptionList("option_list_fav");
+    }
+};
+const optionListFavOptionActions = (action) => {
+    let sortedByName = [];
+    let sortedById = [];
+    if (action === "option_fav_name") {
+        deleteChildElements(fragmentFavCards);
+        deleteChildElements(favCardsContainer);
+        updatePokedex();
+        console.log(action);
+        /* optionListFavActions(optionListFavStatus); */
+        sortedByName = storagePokedex[storageSaved].sort((a, b) => {
+            if (a.name[0] < b.name[0]) {
+                return -1;
+            }
+        });
+        console.log(sortedByName);
+        sortedByName.forEach((item) => {
+            createFavCard(item.id, item.name, item.sprites);
+        });
+
+        favCardsContainer.appendChild(fragmentFavCards);
+    } else if (action === "option_fav_id") {
+        deleteChildElements(fragmentFavCards);
+        deleteChildElements(favCardsContainer);
+        updatePokedex();
+        console.log(action);
+        /* optionListFavActions(optionListFavStatus); */
+        sortedById = storagePokedex[storageSaved].sort((a, b) => {
+            if (a.id[0] < b.id[0]) {
+                return -1;
+            }
+        });
+        console.log(sortedById);
+        sortedById.forEach((item) => {
+            createFavCard(item.id, item.name, item.sprites);
+        });
+
+        favCardsContainer.appendChild(fragmentFavCards);
+    } else if (action === "open-close") {
+        console.log(action);
+        optionListFavActions(optionListFavStatus);
+    }
+};
 const createEvoCard = async (id, name, img) => {
     const cardClone = evoCardTemplate.cloneNode(true);
     const cardImg = cardClone.querySelector(".card_img");
@@ -641,7 +721,7 @@ const createFavCard = async (id, name, img) => {
     const cardName = cardClone.querySelector(".fav_card_name");
     const searchCardBtn = cardClone.querySelector(".search_fav_card_btn");
     const deleteCardBtn = cardClone.querySelector(".delete_fav_card_btn");
-    cardImg.setAttribute("src", img);
+    cardImg.setAttribute("src", img.default);
     cardImg.setAttribute("alt", name);
     searchCardBtn.setAttribute("data-id", id);
     deleteCardBtn.setAttribute("data-id", id);
@@ -651,28 +731,6 @@ const createFavCard = async (id, name, img) => {
     cardName.textContent = properCase(name);
     cardId.textContent = id;
     fragmentFavCards.appendChild(cardClone);
-};
-const setFavCardBtns = () => {
-    //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
-    const favCardBtns = document.querySelectorAll(".fav_card_btn");
-    favCardBtns.forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-            let btnName = e.target.getAttribute("data-name");
-            let btnId = e.target.getAttribute("data-id");
-            if (btnName === "search_fav") {
-                console.log("buscando fav");
-                console.log(btnId);
-                catchEmAll(btnId);
-                animationOut(favModal);
-                favModalStatus = close;
-                setTimeout(() => animationOut(modal), 250);
-            } else if (btnName === "delete_fav") {
-                console.log("borrando fav");
-                console.log(btnId);
-            }
-        });
-    });
-    //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
 };
 const createEvoChainBtns = async (speciesLink) => {
     deleteChildElements(evoCardsContainer);
@@ -819,27 +877,9 @@ const createPokeData = async (data) => {
                 btn.addEventListener("click", async () => {
                     const actionName = btn.getAttribute("data-name");
                     if (actionName === "open-close") {
-                        if (optionListVarientsStatus === open) {
-                            optionListVarientsStatus = close;
-                            optionListVarientsArrow.style.transform = "rotate(0)";
-                            optionListVarients.style.height = "3rem";
-                        } else if (optionListVarientsStatus === close) {
-                            optionListVarientsStatus = open;
-                            optionListVarientsArrow.style.transform = "rotate(180deg)";
-                            optionListVarients.style.height = "fit-content";
-                        }
+                        optionListVarientsActions(optionListVarientsStatus);
                     } else if (actionName === "item") {
-                        let newSearch = await fetchFunc(btn.getAttribute("data-url"));
-                        /* console.log(newSearch); */
-                        if (optionListVarientsStatus === open) {
-                            optionListVarientsStatus = close;
-                            optionListVarientsArrow.style.transform = "rotate(0)";
-                            optionListVarients.style.height = "3rem";
-                        } else if (optionListVarientsStatus === close) {
-                            optionListVarientsStatus = open;
-                            optionListVarientsArrow.style.transform = "rotate(180deg)";
-                            optionListVarients.style.height = "fit-content";
-                        }
+                        optionListVarientsActions(optionListVarientsStatus);
                         catchEmAll(btn.id);
                     }
                 });
@@ -890,13 +930,6 @@ const createPokeData = async (data) => {
         /* console.log(dataId); */
         currentPokemon = dataId;
         updatePokedex();
-
-        itemToSave = {
-            name: data.name,
-            id: data.id,
-            sprite: data.sprites.front_default,
-        };
-
         if (data.types.length > 1) {
             data.types.forEach(async (type) => {
                 const typeData = await fetchFunc(type.type.url);
@@ -922,10 +955,6 @@ const createPokeData = async (data) => {
                         break;
                 }
             });
-            /*  for (let i = 0; i < data.types.length; i++) {
-            pokemonTypes.push(properCase(data.types[i].type.name));
-        }
-        pokeTypes.textContent = pokemonTypes.join(" / "); */
         } else if (data.types.length === 1) {
             const typeData = await fetchFunc(data.types[0].type.url);
             const typeLangName = typeData.names;
@@ -951,6 +980,14 @@ const createPokeData = async (data) => {
             }
         }
 
+        itemToSave = {
+            name: dataName,
+            id: dataId,
+            sprites: {
+                default: data.sprites.front_default,
+                art: artworkImg,
+            },
+        };
         const newBackground = storagePokedex[storageBackgrounds][data.types[0].type.name].url;
         pokeBg.style.background = `url(${newBackground})`;
         pokeImg.setAttribute("src", artworkImg);
@@ -1109,19 +1146,6 @@ const savePokemonFav = () => {
         console.log(cleanIndex);
         cleanIndex.push(itemToSave);
         storagePokedex[storageSaved] = cleanIndex;
-        /* storagePokedex[storageSaved].forEach((item) => {
-            console.log(item);
-            switch (itemToSave.id === item.id) {
-                case false:
-                    storagePokedex[storageSaved].push(itemToSave);
-                    console.log(storagePokedex);
-                    console.log("Salvando pokemon en favoritos");
-                    break;
-                case true:
-                    console.log("Este pokemon ya se encuentra en favoritos");
-                    break;
-            }
-        }); */
 
         console.log("Salvando pokemon, actualizando base de favoritos");
         savePokedex();
@@ -1149,12 +1173,33 @@ const favMenuActions = () => {
     }
     updatePokedex();
     storagePokedex[storageSaved].forEach((item) => {
-        createFavCard(item.id, item.name, item.sprite, item.date);
+        createFavCard(item.id, item.name, item.sprites);
     });
 
     favCardsContainer.appendChild(fragmentFavCards);
 
-    setTimeout(() => setFavCardBtns(), 100);
+    setTimeout(() => {
+        //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
+        const favCardBtns = document.querySelectorAll(".fav_card_btn");
+        favCardBtns.forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                let btnName = e.target.getAttribute("data-name");
+                let btnId = e.target.getAttribute("data-id");
+                if (btnName === "search_fav") {
+                    console.log("buscando fav");
+                    console.log(btnId);
+                    catchEmAll(btnId);
+                    animationOut(favModal);
+                    favModalStatus = close;
+                    setTimeout(() => animationOut(modal), 250);
+                } else if (btnName === "delete_fav") {
+                    console.log("borrando fav");
+                    console.log(btnId);
+                }
+            });
+        });
+        //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
+    }, 100);
 };
 const themeMenuActions = () => {
     if (themeModalStatus === close) {
@@ -1499,17 +1544,7 @@ pikerThemeModalBtns.forEach((btn) => {
     });
 });
 optionListFavBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-        if (optionListFavStatus === close) {
-            optionListFavStatus = open;
-            optionListFavArrow.style.transform = "rotate(180deg)";
-            optionListFav.style.height = "fit-content";
-        } else if (optionListFavStatus === open) {
-            optionListFavStatus = close;
-            optionListFavArrow.style.transform = "rotate(0)";
-            optionListFav.style.height = "3rem";
-        }
-    });
+    btn.addEventListener("click", () => optionListFavOptionActions(btn.getAttribute("data-name")));
 });
 
 //^ ||||||||||||||||||||||||||||||||||||||||||||||||||||||//
@@ -1525,9 +1560,6 @@ sortBtns.forEach((btn) => {
         }
         if (btn.getAttribute("data-name") === "sort_decendent") {
             console.log("ordenar por decendente");
-            updatePokedex();
-            storagePokedex[storageSaved];
-            numericalOrder(storagePokedex[storageSaved]);
         } else if (btn.getAttribute("data-name") === "sort_acendent") {
             console.log("ordenar por acendente");
         } else if (btn.getAttribute("data-name") === "sort_time") {
@@ -1535,7 +1567,6 @@ sortBtns.forEach((btn) => {
         }
     });
 });
-
 //! |||||||||||||||||||||//
 //!  ADD EVENT LISTENERS //
 //! |||||||||||||||||||||//
