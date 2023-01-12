@@ -29,12 +29,12 @@ HTML {
     --midLight: rgb(128, 128, 128);
     /*¿FONTS START  */
     /*¿ FONT SIZES--START */
-    --fontSizeXL: 4em;
-    --fontSizeL: 2.4em;
-    --fontSizeG: 1.8em;
-    --fontSizeN: 1.2em;
-    --fontSizeS: 1em;
-    --fontSizeXS: 0.8em;
+    --fontSizeXL: 4rem;
+    --fontSizeL: 2.4rem;
+    --fontSizeG: 1.8rem;
+    --fontSizeN: 1.2rem;
+    --fontSizeS: 1rem;
+    --fontSizeXS: 0.8rem;
     /*¿ FONT WEIGHT--START */
     /*¿TRANSITIONS--START */
     --transitionUF: all 250ms ease;
@@ -406,6 +406,9 @@ NAV {
 .margin_b {
     margin-bottom: 2rem;
 }
+.margin_b_s {
+    margin-bottom: 0.5rem;
+}
 .btn {
     display: flex;
     flex-direction: row;
@@ -549,11 +552,11 @@ NAV {
     background: var(--bgAccent);
 }
 .card_btn {
-    height: 12rem;
+    height: 13rem;
 }
 .fav_card {
     position: relative;
-    height: 14rem;
+    height: 18rem;
 }
 .card_btn .accent_color,
 .fav_card .accent_color {
@@ -589,9 +592,20 @@ NAV {
 .data_card {
     text-align: center;
     color: var(--textColor);
+    font-size: var(--fontSizeN);
+}
+.data_card .accent_color {
+    font-size: 1em;
 }
 .data_card H1 {
-    font-size: var(--fontSizeN);
+    font-size: 1.2em;
+}
+.data_card H2 {
+    color: var(--firstColor);
+    font-size: 0.8em;
+}
+.data_card H3 {
+    font-size: 0.8em;
 }
 .return_btn_container {
     position: fixed;
@@ -961,11 +975,6 @@ MAIN {
 .position_btns_row_container h1 {
     text-align: center;
     font-size: var(--fontSizeL);
-}
-.data_container H2 {
-    text-align: center;
-    font-size: var(--fontSizeG);
-    font-weight: 400;
 }
 .position_btn {
     width: 3rem;

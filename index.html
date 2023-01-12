@@ -81,7 +81,7 @@
                             <path class="cls-1" d="M8 12l6-6v12z" />
                         </svg>
                     </button>
-                    <h1><span id="poke_id">#</span># <span id="poke_name">Pokedex</span></h1>
+                    <h1>#<span id="poke_id">#</span> <span id="poke_name">Pokedex</span></h1>
 
                     <button type="button" class="position_btn next_btn">
                         <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
@@ -454,6 +454,8 @@
 
                                 <button type="button" class="option_list_btn option_list_fav_btn" data-name="option_fav_name" id="name_option_list_fav_btn">Nombre</button>
                                 <button type="button" class="option_list_btn option_list_fav_btn" data-name="option_fav_id">Id</button>
+                                <button type="button" class="option_list_btn option_list_fav_btn" data-name="option_fav_date" id="date_option_list_fav_btn">Fecha</button>
+                                <button type="button" class="option_list_btn option_list_fav_btn" data-name="option_fav_type" id="type_option_list_fav_btn">Tipo</button>
                             </div>
                         </div>
                         <button type="button" class="config_btn sort_fav_btn" data-name="sort_decendent">
@@ -461,11 +463,6 @@
                         </button>
                         <button type="button" class="config_btn sort_fav_btn" data-name="sort_acendent">
                             <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M19 3l4 5h-3v12h-2V8h-3l4-5zm-5 15v2H3v-2h11zm0-7v2H3v-2h11zm-2-7v2H3V4h9z" /></svg>
-                        </button>
-                        <button type="button" class="config_btn sort_fav_btn" data-name="sort_time">
-                            <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm1-8h4v2h-6V7h2v5z" />
-                            </svg>
                         </button>
                     </div>
                     <div class="btns_row_center"></div>
@@ -508,7 +505,8 @@
             <img alt="" src="" class="card_img" />
             <div class="data_card">
                 <span class="accent_color">#<span class="card_id">#</span></span>
-                <h1 class="card_name">#</h1>
+                <h1 class="margin_b_s card_name">#</h1>
+                <h2 class="margin_b_s card_type">#</h2>
             </div>
         </button>
     </template>
@@ -517,7 +515,9 @@
             <img alt="" src="" class="card_img fav_card_img" />
             <div class="data_card fav_data_card">
                 <span class="accent_color">#<span class="fav_card_id">#</span></span>
-                <h1 class="fav_card_name">#</h1>
+                <h1 class="margin_b_s fav_card_name">#</h1>
+                <h2 class="margin_b_s fav_card_type">#</h2>
+                <h3 class="margin_b_s fav_card_date">#</h3>
             </div>
             <div class="btns_row_container">
                 <button type="button" class="fav_card_btn search_fav_card_btn" data-name="search_fav" data-id="">
