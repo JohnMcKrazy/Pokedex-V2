@@ -328,298 +328,7 @@ let storagePokedex = {
     ],
     theme_saved: {},
     page_view_count: 0,
-    saved_pokemon: [
-        {
-            name: "Bulbasaur",
-            id: 1,
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Enero",
-                    en: "January",
-                },
-                month_number: 1,
-                date: 12,
-                time: "0:25",
-                short_date_text: {
-                    es: "12-Enero-2023",
-                    en: "12-January-2023",
-                },
-                short_date_number: "12-01-2023",
-                complete_date_es: "Jueves 12 Enero 2023, 0:25",
-                complete_date_en: "Thursday 12 January 2023, 0:25",
-            },
-            types: {
-                es: ["Planta", "Veneno"],
-                en: ["Grass", "Poison"],
-            },
-        },
-        {
-            name: "Charizard",
-            id: 6,
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Enero",
-                    en: "January",
-                },
-                month_number: 1,
-                date: 11,
-                time: "23:40",
-                short_date_text: {
-                    es: "11-Enero-2023",
-                    en: "11-January-2023",
-                },
-                short_date_number: "11-01-2023",
-                complete_date_es: "Jueves 11 Enero 2023, 23:40",
-                complete_date_en: "Thursday 11 January 2023, 23:40",
-            },
-            types: {
-                es: ["Fuego", "Volador"],
-                en: ["Fire", "Flying"],
-            },
-        },
-        {
-            name: "Eevee",
-            id: 133,
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Enero",
-                    en: "January",
-                },
-                month_number: 1,
-                date: 11,
-                time: "23:41",
-                short_date_text: {
-                    es: "11-Enero-2023",
-                    en: "11-January-2023",
-                },
-                short_date_number: "11-01-2023",
-                complete_date_es: "Jueves 11 Enero 2023, 23:41",
-                complete_date_en: "Thursday 11 January 2023, 23:41",
-            },
-            types: {
-                es: ["Normal"],
-                en: ["Normal"],
-            },
-        },
-        {
-            name: "Lugia",
-            id: 249,
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/249.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/249.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Enero",
-                    en: "January",
-                },
-                month_number: 1,
-                date: 12,
-                time: "0:26",
-                short_date_text: {
-                    es: "12-Enero-2023",
-                    en: "12-January-2023",
-                },
-                short_date_number: "12-01-2023",
-                complete_date_es: "Jueves 12 Enero 2023, 0:26",
-                complete_date_en: "Thursday 12 January 2023, 0:26",
-            },
-            types: {
-                es: ["Psíquico", "Volador"],
-                en: ["Psychic", "Flying"],
-            },
-        },
-        {
-            name: "Ho-oh",
-            id: 250,
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/250.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/250.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Enero",
-                    en: "January",
-                },
-                month_number: 1,
-                date: 12,
-                time: "0:26",
-                short_date_text: {
-                    es: "12-Enero-2023",
-                    en: "12-January-2023",
-                },
-                short_date_number: "12-01-2023",
-                complete_date_es: "Jueves 12 Enero 2023, 0:26",
-                complete_date_en: "Thursday 12 January 2023, 0:26",
-            },
-            types: {
-                es: ["Fuego", "Volador"],
-                en: ["Fire", "Flying"],
-            },
-        },
-        {
-            name: "Celebi",
-            id: 251,
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/251.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/251.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Enero",
-                    en: "January",
-                },
-                month_number: 1,
-                date: 12,
-                time: "0:25",
-                short_date_text: {
-                    es: "12-Enero-2023",
-                    en: "12-January-2023",
-                },
-                short_date_number: "12-01-2023",
-                complete_date_es: "Jueves 12 Enero 2023, 0:25",
-                complete_date_en: "Thursday 12 January 2023, 0:25",
-            },
-            types: {
-                es: ["Psíquico", "Planta"],
-                en: ["Psychic", "Grass"],
-            },
-        },
-        {
-            name: "Treecko",
-            id: 252,
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/252.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/252.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Enero",
-                    en: "January",
-                },
-                month_number: 1,
-                date: 12,
-                time: "0:26",
-                short_date_text: {
-                    es: "12-Enero-2023",
-                    en: "12-January-2023",
-                },
-                short_date_number: "12-01-2023",
-                complete_date_es: "Jueves 12 Enero 2023, 0:26",
-                complete_date_en: "Thursday 12 January 2023, 0:26",
-            },
-            types: {
-                es: ["Planta"],
-                en: ["Grass"],
-            },
-        },
-        {
-            name: "Finneon",
-            id: 456,
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/456.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/456.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Enero",
-                    en: "January",
-                },
-                month_number: 1,
-                date: 12,
-                time: "0:25",
-                short_date_text: {
-                    es: "12-Enero-2023",
-                    en: "12-January-2023",
-                },
-                short_date_number: "12-01-2023",
-                complete_date_es: "Jueves 12 Enero 2023, 0:25",
-                complete_date_en: "Thursday 12 January 2023, 0:25",
-            },
-            types: {
-                es: ["Agua"],
-                en: ["Water"],
-            },
-        },
-        {
-            name: "Magmortar",
-            id: 467,
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/467.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/467.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Enero",
-                    en: "January",
-                },
-                month_number: 1,
-                date: 12,
-                time: "0:25",
-                short_date_text: {
-                    es: "12-Enero-2023",
-                    en: "12-January-2023",
-                },
-                short_date_number: "12-01-2023",
-                complete_date_es: "Jueves 12 Enero 2023, 0:25",
-                complete_date_en: "Thursday 12 January 2023, 0:25",
-            },
-            types: {
-                es: ["Fuego"],
-                en: ["Fire"],
-            },
-        },
-        {
-            name: "Calyrex",
-            id: 898,
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/898.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/898.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Enero",
-                    en: "January",
-                },
-                month_number: 1,
-                date: 12,
-                time: "0:25",
-                short_date_text: {
-                    es: "12-Enero-2023",
-                    en: "12-January-2023",
-                },
-                short_date_number: "12-01-2023",
-                complete_date_es: "Jueves 12 Enero 2023, 0:25",
-                complete_date_en: "Thursday 12 January 2023, 0:25",
-            },
-            types: {
-                es: ["Psíquico", "Planta"],
-                en: ["Psychic", "Grass"],
-            },
-        },
-    ],
+    saved_pokemon: [],
     background_colors: {
         ghost: {
             img: "url(./assets/images/ghost.jpg)",
@@ -979,7 +688,9 @@ const changeLang = (lang) => {
         deleteChildElements(fragmentFavCards);
         deleteChildElements(favCardsContainer);
         updatePokedex();
-        optionListFavActions(optionListFavStatus);
+        if (optionListFavStatus === open) {
+            optionListFavActions(optionListFavStatus);
+        }
         currentSortedObject.forEach((item) => {
             createFavCard(item.id, item.name, item.types, item.date, item.sprites);
         });
@@ -1051,22 +762,51 @@ const optionListFavOptionActions = (action) => {
     if (langMenuModalfavStatus === open) {
         langMenuModalActions("lang_fav");
     }
-    if (action !== "open-close") {
+    if (action === "open-close") {
+        console.log(action);
+        optionListFavActions(optionListFavStatus);
+    } else {
         deleteChildElements(fragmentFavCards);
         deleteChildElements(favCardsContainer);
         updatePokedex();
         optionListFavActions(optionListFavStatus);
-    }
-    if (action === "option_fav_name") {
-        console.log(action);
-        sortedByName = storagePokedex[storageSaved].sort((a, b) => {
-            if (a.name[0] < b.name[0]) {
-                return -1;
-            }
-        });
-        currentSortedObject = sortedByName;
-        console.log(sortedByName);
-        sortedByName.forEach((item) => {
+        switch (action) {
+            case "option_fav_name":
+                console.log(action);
+                sortedByName = storagePokedex[storageSaved].sort((a, b) => {
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                });
+                currentSortedObject = sortedByName;
+                console.log(sortedByName);
+                break;
+            case "option_fav_id":
+                console.log(action);
+                sortedById = storagePokedex[storageSaved].sort((a, b) => {
+                    if (a.id < b.id) {
+                        return -1;
+                    }
+                });
+                currentSortedObject = sortedById;
+                console.log(sortedById);
+                break;
+            case "option_fav_type":
+                console.log(action);
+                sortedByType = storagePokedex[storageSaved].sort((a, b) => {
+                    if (a.types.es[0] < b.types.es[0]) {
+                        return -1;
+                    }
+                });
+                currentSortedObject = sortedByType;
+                console.log(sortedByType);
+                break;
+            case "option_fav_date":
+                console.log(action);
+                currentSortedObject = storagePokedex[storageSaved];
+                break;
+        }
+        currentSortedObject.forEach((item) => {
             createFavCard(item.id, item.name, item.types, item.date, item.sprites);
         });
 
@@ -1095,86 +835,6 @@ const optionListFavOptionActions = (action) => {
                 //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
             }, 100);
         }, 100);
-    } else if (action === "option_fav_id") {
-        console.log(action);
-        sortedById = storagePokedex[storageSaved].sort((a, b) => {
-            if (a.id < b.id) {
-                return -1;
-            }
-        });
-        currentSortedObject = sortedById;
-        console.log(sortedById);
-        sortedById.forEach((item) => {
-            createFavCard(item.id, item.name, item.types, item.date, item.sprites);
-        });
-
-        setTimeout(() => {
-            favCardsContainer.appendChild(fragmentFavCards);
-            setTimeout(() => {
-                //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
-                const favCardBtns = document.querySelectorAll(".fav_card_btn");
-                favCardBtns.forEach((btn) => {
-                    btn.addEventListener("click", () => {
-                        let btnName = btn.getAttribute("data-name");
-                        let btnId = btn.getAttribute("data-id");
-                        if (btnName === "search_fav") {
-                            console.log("buscando fav");
-                            console.log(btnId);
-                            catchEmAll(btnId);
-                            animationOut(favModal);
-                            favModalStatus = close;
-                            setTimeout(() => animationOut(modal), 250);
-                        } else if (btnName === "delete_fav") {
-                            console.log("borrando fav");
-                            console.log(btnId);
-                        }
-                    });
-                });
-                //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
-            }, 100);
-        }, 100);
-    } else if (action === "option_fav_type") {
-        console.log(action);
-        sortedByType = storagePokedex[storageSaved].sort((a, b) => {
-            if (a.name[0] < b.name[0]) {
-                return -1;
-            }
-        });
-        console.log(sortedByType);
-        sortedByType.forEach((item) => {
-            createFavCard(item.id, item.name, item.types, item.date, item.sprites);
-        });
-
-        currentSortedObject = sortedByType;
-        console.log(sortedByType);
-        setTimeout(() => {
-            favCardsContainer.appendChild(fragmentFavCards);
-            setTimeout(() => {
-                //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
-                const favCardBtns = document.querySelectorAll(".fav_card_btn");
-                favCardBtns.forEach((btn) => {
-                    btn.addEventListener("click", () => {
-                        let btnName = btn.getAttribute("data-name");
-                        let btnId = btn.getAttribute("data-id");
-                        if (btnName === "search_fav") {
-                            console.log("buscando fav");
-                            console.log(btnId);
-                            catchEmAll(btnId);
-                            animationOut(favModal);
-                            favModalStatus = close;
-                            setTimeout(() => animationOut(modal), 250);
-                        } else if (btnName === "delete_fav") {
-                            console.log("borrando fav");
-                            console.log(btnId);
-                        }
-                    });
-                });
-                //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
-            }, 100);
-        }, 100);
-    } else if (action === "open-close") {
-        console.log(action);
-        optionListFavActions(optionListFavStatus);
     }
 };
 const createEvoCard = async (id, name, types, img) => {
@@ -1390,7 +1050,6 @@ const createEvoChainBtns = async (speciesLink) => {
             evoFromPokeTypes.en = evoFromPokeTypesEn[0];
         }
         createEvoCard(evoFromPokeId, evoFromPokeName, evoFromPokeTypes, evoFromPokeImg);
-        evoCardsContainer.appendChild(fragmentEvoCards);
         const firstEvoData = dataEvoChain.chain.evolves_to;
         const hasEvoTypes = firstEvoData.length > 0;
 
@@ -1824,6 +1483,9 @@ const savePokemonFav = () => {
         savePokedex();
     } else if (storagePokedex[storageSaved].length >= 1) {
         console.log(storagePokedex[storageSaved]);
+        //! AGREGAR CHECK DE ITEM ENCONTRADO EN LISTA  */
+
+        //! AGREGAR CHECK DE ITEM ENCONTRADO EN LISTA  */
         const cleanIndex = storagePokedex[storageSaved].filter((item) => item.id !== itemToSave.id);
         console.log(cleanIndex);
         cleanIndex.push(itemToSave);
@@ -1846,6 +1508,83 @@ const favMenuActions = () => {
         favModalStatus = open;
         animationIn(modal, block, 500);
         setTimeout(() => animationIn(favModal, block, 500), 1500);
+        //! */
+        updatePokedex();
+        if (storagePokedex[storageSaved].length >= 1) {
+            console.log("existen salvados en storage");
+            switch (currentSortedObject.length >= 1) {
+                case true:
+                    console.log("existe current sorted object");
+                    currentSortedObject.forEach((item) => {
+                        createFavCard(item.id, item.name, item.types, item.date, item.sprites);
+                    });
+                    setTimeout(() => {
+                        favCardsContainer.appendChild(fragmentFavCards);
+                        setTimeout(() => {
+                            //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
+                            const favCardBtns = document.querySelectorAll(".fav_card_btn");
+                            favCardBtns.forEach((btn) => {
+                                btn.addEventListener("click", () => {
+                                    let btnName = btn.getAttribute("data-name");
+                                    let btnId = btn.getAttribute("data-id");
+                                    if (btnName === "search_fav") {
+                                        console.log("buscando fav");
+                                        console.log(btnId);
+                                        catchEmAll(btnId);
+                                        animationOut(favModal);
+                                        favModalStatus = close;
+                                        setTimeout(() => animationOut(modal), 250);
+                                    } else if (btnName === "delete_fav") {
+                                        console.log("borrando fav");
+                                        console.log(btnId);
+                                    }
+                                });
+                            });
+                            //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
+                        }, 100);
+                    }, 100);
+                    break;
+                case false:
+                    console.log("no existe current sorted object, creando nueva lista");
+                    currentSortedObject = storagePokedex[storageSaved];
+                    currentSortedObject.forEach((item) => {
+                        createFavCard(item.id, item.name, item.types, item.date, item.sprites);
+                    });
+
+                    setTimeout(() => {
+                        favCardsContainer.appendChild(fragmentFavCards);
+                        setTimeout(() => {
+                            //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
+                            const favCardBtns = document.querySelectorAll(".fav_card_btn");
+                            favCardBtns.forEach((btn) => {
+                                btn.addEventListener("click", () => {
+                                    let btnName = btn.getAttribute("data-name");
+                                    let btnId = btn.getAttribute("data-id");
+                                    if (btnName === "search_fav") {
+                                        console.log("buscando fav");
+                                        console.log(btnId);
+                                        catchEmAll(btnId);
+                                        animationOut(favModal);
+                                        favModalStatus = close;
+                                        setTimeout(() => animationOut(modal), 250);
+                                    } else if (btnName === "delete_fav") {
+                                        console.log("borrando fav");
+                                        console.log(btnId);
+                                    }
+                                });
+                            });
+                            //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
+                        }, 100);
+                    }, 100);
+                    break;
+                default:
+                    console.log("este mensaje no deberia de salir, error en la creacion de currentSortedObject");
+                    break;
+            }
+        } else {
+            console.log("no existen salvados en storage");
+        }
+        //! */
     } else if (favModalStatus === open) {
         favModalStatus = close;
         animationOut(favModal, 500);
@@ -1853,38 +1592,6 @@ const favMenuActions = () => {
             animationOut(modal, 500);
         }, 1500);
     }
-    updatePokedex();
-
-    currentSortedObject = storagePokedex[storageSaved];
-    currentSortedObject.forEach((item) => {
-        createFavCard(item.id, item.name, item.types, item.date, item.sprites);
-    });
-
-    setTimeout(() => {
-        favCardsContainer.appendChild(fragmentFavCards);
-        setTimeout(() => {
-            //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
-            const favCardBtns = document.querySelectorAll(".fav_card_btn");
-            favCardBtns.forEach((btn) => {
-                btn.addEventListener("click", () => {
-                    let btnName = btn.getAttribute("data-name");
-                    let btnId = btn.getAttribute("data-id");
-                    if (btnName === "search_fav") {
-                        console.log("buscando fav");
-                        console.log(btnId);
-                        catchEmAll(btnId);
-                        animationOut(favModal);
-                        favModalStatus = close;
-                        setTimeout(() => animationOut(modal), 250);
-                    } else if (btnName === "delete_fav") {
-                        console.log("borrando fav");
-                        console.log(btnId);
-                    }
-                });
-            });
-            //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
-        }, 100);
-    }, 100);
 };
 const themeMenuActions = () => {
     if (themeModalStatus === close) {
