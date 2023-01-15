@@ -311,7 +311,7 @@ BODY {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100vh;
+    min-height: 100%;
     scroll-behavior: smooth;
 }
 :focus {
@@ -539,7 +539,7 @@ NAV {
 .section_subtitle {
     text-align: center;
     color: var(--firstColor);
-    font-size: var(--fontSizeS);
+    font-size: var(--fontSizeG);
     margin-top: 1rem;
 }
 .fav_card,
@@ -789,13 +789,21 @@ NAV H1 {
     font-size: var(--fontSizeG);
 }
 MAIN {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     background: var(--bgColor);
+    padding-bottom: 4rem;
+}
+MAIN .img_container {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    left: 0;
 }
 /*! PARTS */
 .poke_icon .cls-1 {
@@ -822,7 +830,7 @@ MAIN {
 }
 .img_container IMG {
     position: absolute;
-    bottom: -8rem;
+    bottom: -6rem;
     left: 50%;
     min-width: 20rem;
     width: 30rem;
@@ -984,6 +992,27 @@ MAIN {
     width: 100%;
     height: 100%;
     fill: var(--firstColor);
+}
+#basic_data_container .btns_row_container {
+    position: inherit;
+    margin: 0.5rem 0 1rem;
+    width: 100%;
+    height: 4rem;
+}
+#basic_data_container .btns_row_container .option_list {
+    position: inherit;
+    margin: 0;
+}
+#basic_data_container .btns_row_container .btns_row_center {
+    font-size: var(--fontSizeG);
+    align-self: flex-start;
+}
+#poke_data_info_name_description {
+    color: var(--firstColor);
+    margin-left: 0.5rem;
+}
+#option_list_descriptions_btns_container {
+    position: inherit;
 }
 #themes_btns_container {
     max-height: 35vh;

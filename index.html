@@ -92,7 +92,28 @@
                 <h2 id="poke_types">Busca tus pokemon favoritos por nombre o por numero ID</h2>
                 <div class="" id="basic_data_container">
                     <!-- ! INSERT DATA  -->
+                    <div class="description_container">
+                        <h3 class="section_subtitle" id="description_subtitle">Descipción</h3>
 
+                        <div class="btns_row_container">
+                            <div class="btns_row_center">
+                                <h4 id="name_description_subtitle">Version:</h4>
+                                <h4 id="poke_data_info_name_description"></h4>
+                            </div>
+                            <div class="option_list" id="option_list_descriptions">
+                                <button type="button" class="option_list_btn option_list_btn_search option_list_descriptions_btn_search" data-name="open-close">
+                                    <span id="option_list_descriptions_first_text">Opciones</span>
+                                    <div class="icon_container">
+                                        <svg class="icon_svg" id="arrow_btn_select_list_descriptions_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <path class="cls-1" d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                                        </svg>
+                                    </div>
+                                </button>
+                                <div class="option_list_btns_container" id="option_list_descriptions_btns_container"></div>
+                            </div>
+                        </div>
+                        <p class="poke_data_info" id="poke_data_info_description"></p>
+                    </div>
                     <!-- ! INSERT DATA  -->
                 </div>
                 <h3 class="section_subtitle" id="evo_subtitle">Cadena De Evolución</h3>
@@ -542,6 +563,11 @@
             </div>
         </article>
     </template>
+    <!--~~LIST OPTION TEMPLATE-->
+    <template id="option_list_descriptions_btn_template">
+        <button type="button" class="option_list_btn option_list_descriptions_btn" data-name="description" data-version=""></button>
+    </template>
+    <!--~~LIST OPTION TEMPLATE-->
     <!--~~LIST SELECTOR TEMPLATE-->
     <template id="option_list_template">
         <div class="option_list" id="option_list_varients">
@@ -557,7 +583,7 @@
     </template>
     <!--~~LIST SELECTOR TEMPLATE-->
     <!--~~LIST OPTION TEMPLATE-->
-    <template id="option_list_btn_template">
+    <template id="option_list_varients_btn_template">
         <button type="button" class="option_list_btn option_list_varients_btn" data-name="item" data-url=""></button>
     </template>
     <!--~~LIST OPTION TEMPLATE-->

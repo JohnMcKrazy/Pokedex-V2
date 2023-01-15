@@ -18,7 +18,6 @@ const personalizedBtnsContainer = document.querySelector("#personalized_themes_b
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const navConfigBtns = document.querySelectorAll(".config_menu_btn_action");
 const configMenu = document.querySelector("#config_menu");
-
 const themeBtns = document.querySelectorAll(".theme_btn");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const searchInputNumber = document.querySelector("#search_input_number");
@@ -36,10 +35,11 @@ const langMenuModalfav = document.querySelector("#lang_menu_modal_fav");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentListVarieties = document.createDocumentFragment();
 const selectionListTemplate = document.querySelector("#option_list_template").content;
-const optionListTemplate = document.querySelector("#option_list_btn_template").content;
+const optionListVarientTemplate = document.querySelector("#option_list_varients_btn_template").content;
 const searchBtnsContainer = document.querySelector("#search_varieties_btns_container");
 const savePokemonBtn = document.querySelector("#save_pokemon_btn");
 const imgContainer = document.querySelector("#img_container");
+
 const btnPrevious = document.querySelector(".previous_btn");
 const btnNext = document.querySelector(".next_btn");
 
@@ -58,12 +58,30 @@ const optionListFavBtns = document.querySelectorAll(".option_list_fav_btn");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const dataContainer = document.querySelector(".data_container");
 const pokeImg = document.querySelector("#poke_img");
 const pokeId = document.querySelector("#poke_id");
 const pokeName = document.querySelector("#poke_name");
 const pokeTypes = document.querySelector("#poke_types");
 const pokeBg = document.querySelector(".poke_bg");
+
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const fragmentListDescriptions = document.createDocumentFragment();
+const optionListDescriptionsTemplate = document.querySelector("#option_list_descriptions_btn_template").content;
+const optionListDescriptions = document.querySelector("#option_list_descriptions");
+const optionListDescriptionsBtnsContainer = document.querySelector("#option_list_descriptions_btns_container");
+
+const optionListDescriptionsFirstBtnText = document.querySelector("#option_list_descriptions_first_text");
+const optionListDescriptionsArrow = document.querySelector("#arrow_btn_select_list_descriptions_svg");
+const optionListDescriptionsSearchBtn = document.querySelector(".option_list_descriptions_btn_search");
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+const pokeDescriptionName = document.querySelector("#poke_data_info_name_description");
+const pokeDescription = document.querySelector("#poke_data_info_description");
+
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const descriptionSubtitle = document.querySelector("#description_subtitle");
 const evoSubtitle = document.querySelector("#evo_subtitle");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentEvoCards = document.createDocumentFragment();
@@ -188,6 +206,7 @@ let langMenuModalStartStatus = close;
 let langMenuModalThemeStatus = close;
 let langMenuModalPersonalizedThemeStatus = close;
 let langMenuModalfavStatus = close;
+let optionListDescriptionsStatus = close;
 let optionListVarientsStatus = close;
 let optionListFavStatus = close;
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -441,7 +460,6 @@ let storagePokedex = {
     },
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 //! |||||||||||||||||//
 //!  BASIC FUNCTIONS //
 //! |||||||||||||||||//
@@ -549,9 +567,11 @@ const next = () => {
     }
 
     if (optionListVarientsStatus === open) {
-        optionListVarientsStatus = close;
-        optionListVarientsArrow.style.transform = "rotate(0)";
-        optionListVarients.style.height = "3rem";
+        closeOptionList("option_list_varients");
+    }
+
+    if (optionListDescriptionsStatus === open) {
+        closeOptionList("option_list_descriptions");
     }
     if (itsFirstPokemonSearch === true) {
         itsFirstPokemonSearch = false;
@@ -580,9 +600,11 @@ const previous = () => {
     }
 
     if (optionListVarientsStatus === open) {
-        optionListVarientsStatus = close;
-        optionListVarientsArrow.style.transform = "rotate(0)";
-        optionListVarients.style.height = "3rem";
+        closeOptionList("option_list_varients");
+    }
+
+    if (optionListDescriptionsStatus === open) {
+        closeOptionList("option_list_descriptions");
     }
     if (itsFirstPokemonSearch === true) {
         itsFirstPokemonSearch = false;
@@ -653,6 +675,9 @@ const changeLang = (lang) => {
         searchInputName.setAttribute("placeholder", "Nombre");
         titleStartModal.textContent = "Bienvenido";
         textStartModal.textContent = "Estas entrando a una pagina fan made, la unica intension es entretenimiento";
+
+        optionListDescriptionsFirstBtnText.textContent = "Opciones";
+        descriptionSubtitle.textContent = "Descripción";
         evoSubtitle.textContent = "Cadena De Evolución";
         titlefavModal.textContent = "Favoritos";
         favListFirstBtnText.textContent = "Ordenar";
@@ -676,6 +701,8 @@ const changeLang = (lang) => {
         searchInputName.setAttribute("placeholder", "Name");
         titleStartModal.textContent = "Welcome";
         textStartModal.textContent = "You'r enter in a fan made page, only with the propouse of training";
+        optionListDescriptionsFirstBtnText.textContent = "Options";
+        descriptionSubtitle.textContent = "Description";
         evoSubtitle.textContent = "Evolution Chain";
         titlefavModal.textContent = "Favorite";
         favListFirstBtnText.textContent = "Sort";
@@ -735,6 +762,11 @@ const closeOptionList = (list) => {
             optionListVarientsStatus = close;
             optionListVarientsArrow.style.transform = "rotate(0)";
             optionListVarients.style.height = "3rem";
+            break;
+        case "option_list_descriptions":
+            optionListDescriptionsStatus = close;
+            optionListDescriptionsArrow.style.transform = "rotate(0)";
+            optionListDescriptions.style.height = "3rem";
             break;
     }
 };
@@ -813,7 +845,6 @@ const optionListFavOptionActions = (action) => {
         setTimeout(() => {
             favCardsContainer.appendChild(fragmentFavCards);
             setTimeout(() => {
-                //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
                 const favCardBtns = document.querySelectorAll(".fav_card_btn");
                 favCardBtns.forEach((btn) => {
                     btn.addEventListener("click", () => {
@@ -832,7 +863,6 @@ const optionListFavOptionActions = (action) => {
                         }
                     });
                 });
-                //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
             }, 100);
         }, 100);
     }
@@ -845,20 +875,18 @@ const createEvoCard = async (id, name, types, img) => {
     const cardType = cardClone.querySelector(".card_type");
     const cardBtn = cardClone.querySelector(".card_btn");
     let currentEvoCardTypes = {};
-    //! MILKING DATA CHECK  */
     if (currentLang === es) {
         currentEvoCardTypes = types.es;
     } else if (currentLang === en) {
         currentEvoCardTypes = types.en;
     }
     setTimeout(() => {
-        console.log(typeof currentEvoCardTypes);
+        /*  console.log(typeof currentEvoCardTypes); */
         if (typeof currentEvoCardTypes === "object") {
             cardType.textContent = currentEvoCardTypes.join("/");
         } else if (typeof currentEvoCardTypes === "string") {
             cardType.textContent = currentEvoCardTypes;
         }
-        //! ******************************  //
         cardBtn.setAttribute("data-name", name);
         cardImg.setAttribute("src", img);
         cardImg.setAttribute("alt", name);
@@ -891,7 +919,6 @@ const createFavCard = async (id, name, types, date, img) => {
         } else if (typeof currentFavCardTypes === "string") {
             cardType.textContent = currentFavCardTypes;
         }
-        //! ******************************  //
         cardImg.setAttribute("src", img.default);
         cardImg.setAttribute("alt", name);
         searchCardBtn.setAttribute("data-id", id);
@@ -920,9 +947,6 @@ const createEvoChainBtns = async (speciesLink) => {
             /* console.log(fetchEvoType); */
             /* console.log(evoTypeId, evoTypeName); */
             /* console.log(evoTypeImg); */
-
-            //!  ************************************************************** //
-
             const evoTypeTypes = {
                 es: "",
                 en: "",
@@ -959,7 +983,6 @@ const createEvoChainBtns = async (speciesLink) => {
                     }
                 });
             }
-            //!  ************************************************************** //
             setTimeout(() => {
                 evoTypeTypes.es = evoTypeTypesEs;
                 evoTypeTypes.en = evoTypeTypesEn;
@@ -999,8 +1022,6 @@ const createEvoChainBtns = async (speciesLink) => {
     /* console.log(fetchEvolvesFromData); */
     /* console.log(fetchEvolvesFromData.id, fetchEvolvesFromData.name); */
     /*  console.log(fetchEvolvesFromData.sprites.front_default); */
-    //! **************** //
-
     const evoFromPokeTypesEs = [];
     const evoFromPokeTypesEn = [];
     const evoFromPokeTypes = {
@@ -1036,8 +1057,6 @@ const createEvoChainBtns = async (speciesLink) => {
             }
         });
     }
-
-    //! **************** //
     const evoFromPokeId = fetchEvolvesFromData.id;
     const evoFromPokeName = fetchEvolvesFromData.name;
     const evoFromPokeImg = fetchEvolvesFromData.sprites.front_default;
@@ -1065,18 +1084,36 @@ const createEvoChainBtns = async (speciesLink) => {
             const cardBtns = document.querySelectorAll(".card_btn");
 
             cardBtns.forEach((btn) => {
-                btn.addEventListener("click", async () => catchEmAll(btn.getAttribute("data-name")));
+                btn.addEventListener("click", async () => {
+                    catchEmAll(btn.getAttribute("data-name"));
+                });
             });
-        }, 500);
+        }, 400);
     }, 100);
+};
+const optionListDescriptionsActions = (status) => {
+    if (status === close) {
+        optionListDescriptionsStatus = open;
+        optionListDescriptionsArrow.style.transform = "rotate(180deg)";
+        optionListDescriptions.style.height = "fit-content";
+    } else if (status === open) {
+        closeOptionList("option_list_descriptions");
+    }
 };
 const createPokeData = async (data) => {
     if (data) {
+        if (optionListDescriptionsStatus === open) {
+            closeOptionList("option_list_descriptions");
+        }
         deleteArrElements(pokemonTypesEn);
         deleteArrElements(pokemonTypesEs);
         deleteChildElements(searchBtnsContainer);
         deleteChildElements(fragmentListVarieties);
         deleteArrElements(currentPokemonFlavors);
+        deleteChildElements(optionListDescriptionsBtnsContainer);
+        deleteArrElements(fragmentListDescriptions);
+        //! ARREGLAR BOTONES DE FLAVOR VERSIONES, QUE SE BORREN  */
+
         searchInputNumber.value = "";
         searchInputNumber.value = "";
         pokeImg.classList.remove("animation_spin");
@@ -1102,7 +1139,6 @@ const createPokeData = async (data) => {
         } = speciesData;
         console.log(generation);
         createEvoChainBtns(speciesLink);
-        //! PRUEBA DE LISTA DE VARIEDADES  //
         /* console.log(varieties.length); */
         if (varieties.length > 1) {
             /* console.log("este pokemon tiene variantes"); */
@@ -1119,7 +1155,7 @@ const createPokeData = async (data) => {
                 /* console.log(variation.pokemon.name); */
 
                 //~~  */
-                const optionListTemplateClone = optionListTemplate.cloneNode(true);
+                const optionListTemplateClone = optionListVarientTemplate.cloneNode(true);
                 const newOptionBtn = optionListTemplateClone.querySelector(".option_list_varients_btn");
 
                 newOptionBtn.id = variation.pokemon.name;
@@ -1151,7 +1187,6 @@ const createPokeData = async (data) => {
         } else if (varieties.length === 1) {
             /* console.log("este pokemon no tiene variantes"); */
         }
-        //! PRUEBA DE LISTA DE VARIEDADES  //
         //! PRUEBAS DETALLES TIPO DE EVOLUCION  */
         evoChainLink = speciesData.evolution_chain.url;
         const evoData = await fetchFunc(evoChainLink);
@@ -1186,6 +1221,46 @@ const createPokeData = async (data) => {
         const pokemonFlavorsEs = currentPokemonFlavors.filter((flavor) => flavor.language.name === es);
         /*  console.log("flavors en ingles", pokemonFlavorsEn);
         console.log("flavors en español", pokemonFlavorsEs); */
+        let flavorBtnsData = [];
+        if (currentLang === es) {
+            flavorBtnsData = pokemonFlavorsEs;
+        } else if (currentLang == en) {
+            flavorBtnsData = pokemonFlavorsEn;
+        }
+        //! AGREGAR LOS BOTONES DE TEXTOS DESCRIPTIVOS POR EDICION */
+
+        flavorBtnsData.forEach((data) => {
+            /* console.log(data.flavor_text); */
+            /* console.log(data.version.name); */
+            const btnClone = optionListDescriptionsTemplate.cloneNode(true);
+            const btnName = btnClone.querySelector(".option_list_btn");
+            btnName.textContent = properCase(data.version.name);
+            btnName.setAttribute("data-version", data.version.name);
+            fragmentListDescriptions.appendChild(btnClone);
+        });
+        optionListDescriptionsBtnsContainer.appendChild(fragmentListDescriptions);
+        setTimeout(() => {
+            const descriptionsBtns = document.querySelectorAll(".option_list_descriptions_btn");
+            descriptionsBtns.forEach((btn) => {
+                /* console.log(btn); */
+                btn.addEventListener("click", () => {
+                    const changeFlavorTo = flavorBtnsData.filter((item) => {
+                        if (item.version.name === btn.getAttribute("data-version")) {
+                            return item;
+                        }
+                    });
+                    console.log(flavorBtnsData);
+                    console.log(changeFlavorTo);
+                    pokeDescriptionName.textContent = properCase(changeFlavorTo[0].version.name);
+                    pokeDescription.innerHTML = changeFlavorTo[0].flavor_text.split("\n");
+                    optionListDescriptionsActions(optionListDescriptionsStatus);
+                });
+            });
+        }, 100);
+        //! AGREGAR LOS BOTONES DE TEXTOS DESCRIPTIVOS POR EDICION */
+        console.log(flavorBtnsData);
+        pokeDescriptionName.textContent = properCase(flavorBtnsData[0].version.name);
+        pokeDescription.innerHTML = flavorBtnsData[0].flavor_text.split("\n");
         //! PRUEBA DE DATOS A IMPRIMIR  /
         const artworkImg = data.sprites.other["official-artwork"]["front_default"];
         const dataName = properCase(data.name);
@@ -1195,7 +1270,6 @@ const createPokeData = async (data) => {
         updatePokedex();
 
         //! GENERACION DE DATA HORA Y FECHA //
-
         const dataDate = new Date();
         const date = dataDate.getDate();
         const month = dataDate.getUTCMonth();
@@ -1458,6 +1532,11 @@ const configMenuActions = () => {
 const configMenuOptions = (option) => {
     console.log(option);
     if (option === "open-close") {
+        if (langMenuNavStatus === open) {
+            langMenuNavStatus = close;
+            console.log("closing config menu lang menu");
+            closeMenu(langMenuNav);
+        }
         configMenuActions();
     } else if (option === "lang_nav") {
         console.log("abriendo menu lang nav");
@@ -1508,7 +1587,6 @@ const favMenuActions = () => {
         favModalStatus = open;
         animationIn(modal, block, 500);
         setTimeout(() => animationIn(favModal, block, 500), 1500);
-        //! */
         updatePokedex();
         if (storagePokedex[storageSaved].length >= 1) {
             console.log("existen salvados en storage");
@@ -1521,7 +1599,6 @@ const favMenuActions = () => {
                     setTimeout(() => {
                         favCardsContainer.appendChild(fragmentFavCards);
                         setTimeout(() => {
-                            //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
                             const favCardBtns = document.querySelectorAll(".fav_card_btn");
                             favCardBtns.forEach((btn) => {
                                 btn.addEventListener("click", () => {
@@ -1540,7 +1617,6 @@ const favMenuActions = () => {
                                     }
                                 });
                             });
-                            //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
                         }, 100);
                     }, 100);
                     break;
@@ -1554,7 +1630,6 @@ const favMenuActions = () => {
                     setTimeout(() => {
                         favCardsContainer.appendChild(fragmentFavCards);
                         setTimeout(() => {
-                            //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
                             const favCardBtns = document.querySelectorAll(".fav_card_btn");
                             favCardBtns.forEach((btn) => {
                                 btn.addEventListener("click", () => {
@@ -1573,7 +1648,6 @@ const favMenuActions = () => {
                                     }
                                 });
                             });
-                            //! ARREGLAR LOS BOTONES DE LAS TARJETAS FAV //
                         }, 100);
                     }, 100);
                     break;
@@ -1584,7 +1658,6 @@ const favMenuActions = () => {
         } else {
             console.log("no existen salvados en storage");
         }
-        //! */
     } else if (favModalStatus === open) {
         favModalStatus = close;
         animationOut(favModal, 500);
@@ -1935,7 +2008,6 @@ pikerThemeModalBtns.forEach((btn) => {
 optionListFavBtns.forEach((btn) => {
     btn.addEventListener("click", () => optionListFavOptionActions(btn.getAttribute("data-name")));
 });
-
 //^ ||||||||||||||||||||||||||||||||||||||||||||||||||||||//
 //^ SOLUCIONAR LOS ACOMODOS EN LAS TARJETAS DE FAVORITOS  //
 //^ ||||||||||||||||||||||||||||||||||||||||||||||||||||||//
@@ -1970,6 +2042,7 @@ searchInputName.addEventListener("click", () => (searchInputNumber.value = ""));
 savePokemonBtn.addEventListener("click", savePokemonFav);
 btnNext.addEventListener("click", next);
 btnPrevious.addEventListener("click", previous);
+optionListDescriptionsSearchBtn.addEventListener("click", () => optionListDescriptionsActions(optionListDescriptionsStatus));
 deletePersonalizedThemeBtn.addEventListener("click", deletePersonalizedTheme);
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //! |||||||||||||||||||||||||//
