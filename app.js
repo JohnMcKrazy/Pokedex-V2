@@ -1260,7 +1260,7 @@ const createPokeData = async (data) => {
             });
         }, 100);
         //! AGREGAR LOS BOTONES DE TEXTOS DESCRIPTIVOS POR EDICION */
-        console.log(flavorBtnsData);
+        /* console.log(flavorBtnsData); */
         pokeDescriptionName.textContent = properCase(flavorBtnsData[0].version.name);
         pokeDescription.innerHTML = flavorBtnsData[0].flavor_text.split("\n");
         //! PRUEBA DE DATOS A IMPRIMIR  /
@@ -2038,6 +2038,16 @@ acceptBtnAlertModal.addEventListener("click", () => {
     setTimeout(() => animationIn(pastModal, block, 1000));
 });
 searchBtn.addEventListener("click", searchFunction);
+searchInputNumber.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+        searchFunction();
+    }
+});
+searchInputName.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+        searchFunction();
+    }
+});
 searchInputNumber.addEventListener("click", () => (searchInputName.value = ""));
 searchInputName.addEventListener("click", () => (searchInputNumber.value = ""));
 savePokemonBtn.addEventListener("click", savePokemonFav);
