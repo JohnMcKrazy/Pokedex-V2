@@ -656,7 +656,6 @@ const closeMenu = (menu, delay = 250) => {
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const changeLang = (lang) => {
-    catchEmAll(currentPokemon);
     const varietiesListFirstBtnText = document.querySelector("#option_list_varients_first_text");
     if (lang === es) {
         currentLang = es;
@@ -724,6 +723,9 @@ const changeLang = (lang) => {
         setTimeout(() => {
             favCardsContainer.appendChild(fragmentFavCards);
         }, 100);
+    }
+    if (itsFirstPokemonSearch === false) {
+        catchEmAll(currentPokemon);
     }
     document.documentElement.setAttribute("lang", currentLang);
 };
@@ -1088,7 +1090,7 @@ const createEvoChainBtns = async (speciesLink) => {
                     catchEmAll(btn.getAttribute("data-name"));
                 });
             });
-        }, 400);
+        }, 500);
     }, 100);
 };
 const optionListDescriptionsActions = (status) => {
@@ -1423,7 +1425,6 @@ const catchEmAll = async (id) => {
         console.log(error);
     }
 };
-catchEmAll("eevee");
 const searchFunction = () => {
     let myName = searchInputName.value.toLowerCase();
     let myNumber = searchInputNumber.value;
