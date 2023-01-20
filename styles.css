@@ -48,6 +48,13 @@ HTML {
     --paddingL: 1.5rem;
     --paddingX: 2rem;
     --paddingXX: 2.5rem;
+    /*¿ Z INDEX */
+    --zIndexNav: 15;
+    --zIndexImg: 10;
+    --zIndexModal: 20;
+    --zIndexDB: 30;
+    --zIndexLangMenuModal: 25;
+    --zIndexOptionList: 5;
     /*¿GENERAL START */
     --imgContainerHeight: 40rem;
     --navHeight: 6rem;
@@ -70,6 +77,7 @@ HTML {
     --firstColor: rgb(9, 139, 172);
     /*¿ BACKGROUNDS */
     --bgColor: rgb(225, 225, 225);
+    --bgColorT: rgb(225, 225, 225, 0.5);
     --bgContrast: rgb(25, 25, 25);
     --bgContrastT: rgb(25, 25, 25, 0.7);
     --bgAccent: rgb(240, 240, 240);
@@ -325,6 +333,10 @@ P,
 SPAN {
     transition: var(--transitionF);
 }
+P {
+    font-size: var(--fontSizeN);
+    text-align: inherit;
+}
 IMG {
     display: block;
 }
@@ -388,7 +400,7 @@ NAV {
     right: 0;
     width: 100%;
     height: var(--navHeight);
-    z-index: 10;
+    z-index: var(--zIndexNav);
 }
 .content {
     min-width: 280px;
@@ -467,11 +479,18 @@ NAV {
     height: 2rem;
     border-radius: 2rem;
     background: yellow;
-    z-index: 999;
+    z-index: var(--zIndexDB);
 }
 .btn_container {
     display: flex;
     justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
+.btn_container_right {
+    display: flex;
+    justify-content: flex-end;
     align-items: center;
     width: 100%;
     height: auto;
@@ -482,6 +501,7 @@ NAV {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    gap: 0.5rem;
 }
 .btns_row_center {
     display: flex;
@@ -558,6 +578,34 @@ NAV {
     position: relative;
     height: 18rem;
 }
+.theme_card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 20rem;
+    padding: 0.5rem 1.5rem;
+    background: var(--bgAccent);
+}
+.item_data {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+.color_data {
+    width: 2rem;
+    height: 2rem;
+}
+.theme_card .card_name {
+    color: var(--firstColor);
+    margin-bottom: 1rem;
+}
+.theme_card .btns_row_container {
+    width: 100%;
+}
 .card_btn .accent_color,
 .fav_card .accent_color {
     font-size: var(--fontSizeS);
@@ -629,6 +677,8 @@ NAV {
 }
 .modal {
     display: none;
+    justify-content: center;
+    align-items: center;
     opacity: 0;
     position: fixed;
     top: 0;
@@ -638,7 +688,7 @@ NAV {
     width: 100%;
     height: 100%;
     background: var(--bgContrastT);
-    z-index: 100;
+    z-index: var(--zIndexModal);
     overflow-y: auto;
 }
 .modal_content {
@@ -647,11 +697,10 @@ NAV {
     background: var(--bgColor);
     color: var(--textColor);
     opacity: 0;
-    margin: 4rem auto;
     min-width: 150px;
     width: 90%;
     max-width: 80rem;
-    max-height: 85vh;
+    max-height: 90vh;
     padding: 1rem 2rem;
     border-radius: 1rem;
     overflow-y: auto;
@@ -660,7 +709,7 @@ NAV {
     position: absolute;
     top: 0;
     width: 4rem;
-    height: 4rem;
+    height: 3rem;
 }
 .lang_menu_container {
     left: 0;
@@ -668,7 +717,7 @@ NAV {
 .lang_btn,
 .lang_modal_btn {
     width: 4rem;
-    height: 4rem;
+    height: 3rem;
     padding: 0.5rem;
     color: var(--textColor);
 }
@@ -681,7 +730,7 @@ NAV {
     position: absolute;
     bottom: 0;
     width: auto;
-    z-index: 50;
+    z-index: var(--zIndexLangMenuModal);
     opacity: 0;
     translate: 0 calc(100% + 0.5rem);
     transition: all ease 500ms;
@@ -708,12 +757,15 @@ NAV {
 .close_modal_btn .icon_svg {
     fill: var(--firstColor);
 }
+.theme_btn {
+    font-size: var(--fontSizeN);
+    font-weight: 100;
+}
 #lang_menu_nav,
 .action_btn .icon_svg,
 .theme_btn .icon_svg {
     fill: var(--firstColor);
 }
-
 .close_btn:hover,
 .close_modal_btn:hover,
 .lang_btn:hover,
@@ -747,7 +799,6 @@ NAV {
 }
 .text_modal {
     margin-top: 1rem;
-    text-align: center;
     font-size: var(--fontSizeN);
 }
 /* ^PAGE */
@@ -826,11 +877,12 @@ MAIN .img_container {
     position: relative;
     width: 100%;
     height: auto;
-    z-index: 1;
+    z-index: var(--zIndexImg);
+    box-shadow: 0 4rem 5rem var(--textContrastColor);
 }
 .img_container IMG {
     position: absolute;
-    bottom: -6rem;
+    bottom: -8rem;
     left: 50%;
     min-width: 20rem;
     width: 30rem;
@@ -860,10 +912,10 @@ MAIN .img_container {
 }
 .option_list_btns_container {
     position: absolute;
-    top: 5rem;
+    top: 6rem;
     left: 0;
     width: 100%;
-    z-index: 10;
+    z-index: var(--zIndexOptionList);
 }
 .option_list {
     position: relative;
@@ -906,7 +958,7 @@ MAIN .img_container {
     background: var(--bgAccent);
     min-height: 3rem;
     width: 100%;
-    z-index: 10;
+    /* z-index: 10; */
     cursor: pointer;
 }
 .option_list_btn_search .icon_container {
@@ -932,13 +984,20 @@ MAIN .img_container {
     width: fit-content;
     position: initial;
 }
+.poke_data_info {
+    background: var(--bgContrast);
+    color: var(--textContrastColor);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    width: 100%;
+}
 #config_menu {
     display: none;
     position: absolute;
     right: 0;
     bottom: 0;
     width: auto;
-    z-index: 5;
+    /* z-index: 5; */
     opacity: 0;
     translate: 0 calc(100% + 0.5rem);
     transition: all ease 500ms;
@@ -997,7 +1056,7 @@ MAIN .img_container {
     position: inherit;
     margin: 0.5rem 0 1rem;
     width: 100%;
-    height: 4rem;
+    height: 3rem;
 }
 #basic_data_container .btns_row_container .option_list {
     position: inherit;
@@ -1006,6 +1065,9 @@ MAIN .img_container {
 #basic_data_container .btns_row_container .btns_row_center {
     font-size: var(--fontSizeG);
     align-self: flex-start;
+
+    height: 3rem;
+    align-items: center;
 }
 #poke_data_info_name_description {
     color: var(--firstColor);
@@ -1031,9 +1093,24 @@ MAIN .img_container {
 #btns_evo_chain_container {
     margin-top: 0.5rem;
 }
+#fav_modal {
+    position: relative;
+}
+#fav_modal .modal {
+    padding: 2rem;
+}
 #fav_modal .btns_row_container,
 #fav_modal .btns_row_center {
     height: 3rem;
+}
+#alert_modal_fav {
+    width: fit-content;
+    padding: 1rem 2rem;
+}
+#edit_personalized_themes_modal .btns_grid_row_container {
+    grid-template-columns: repeat(auto-fill, 20rem);
+    column-gap: 1rem;
+    margin-bottom: 2rem;
 }
 @media screen and (min-width: 420px) {
     HTML {
@@ -1053,3 +1130,11 @@ MAIN .img_container {
         max-height: fit-content;
     }
 }
+/* #modal {
+    display: block;
+    opacity: 1;
+}
+#edit_personalized_themes_modal {
+    display: block;
+    opacity: 1;
+} */

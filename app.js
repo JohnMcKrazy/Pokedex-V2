@@ -12,9 +12,16 @@ const evoChainBtn = document.querySelector("#evo_chain_btn");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const frafgmentPersonalizedThemeBtns = document.createDocumentFragment();
+const fragmentPersonalizedThemeBtns = document.createDocumentFragment();
 const themeBtnTemplate = document.querySelector("#theme_btn_template").content;
 const personalizedBtnsContainer = document.querySelector("#personalized_themes_btns_container");
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+const themeCardTemplate = document.querySelector("#theme_card_template").content;
+const fragmentThemeCards = document.createDocumentFragment();
+
+const themeCardContainer = document.querySelector("#personalized_theme_cards_container");
+const cancelEditThemesBtn = document.querySelector("#cancel_edit_themes_btn");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const navConfigBtns = document.querySelectorAll(".config_menu_btn_action");
 const configMenu = document.querySelector("#config_menu");
@@ -31,6 +38,7 @@ const langMenuNav = document.querySelector(".lang_menu_nav");
 const langMenuModalStart = document.querySelector("#lang_menu_modal_start");
 const langMenuModalTheme = document.querySelector("#lang_menu_modal_theme");
 const langMenuModalPersonalizedTheme = document.querySelector("#lang_menu_modal_personalized_theme");
+const langMenuModalEditPersonalizedTheme = document.querySelector("#lang_menu_modal_edit_personalized_theme");
 const langMenuModalfav = document.querySelector("#lang_menu_modal_fav");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentListVarieties = document.createDocumentFragment();
@@ -132,6 +140,8 @@ const themeNameInput = document.querySelector("#name_input");
 const colorPikers = document.querySelectorAll(".color_piker");
 const personalizedActionBtns = document.querySelectorAll(".personalized_action_btn");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+const editPersonalizedThemeModal = document.querySelector("#edit_personalized_themes_modal");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const favModal = document.querySelector("#fav_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -139,8 +149,12 @@ const favCardTemplate = document.querySelector("#fav_card_template").content;
 const titlefavModal = document.querySelector("#title_fav_modal");
 const sortBtns = document.querySelectorAll(".sort_fav_btn");
 const favListFirstBtnText = document.querySelector("#option_list_fav_first_text");
-//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+const modalFav = document.querySelector("#modal_fav");
+const alertModalFav = document.querySelector("#alert_modal_fav");
+const langMenuModalfavAlert = document.querySelector("#lang_menu_modal_fav_alert");
+const alertModalFavBtns = document.querySelectorAll(".alert_modal_fav_alert_btn");
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //! |||||||||||||||||||||||||||||||//
 //!  BASIC VARIABLES AND CONSTANTS //
 //! |||||||||||||||||||||||||||||||//
@@ -194,18 +208,24 @@ let optionListVarientsBtns;
 
 let pastModal = "";
 let currentPersonilizedTheme = {};
+
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 let configMenuStatus = close;
 let themeModalStatus = close;
 let alertModalStatus = close;
 let startModalStatus = close;
 let favModalStatus = close;
+let alertModalFavStatus = close;
 let personalizedThemeModalStatus = close;
+let editPersonalizedThemeModalStatus = close;
 let langMenuNavStatus = close;
 let langMenuModalStartStatus = close;
 let langMenuModalThemeStatus = close;
+let langMenuModalEditPersonalizedThemeStatus = close;
 let langMenuModalPersonalizedThemeStatus = close;
 let langMenuModalfavStatus = close;
+let langMenuModalfavAlertStatus = close;
 let optionListDescriptionsStatus = close;
 let optionListVarientsStatus = close;
 let optionListFavStatus = close;
@@ -223,6 +243,8 @@ const pokemonTypesEn = [];
 const pokemonTypesEs = [];
 const currentPokemonFlavors = [];
 let currentPokemon = 1;
+
+let currentDeletingPokemon = "";
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let speciesLink = "";
 let evoChainLink = "";
@@ -673,7 +695,7 @@ const changeLang = (lang) => {
         }
         searchInputName.setAttribute("placeholder", "Nombre");
         titleStartModal.textContent = "Bienvenido";
-        textStartModal.textContent = "Estas entrando a una pagina fan made, la unica intension es entretenimiento";
+        textStartModal.textContent = "Estás entrando a una página fan made, la única intención es entretenimiento, toda la información es almacenada en la memoria del navegador, ninguna información es recolectada o vendida";
 
         optionListDescriptionsFirstBtnText.textContent = "Opciones";
         descriptionSubtitle.textContent = "Descripción";
@@ -699,7 +721,7 @@ const changeLang = (lang) => {
         }
         searchInputName.setAttribute("placeholder", "Name");
         titleStartModal.textContent = "Welcome";
-        textStartModal.textContent = "You'r enter in a fan made page, only with the propouse of training";
+        textStartModal.textContent = "You'r enter in a fan made page, the only intention is entertainment, all stored informatio is in the browser's memory, no information is collected or sold";
         optionListDescriptionsFirstBtnText.textContent = "Options";
         descriptionSubtitle.textContent = "Description";
         evoSubtitle.textContent = "Evolution Chain";
@@ -732,7 +754,7 @@ const changeLang = (lang) => {
 //^^ ************************************************************************** *//
 const lunchAlert = (alertError) => {
     alertModalStatus = open;
-    animationIn(modal);
+    animationIn(modal, flex, 1000);
     titleAlertModal.textContent = errorText;
     if (alertError === "name") {
         if (currentLang === es) {
@@ -752,6 +774,32 @@ const fetchFunc = async (url) => {
     } catch (error) {
         console.log(error);
     }
+};
+const createFavCardBtns = () => {
+    const favCardBtns = document.querySelectorAll(".fav_card_btn");
+    favCardBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            let btnName = btn.getAttribute("data-name");
+            let btnId = btn.getAttribute("data-id");
+            if (btnName === "search_fav") {
+                console.log("buscando fav");
+                console.log(btnId);
+                catchEmAll(btnId);
+                animationOut(favModal);
+                favModalStatus = close;
+                setTimeout(() => animationOut(modal), 250);
+            } else if (btnName === "delete_fav") {
+                console.log("borrando fav");
+                console.log(btnId);
+                currentDeletingPokemon = btnId;
+                animationIn(modalFav, flex, 500);
+                setTimeout(() => {
+                    animationIn(alertModalFav, block, 500);
+                    alertModalFavStatus = open;
+                }, 1500);
+            }
+        });
+    });
 };
 const closeOptionList = (list) => {
     switch (list) {
@@ -847,24 +895,7 @@ const optionListFavOptionActions = (action) => {
         setTimeout(() => {
             favCardsContainer.appendChild(fragmentFavCards);
             setTimeout(() => {
-                const favCardBtns = document.querySelectorAll(".fav_card_btn");
-                favCardBtns.forEach((btn) => {
-                    btn.addEventListener("click", () => {
-                        let btnName = btn.getAttribute("data-name");
-                        let btnId = btn.getAttribute("data-id");
-                        if (btnName === "search_fav") {
-                            console.log("buscando fav");
-                            console.log(btnId);
-                            catchEmAll(btnId);
-                            animationOut(favModal);
-                            favModalStatus = close;
-                            setTimeout(() => animationOut(modal), 250);
-                        } else if (btnName === "delete_fav") {
-                            console.log("borrando fav");
-                            console.log(btnId);
-                        }
-                    });
-                });
+                createFavCardBtns();
             }, 100);
         }, 100);
     }
@@ -1210,7 +1241,7 @@ const createPokeData = async (data) => {
         }
         //! PRUEBAS DETALLES TIPO DE EVOLUCION  */
         /* console.log(dataName); */
-        //! PRUEBA DE DATOS A IMPRIMIR  /
+        //! CREACION DE FLAVORS OBJECT EN IDIOMAS  /
         const pokeFlavors = speciesData.flavor_text_entries;
         pokeFlavors.forEach((flavor) => {
             /* console.log(flavor); */
@@ -1229,8 +1260,8 @@ const createPokeData = async (data) => {
         } else if (currentLang == en) {
             flavorBtnsData = pokemonFlavorsEn;
         }
-        //! AGREGAR LOS BOTONES DE TEXTOS DESCRIPTIVOS POR EDICION */
-
+        //! CREACION DE FLAVORS OBJECT EN IDIOMAS -- END  /
+        //! AGREGAR LOS BOTONES DE TEXTOS DESCRIPTIVOS POR EDICION -- START */
         flavorBtnsData.forEach((data) => {
             /* console.log(data.flavor_text); */
             /* console.log(data.version.name); */
@@ -1259,10 +1290,12 @@ const createPokeData = async (data) => {
                 });
             });
         }, 100);
-        //! AGREGAR LOS BOTONES DE TEXTOS DESCRIPTIVOS POR EDICION */
         /* console.log(flavorBtnsData); */
         pokeDescriptionName.textContent = properCase(flavorBtnsData[0].version.name);
         pokeDescription.innerHTML = flavorBtnsData[0].flavor_text.split("\n");
+
+        //! AGREGAR LOS BOTONES DE TEXTOS DESCRIPTIVOS POR EDICION -- END */
+        //! ******************************************************************************************************************* //
         //! PRUEBA DE DATOS A IMPRIMIR  /
         const artworkImg = data.sprites.other["official-artwork"]["front_default"];
         const dataName = properCase(data.name);
@@ -1270,8 +1303,7 @@ const createPokeData = async (data) => {
         /* console.log(dataId); */
         currentPokemon = dataId;
         updatePokedex();
-
-        //! GENERACION DE DATA HORA Y FECHA //
+        //! GENERACION DE DATA HORA Y FECHA --START //
         const dataDate = new Date();
         const date = dataDate.getDate();
         const month = dataDate.getUTCMonth();
@@ -1299,7 +1331,9 @@ const createPokeData = async (data) => {
             complete_date_es: "",
             complete_date_en: "",
         };
-        //! OBJETO Y FUNCION PARA SACAR LOS DIAS DE LA SEMANA COMO TEXTO  //
+        //! GENERACION DE DATA HORA Y FECHA --END //
+
+        //! OBJETO Y FUNCION PARA SACAR LOS DIAS DE LA SEMANA COMO TEXTO -- START //
         for (let i = 0; i <= daysOfTheWeek.length; i++) {
             if (i === day) {
                 currentDayOfTheWeek = daysOfTheWeek[i];
@@ -1334,8 +1368,8 @@ const createPokeData = async (data) => {
         }
         currentCompleteDate["complete_date_es"] = `${currentDayOfTheWeek[es]} ${date} ${currentMonthOfTheYear[es]} ${year}, ${hours}:${minutes}`;
         currentCompleteDate["complete_date_en"] = `${currentDayOfTheWeek[en]} ${date} ${currentMonthOfTheYear[en]} ${year}, ${hours}:${minutes}`;
-
-        //! CREACION DE TIPOS DE POKEMON //
+        //! OBJETO Y FUNCION PARA SACAR LOS DIAS DE LA SEMANA COMO TEXTO -- END //
+        //! CREACION DE DATA TIPO/S DE POKEMON //
         if (data.types.length > 1) {
             data.types.forEach(async (type) => {
                 const typeData = await fetchFunc(type.type.url);
@@ -1385,14 +1419,14 @@ const createPokeData = async (data) => {
                     break;
             }
         }
-        //! ********** //
+        //! CREACION DE DATA TIPO/S DE POKEMON //
         const newBackground = storagePokedex[storageBackgrounds][data.types[0].type.name].url;
         pokeBg.style.background = `url(${newBackground})`;
         pokeImg.setAttribute("src", artworkImg);
         pokeImg.setAttribute("alt", dataName);
         pokeName.textContent = dataName;
         pokeId.textContent = dataId;
-
+        //! CREACION DE ITEM PARA OBJETO POR SALVAR //
         setTimeout(() => {
             itemToSave = {
                 name: dataName,
@@ -1409,6 +1443,7 @@ const createPokeData = async (data) => {
             };
             console.log(itemToSave);
         }, 250);
+        //! CREACION DE ITEM PARA OBJETO POR SALVAR //
     }
 };
 const catchEmAll = async (id) => {
@@ -1438,7 +1473,7 @@ const searchFunction = () => {
         } else if (currentLang === en) {
             textAlertModal.textContent = enEmpty;
         }
-        animationIn(modal, block, 1000);
+        animationIn(modal, flex, 1000);
         setTimeout(() => animationIn(alertModal, block, 1000), 1500);
     } else if (myNumber === "" || myNumber === null || myNumber === NaN) {
         currentPokemon = myName;
@@ -1490,6 +1525,15 @@ const langMenuModalActions = (action) => {
                 closeMenu(langMenuModalPersonalizedTheme);
             }
             break;
+        case "lang_edit_personalized_themes":
+            if (langMenuModalEditPersonalizedThemeStatus === close) {
+                langMenuModalEditPersonalizedThemeStatus = open;
+                openMenu(langMenuModalEditPersonalizedTheme);
+            } else if (langMenuModalEditPersonalizedThemeStatus === open) {
+                langMenuModalEditPersonalizedThemeStatus = close;
+                closeMenu(langMenuModalEditPersonalizedTheme);
+            }
+            break;
         case "lang_fav":
             if (langMenuModalfavStatus === close) {
                 langMenuModalfavStatus = open;
@@ -1502,6 +1546,15 @@ const langMenuModalActions = (action) => {
                 closeMenu(langMenuModalfav);
             }
             break;
+        case "lang_fav_alert":
+            if (langMenuModalfavAlertStatus === close) {
+                langMenuModalfavAlertStatus = open;
+                openMenu(langMenuModalfavAlert);
+            } else if (langMenuModalfavAlertStatus === open) {
+                langMenuModalfavAlertStatus = close;
+                closeMenu(langMenuModalfavAlert);
+            }
+            break;
     }
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1510,14 +1563,19 @@ const startModalActions = (action) => {
     if (action === accepted) {
         updatePokedex();
         storagePokedex[storageAlert] = close;
+        animationOut(startModal, 500);
+        if (langMenuModalStartStatus === open) {
+            langMenuModalStartStatus = close;
+            closeMenu(langMenuModalStart);
+        }
+        setTimeout(() => {
+            animationOut(modal, 1000);
+            savePokedex();
+        }, 1000);
     } else if (action === denied) {
         console.log(denied);
+        window.location.href = "http://www.google.com";
     }
-    animationOut(startModal, 500);
-    setTimeout(() => {
-        animationOut(modal, 500);
-    }, 1500);
-    savePokedex();
 };
 const configMenuActions = () => {
     if (configMenuStatus === close) {
@@ -1563,6 +1621,10 @@ const savePokemonFav = () => {
         savePokedex();
     } else if (storagePokedex[storageSaved].length >= 1) {
         console.log(storagePokedex[storageSaved]);
+        //! AGREGAR ANIMACION DE SALVADO CORRECTAMENTE  */
+
+        //! AGREGAR ANIMACION DE SALVADO CORRECTAMENTE  */
+
         //! AGREGAR CHECK DE ITEM ENCONTRADO EN LISTA  */
 
         //! AGREGAR CHECK DE ITEM ENCONTRADO EN LISTA  */
@@ -1580,13 +1642,24 @@ const favCardBtnsActions = (btn) => {
     console.log(btn.getAttribute("data-name"));
     console.log(btn.getAttribute("data-id"));
 };
+const createCurrentSortPokemonFav = (list) => {
+    list.forEach((item) => {
+        createFavCard(item.id, item.name, item.types, item.date, item.sprites);
+    });
+    setTimeout(() => {
+        favCardsContainer.appendChild(fragmentFavCards);
+        setTimeout(() => {
+            createFavCardBtns();
+        }, 100);
+    }, 100);
+};
 const favMenuActions = () => {
     deleteChildElements(fragmentFavCards);
     deleteChildElements(favCardsContainer);
     if (favModalStatus === close) {
         oldTheme = BODY.className;
         favModalStatus = open;
-        animationIn(modal, block, 500);
+        animationIn(modal, flex, 1000);
         setTimeout(() => animationIn(favModal, block, 500), 1500);
         updatePokedex();
         if (storagePokedex[storageSaved].length >= 1) {
@@ -1594,63 +1667,12 @@ const favMenuActions = () => {
             switch (currentSortedObject.length >= 1) {
                 case true:
                     console.log("existe current sorted object");
-                    currentSortedObject.forEach((item) => {
-                        createFavCard(item.id, item.name, item.types, item.date, item.sprites);
-                    });
-                    setTimeout(() => {
-                        favCardsContainer.appendChild(fragmentFavCards);
-                        setTimeout(() => {
-                            const favCardBtns = document.querySelectorAll(".fav_card_btn");
-                            favCardBtns.forEach((btn) => {
-                                btn.addEventListener("click", () => {
-                                    let btnName = btn.getAttribute("data-name");
-                                    let btnId = btn.getAttribute("data-id");
-                                    if (btnName === "search_fav") {
-                                        console.log("buscando fav");
-                                        console.log(btnId);
-                                        catchEmAll(btnId);
-                                        animationOut(favModal);
-                                        favModalStatus = close;
-                                        setTimeout(() => animationOut(modal), 250);
-                                    } else if (btnName === "delete_fav") {
-                                        console.log("borrando fav");
-                                        console.log(btnId);
-                                    }
-                                });
-                            });
-                        }, 100);
-                    }, 100);
+                    createCurrentSortPokemonFav(currentSortedObject);
                     break;
                 case false:
                     console.log("no existe current sorted object, creando nueva lista");
                     currentSortedObject = storagePokedex[storageSaved];
-                    currentSortedObject.forEach((item) => {
-                        createFavCard(item.id, item.name, item.types, item.date, item.sprites);
-                    });
-
-                    setTimeout(() => {
-                        favCardsContainer.appendChild(fragmentFavCards);
-                        setTimeout(() => {
-                            const favCardBtns = document.querySelectorAll(".fav_card_btn");
-                            favCardBtns.forEach((btn) => {
-                                btn.addEventListener("click", () => {
-                                    let btnName = btn.getAttribute("data-name");
-                                    let btnId = btn.getAttribute("data-id");
-                                    if (btnName === "search_fav") {
-                                        console.log("buscando fav");
-                                        console.log(btnId);
-                                        catchEmAll(btnId);
-                                        animationOut(favModal);
-                                        favModalStatus = close;
-                                        setTimeout(() => animationOut(modal), 250);
-                                    } else if (btnName === "delete_fav") {
-                                        console.log("borrando fav");
-                                        console.log(btnId);
-                                    }
-                                });
-                            });
-                        }, 100);
-                    }, 100);
+                    createCurrentSortPokemonFav(currentSortedObject);
                     break;
                 default:
                     console.log("este mensaje no deberia de salir, error en la creacion de currentSortedObject");
@@ -1663,7 +1685,7 @@ const favMenuActions = () => {
         favModalStatus = close;
         animationOut(favModal, 500);
         setTimeout(() => {
-            animationOut(modal, 500);
+            animationOut(modal, 1000);
         }, 1500);
     }
 };
@@ -1671,13 +1693,13 @@ const themeMenuActions = () => {
     if (themeModalStatus === close) {
         oldTheme = BODY.className;
         themeModalStatus = open;
-        animationIn(modal, block, 500);
+        animationIn(modal, flex, 500);
         setTimeout(() => animationIn(themeModal, block, 500), 1500);
     } else if (themeModalStatus === open) {
         themeModalStatus = close;
         animationOut(themeModal, 500);
         setTimeout(() => {
-            animationOut(modal, 500);
+            animationOut(modal, 1000);
         }, 1500);
     }
 };
@@ -1775,26 +1797,33 @@ const deletePersonalizedTheme = () => {
     setCurrentColors();
 };
 const createPersonalizedBtns = () => {
-    deleteChildElements(frafgmentPersonalizedThemeBtns);
+    deleteChildElements(fragmentPersonalizedThemeBtns);
     deleteChildElements(personalizedBtnsContainer);
     storagePokedex[storageThemes].forEach((theme) => {
         let cloneTemplate = themeBtnTemplate.cloneNode(true);
         let btn = cloneTemplate.querySelector(".personalized_theme_btn");
         btn.textContent = theme.name;
         btn.setAttribute("data-name", theme.name);
-        frafgmentPersonalizedThemeBtns.appendChild(cloneTemplate);
+        fragmentPersonalizedThemeBtns.appendChild(cloneTemplate);
     });
-    personalizedBtnsContainer.appendChild(frafgmentPersonalizedThemeBtns);
+    personalizedBtnsContainer.appendChild(fragmentPersonalizedThemeBtns);
     const personalizedThemeBtns = document.querySelectorAll(".personalized_theme_btn");
     personalizedThemeBtns.forEach((btn) => btn.addEventListener("click", () => changePersonalizedTheme(btn.getAttribute("data-name"))));
 };
 const checkStorageAnswer = () => {
+    console.log(window.navigator.language);
+    if (window.navigator.language === "es" || window.navigator.language === "es-ES") {
+        console.log("navegador en idioma español");
+    } else {
+        console.log("navegador en idioma otro idioma no español");
+        changeLang(en);
+    }
     storageContent = JSON.parse(localStorage.getItem(DB_NAME));
     if (!storageContent) {
         savePokedex();
         changeBasicTheme();
         console.log("local storage item is created");
-        animationIn(modal, block, 500);
+        animationIn(modal, flex, 500);
         setTimeout(() => animationIn(startModal, block, 500), 1500);
     } else if (storageContent && storageContent[storageAlert] === open) {
         updatePokedex();
@@ -1802,7 +1831,7 @@ const checkStorageAnswer = () => {
         savePokedex();
         console.log(`local storage item answer= ${storagePokedex[storageAlert]}, page views= ${storagePokedex[storageView]}`);
 
-        animationIn(modal, block, 500);
+        animationIn(modal, flex, 500);
         setTimeout(() => animationIn(startModal, block, 500), 1500);
     } else if (storageContent && storageContent[storageAlert] === close) {
         updatePokedex();
@@ -1830,6 +1859,24 @@ const checkStorageAnswer = () => {
 };
 checkStorageAnswer();
 //^^ ************************************************************************** *//
+const createThemeCard = (data) => {
+    console.log(data);
+    let cloneCard = themeCardTemplate.cloneNode(true);
+    let nameCard = cloneCard.querySelector(".personalized_theme_card_name");
+    let backgroundColor = cloneCard.querySelector(".background_color_data");
+    let textColor = cloneCard.querySelector(".text_color_data");
+    let accentColor = cloneCard.querySelector(".accent_color_data");
+    let menuColor = cloneCard.querySelector(".menu_color_data");
+    nameCard.textContent = data.name;
+    backgroundColor.style.background = data.bgColor;
+
+    textColor.style.background = data.textColor;
+
+    accentColor.style.background = data.firstColor;
+
+    menuColor.style.background = data.bgAccent;
+    fragmentThemeCards.appendChild(cloneCard);
+};
 const personalizedThemeActionsBtnsActiions = (tm) => {
     if (tm === "new_theme") {
         oldTheme = BODY.className;
@@ -1843,6 +1890,20 @@ const personalizedThemeActionsBtnsActiions = (tm) => {
         }, 1500);
     } else if (tm === "edit_theme") {
         console.log("checando edit");
+        updatePokedex();
+        const currentThemes = storagePokedex.page_themes;
+        currentThemes.forEach((theme) => {
+            createThemeCard(theme);
+            setTimeout(() => {
+                themeCardContainer.appendChild(fragmentThemeCards);
+            }, 500);
+        });
+
+        animationOut(themeModal);
+        setTimeout(() => {
+            animationIn(editPersonalizedThemeModal, block);
+            editPersonalizedThemeModalStatus = open;
+        }, 1500);
     }
 };
 const themeActionsBtnsActions = (action) => {
@@ -1867,7 +1928,7 @@ const themeActionsBtnsActions = (action) => {
         themeModalStatus = close;
         storagePokedex[storageThemeSaved] = currentPersonilizedTheme;
         savePokedex();
-        animationOut(personalizedThemeModal);
+        animationOut(themeModal);
         setTimeout(() => {
             animationOut(modal);
         }, 1000);
@@ -1940,10 +2001,15 @@ const closeModal = (action) => {
             setTimeout(() => animationOut(modal), 500);
             personalizedThemeModalStatus = close;
             break;
+        case "close_edit_personalized_theme":
+            console.log(action);
+            animationOut(editPersonalizedThemeModal);
+            setTimeout(() => animationOut(modal), 500);
+            editPersonalizedThemeModalStatus = close;
+            break;
     }
 };
 //! ******************************************************************************************************** //
-
 //! ||||||||||||||||//
 //!  FOR EACH LOOPS //
 //! ||||||||||||||||//
@@ -2001,6 +2067,53 @@ themeActionBtns.forEach((btn) => {
 personalizedActionBtns.forEach((btn) => {
     btn.addEventListener("click", () => personalizedThemeActionsBtnsActiions(btn.getAttribute("data-name")));
 });
+const alertModalFavActions = (option) => {
+    switch (option) {
+        case "accept_modal_fav":
+            deleteChildElements(fragmentFavCards);
+            deleteChildElements(favCardsContainer);
+            console.log(currentDeletingPokemon);
+            const newFavPokemons = [];
+
+            console.log(currentSortedObject);
+            currentSortedObject.forEach((item) => {
+                if (item.id !== parseFloat(currentDeletingPokemon)) {
+                    newFavPokemons.push(item);
+                }
+            });
+
+            setTimeout(() => {
+                console.log(newFavPokemons);
+
+                createCurrentSortPokemonFav(newFavPokemons);
+                updatePokedex();
+
+                storagePokedex[storageSaved] = newFavPokemons;
+                savePokedex();
+                currentSortedObject = newFavPokemons;
+
+                console.log(currentSortedObject);
+                animationOut(alertModalFav);
+                alertModalFavStatus = close;
+                setTimeout(() => animationOut(modalFav), 1500);
+            }, 500);
+            console.log(option);
+            break;
+        case "cancel_modal_fav":
+            console.log(option);
+            animationOut(alertModalFav);
+            alertModalFavStatus = close;
+            setTimeout(() => {
+                animationOut(modalFav);
+            });
+            break;
+    }
+};
+alertModalFavBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        alertModalFavActions(btn.getAttribute("data-name"));
+    });
+});
 pikerThemeModalBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
         pikerThemeActionBtns(btn.getAttribute("data-name"));
@@ -2012,7 +2125,6 @@ optionListFavBtns.forEach((btn) => {
 //^ ||||||||||||||||||||||||||||||||||||||||||||||||||||||//
 //^ SOLUCIONAR LOS ACOMODOS EN LAS TARJETAS DE FAVORITOS  //
 //^ ||||||||||||||||||||||||||||||||||||||||||||||||||||||//
-
 sortBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
         if (optionListFavStatus === open) {
@@ -2036,6 +2148,14 @@ acceptBtnAlertModal.addEventListener("click", () => {
     console.log("click activo");
     animationOut(alertModal);
     setTimeout(() => animationIn(pastModal, block, 1000));
+});
+cancelEditThemesBtn.addEventListener("click", () => {
+    animationOut(editPersonalizedThemeModal, 500);
+    editPersonalizedThemeModalStatus = close;
+    setTimeout(() => {
+        animationIn(themeModal, block, 1000);
+        themeModalStatus = open;
+    }, 1500);
 });
 searchBtn.addEventListener("click", searchFunction);
 searchInputNumber.addEventListener("keypress", function (e) {
