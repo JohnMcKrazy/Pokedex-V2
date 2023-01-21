@@ -46,6 +46,7 @@ const selectionListTemplate = document.querySelector("#option_list_template").co
 const optionListVarientTemplate = document.querySelector("#option_list_varients_btn_template").content;
 const searchBtnsContainer = document.querySelector("#search_varieties_btns_container");
 const savePokemonBtn = document.querySelector("#save_pokemon_btn");
+const iconHeart = document.querySelector("#icon_heart");
 const imgContainer = document.querySelector("#img_container");
 
 const btnPrevious = document.querySelector(".previous_btn");
@@ -154,6 +155,8 @@ const modalFav = document.querySelector("#modal_fav");
 const alertModalFav = document.querySelector("#alert_modal_fav");
 const langMenuModalfavAlert = document.querySelector("#lang_menu_modal_fav_alert");
 const alertModalFavBtns = document.querySelectorAll(".alert_modal_fav_alert_btn");
+const nameAlertModalFav = document.querySelector("#pokemon_name_modal_fav_alert");
+const idAlertModalFav = document.querySelector("#pokemon_id_modal_fav_alert");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //! |||||||||||||||||||||||||||||||//
 //!  BASIC VARIABLES AND CONSTANTS //
@@ -244,11 +247,24 @@ const pokemonTypesEs = [];
 const currentPokemonFlavors = [];
 let currentPokemon = 1;
 
-let currentDeletingPokemon = "";
+let currentDeletingPokemonId = 0;
+let currentDeletingPokemonName = "";
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let speciesLink = "";
 let evoChainLink = "";
-let itemToSave = {};
+let itemToSave = {
+    name: "",
+    id: "",
+    sprites: {
+        default: "",
+        art: "",
+    },
+    date: "",
+    types: {
+        es: "",
+        en: "",
+    },
+};
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const pokeThemes = {};
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -604,6 +620,12 @@ const next = () => {
             currentPokemon++;
             catchEmAll(currentPokemon);
         } else if (currentPokemon === 898) {
+            currentPokemon = 10001;
+            catchEmAll(currentPokemon);
+        } else if (currentPokemon >= 10001 && currentPokemon <= 10246) {
+            currentPokemon++;
+            catchEmAll(currentPokemon);
+        } else if (currentPokemon === 10247) {
             currentPokemon = 1;
             catchEmAll(currentPokemon);
         }
@@ -633,11 +655,17 @@ const previous = () => {
         currentPokemon = 898;
         catchEmAll(currentPokemon);
     } else if (itsFirstPokemonSearch === false) {
-        if (currentPokemon >= 2 && currentPokemon <= 898) {
+        if (currentPokemon >= 10002 && currentPokemon <= 10247) {
+            currentPokemon--;
+            catchEmAll(currentPokemon);
+        } else if (currentPokemon === 10001) {
+            currentPokemon = 898;
+            catchEmAll(currentPokemon);
+        } else if (currentPokemon >= 2 && currentPokemon <= 898) {
             currentPokemon--;
             catchEmAll(currentPokemon);
         } else if (currentPokemon === 1) {
-            currentPokemon = 898;
+            currentPokemon = 10247;
             catchEmAll(currentPokemon);
         }
     }
@@ -779,19 +807,23 @@ const createFavCardBtns = () => {
     const favCardBtns = document.querySelectorAll(".fav_card_btn");
     favCardBtns.forEach((btn) => {
         btn.addEventListener("click", () => {
-            let btnName = btn.getAttribute("data-name");
-            let btnId = btn.getAttribute("data-id");
+            let btnName = btn.getAttribute("data-btnName");
+            let dataName = btn.getAttribute("data-name");
+            let dataId = btn.getAttribute("data-id");
             if (btnName === "search_fav") {
                 console.log("buscando fav");
-                console.log(btnId);
-                catchEmAll(btnId);
+                console.log(dataId);
+                catchEmAll(dataId);
                 animationOut(favModal);
                 favModalStatus = close;
                 setTimeout(() => animationOut(modal), 250);
             } else if (btnName === "delete_fav") {
                 console.log("borrando fav");
-                console.log(btnId);
-                currentDeletingPokemon = btnId;
+                console.log(dataId, dataName);
+                currentDeletingPokemonId = dataId;
+                currentDeletingPokemonName = dataName;
+                nameAlertModalFav.textContent = dataName;
+                idAlertModalFav.textContent = dataId;
                 animationIn(modalFav, flex, 500);
                 setTimeout(() => {
                     animationIn(alertModalFav, block, 500);
@@ -936,6 +968,7 @@ const createFavCard = async (id, name, types, date, img) => {
     const cardName = cardClone.querySelector(".fav_card_name");
     const cardType = cardClone.querySelector(".fav_card_type");
     const cardDate = cardClone.querySelector(".fav_card_date");
+    const cardHour = cardClone.querySelector(".fav_card_hour");
     const searchCardBtn = cardClone.querySelector(".search_fav_card_btn");
     const deleteCardBtn = cardClone.querySelector(".delete_fav_card_btn");
 
@@ -956,12 +989,12 @@ const createFavCard = async (id, name, types, date, img) => {
         cardImg.setAttribute("alt", name);
         searchCardBtn.setAttribute("data-id", id);
         deleteCardBtn.setAttribute("data-id", id);
-        searchCardBtn.id = `search_fav_card_btn_${name}`;
-        deleteCardBtn.id = `delete_fav_card_btn_${name}`;
+        deleteCardBtn.setAttribute("data-name", name);
         /*     console.log(name); */
         cardName.textContent = properCase(name);
         cardId.textContent = id;
         cardDate.textContent = date["short_date_number"];
+        cardHour.textContent = date["time"];
         fragmentFavCards.appendChild(cardClone);
     }, 100);
 };
@@ -1611,37 +1644,56 @@ const configMenuOptions = (option) => {
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const savePokemonFav = () => {
+    const savedAnimation = () => {
+        console.log("animacion de corazon");
+        iconHeart.style.translate = "50% -110%";
+        iconHeart.style.scale = "1.5";
+        iconHeart.style.opacity = "1";
+        setTimeout(() => {
+            iconHeart.style.translate = "50% 50%";
+            iconHeart.style.opacity = "0";
+            iconHeart.style.scale = "1";
+        }, 1000);
+    };
     console.log("preparando salvar pokemon function");
-    console.log(itemToSave);
+    /* console.log(itemToSave); */
     updatePokedex();
-    if (storagePokedex[storageSaved].length === 0) {
-        storagePokedex[storageSaved].push(itemToSave);
-        console.log(storagePokedex);
-        console.log("Salvando por primera vez pokemon en favoritos");
-        savePokedex();
-    } else if (storagePokedex[storageSaved].length >= 1) {
-        console.log(storagePokedex[storageSaved]);
-        //! AGREGAR ANIMACION DE SALVADO CORRECTAMENTE  */
+    if (itemToSave.name !== "") {
+        if (storagePokedex[storageSaved].length === 0) {
+            savedAnimation();
+            storagePokedex[storageSaved].push(itemToSave);
+            console.log(storagePokedex);
+            console.log("Salvando por primera vez pokemon en favoritos");
+            savePokedex();
+        } else if (storagePokedex[storageSaved].length >= 1) {
+            /* console.log(storagePokedex[storageSaved]); */
+            const pokemonExistInList = storagePokedex[storageSaved].every((item) => item.id !== itemToSave.id);
+            console.log(pokemonExistInList);
+            switch (pokemonExistInList) {
+                case false:
+                    break;
+                case true:
+                    savedAnimation();
+                    storagePokedex[storageSaved].push(itemToSave);
+                    if (currentSortedObject.length > 1) {
+                        currentSortedObject = storagePokedex[storageSaved];
+                    }
 
-        //! AGREGAR ANIMACION DE SALVADO CORRECTAMENTE  */
-
-        //! AGREGAR CHECK DE ITEM ENCONTRADO EN LISTA  */
-
-        //! AGREGAR CHECK DE ITEM ENCONTRADO EN LISTA  */
-        const cleanIndex = storagePokedex[storageSaved].filter((item) => item.id !== itemToSave.id);
-        console.log(cleanIndex);
-        cleanIndex.push(itemToSave);
-        storagePokedex[storageSaved] = cleanIndex;
-
-        console.log("Salvando pokemon, actualizando base de favoritos");
-        savePokedex();
+                    console.log("Salvando pokemon, actualizando base de favoritos");
+                    savePokedex();
+                    break;
+            }
+        }
     }
 };
+//! BOTONES DE ACENDENTE Y DECENDENTE SORT LIST - HACER FUNCION - START  */
 const favCardBtnsActions = (btn) => {
     console.log(btn);
     console.log(btn.getAttribute("data-name"));
     console.log(btn.getAttribute("data-id"));
 };
+//! BOTONES DE ACENDENTE Y DECENDENTE SORT LIST - HACER FUNCION - OVER  */
+
 const createCurrentSortPokemonFav = (list) => {
     list.forEach((item) => {
         createFavCard(item.id, item.name, item.types, item.date, item.sprites);
@@ -1657,7 +1709,6 @@ const favMenuActions = () => {
     deleteChildElements(fragmentFavCards);
     deleteChildElements(favCardsContainer);
     if (favModalStatus === close) {
-        oldTheme = BODY.className;
         favModalStatus = open;
         animationIn(modal, flex, 1000);
         setTimeout(() => animationIn(favModal, block, 500), 1500);
@@ -1997,15 +2048,59 @@ const closeModal = (action) => {
             break;
         case "close_personalized_theme":
             console.log(action);
+            deletePersonalizedTheme();
+            BODY.className = oldTheme;
             animationOut(personalizedThemeModal);
             setTimeout(() => animationOut(modal), 500);
             personalizedThemeModalStatus = close;
+            themeModalStatus = close;
             break;
         case "close_edit_personalized_theme":
             console.log(action);
             animationOut(editPersonalizedThemeModal);
             setTimeout(() => animationOut(modal), 500);
             editPersonalizedThemeModalStatus = close;
+            themeModalStatus = close;
+            break;
+    }
+};
+const alertModalFavActions = (option) => {
+    switch (option) {
+        case "accept_modal_fav":
+            deleteChildElements(fragmentFavCards);
+            deleteChildElements(favCardsContainer);
+            console.log(currentDeletingPokemonId);
+            const newFavPokemons = [];
+
+            console.log(currentSortedObject);
+            currentSortedObject.forEach((item) => {
+                if (item.id !== parseFloat(currentDeletingPokemonId)) {
+                    newFavPokemons.push(item);
+                }
+            });
+
+            setTimeout(() => {
+                console.log(newFavPokemons);
+                storagePokedex[storageSaved] = newFavPokemons;
+                currentSortedObject = storagePokedex[storageSaved];
+                savePokedex();
+                animationOut(alertModalFav);
+                alertModalFavStatus = close;
+
+                createCurrentSortPokemonFav(currentSortedObject);
+                setTimeout(() => {
+                    animationOut(modalFav);
+                }, 1000);
+            }, 500);
+            console.log(option);
+            break;
+        case "cancel_modal_fav":
+            console.log(option);
+            animationOut(alertModalFav);
+            alertModalFavStatus = close;
+            setTimeout(() => {
+                animationOut(modalFav);
+            });
             break;
     }
 };
@@ -2067,48 +2162,6 @@ themeActionBtns.forEach((btn) => {
 personalizedActionBtns.forEach((btn) => {
     btn.addEventListener("click", () => personalizedThemeActionsBtnsActiions(btn.getAttribute("data-name")));
 });
-const alertModalFavActions = (option) => {
-    switch (option) {
-        case "accept_modal_fav":
-            deleteChildElements(fragmentFavCards);
-            deleteChildElements(favCardsContainer);
-            console.log(currentDeletingPokemon);
-            const newFavPokemons = [];
-
-            console.log(currentSortedObject);
-            currentSortedObject.forEach((item) => {
-                if (item.id !== parseFloat(currentDeletingPokemon)) {
-                    newFavPokemons.push(item);
-                }
-            });
-
-            setTimeout(() => {
-                console.log(newFavPokemons);
-
-                createCurrentSortPokemonFav(newFavPokemons);
-                updatePokedex();
-
-                storagePokedex[storageSaved] = newFavPokemons;
-                savePokedex();
-                currentSortedObject = newFavPokemons;
-
-                console.log(currentSortedObject);
-                animationOut(alertModalFav);
-                alertModalFavStatus = close;
-                setTimeout(() => animationOut(modalFav), 1500);
-            }, 500);
-            console.log(option);
-            break;
-        case "cancel_modal_fav":
-            console.log(option);
-            animationOut(alertModalFav);
-            alertModalFavStatus = close;
-            setTimeout(() => {
-                animationOut(modalFav);
-            });
-            break;
-    }
-};
 alertModalFavBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
         alertModalFavActions(btn.getAttribute("data-name"));

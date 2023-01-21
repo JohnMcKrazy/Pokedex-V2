@@ -415,6 +415,9 @@ NAV {
     margin: 2rem 0 1rem;
     clear: right;
 }
+.margin_t_s {
+    margin-top: 0.5rem;
+}
 .margin_b {
     margin-bottom: 2rem;
 }
@@ -568,15 +571,16 @@ NAV {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 10rem;
     background: var(--bgAccent);
 }
 .card_btn {
-    height: 13rem;
+    height: 16rem;
+    width: 10rem;
 }
 .fav_card {
     position: relative;
-    height: 18rem;
+    height: 20rem;
+    width: 15rem;
 }
 .theme_card {
     display: flex;
@@ -633,9 +637,13 @@ NAV {
 .fav_card_btn:hover .icon_svg {
     fill: var(--firstColor);
 }
-.card_img {
+.card_btn .card_img {
     width: 7rem;
     height: 7rem;
+}
+.fav_card .card_img {
+    width: 9rem;
+    height: 9rem;
 }
 .data_card {
     text-align: center;
@@ -801,6 +809,11 @@ NAV {
     margin-top: 1rem;
     font-size: var(--fontSizeN);
 }
+.important_text_modal {
+    font-size: var(--fontSizeG);
+    font-weight: 600;
+    text-align: center;
+}
 /* ^PAGE */
 /* 
 .extra_btn:hover {
@@ -904,10 +917,28 @@ MAIN .img_container {
     position: absolute;
     right: 2rem;
     bottom: 2rem;
+}
+.save_btn .icon_container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    translate: 50% 50%;
+    opacity: 0; /* 
+    z-index: -1; */
+    transition: all 1000ms ease-in-out;
+    user-select: none;
+}
+.save_btn .icon_container .cls-1 {
+    fill: red;
+}
+.save_pokemon_btn {
     background: var(--white);
     border: none;
 }
-.save_btn .icon_svg {
+
+.save_pokemon_btn .icon_svg {
+    user-select: none;
     fill: var(--firstColor);
 }
 .option_list_btns_container {
@@ -1107,6 +1138,9 @@ MAIN .img_container {
     width: fit-content;
     padding: 1rem 2rem;
 }
+#alert_modal_fav .btns_row_container {
+    margin-top: 1rem;
+}
 #edit_personalized_themes_modal .btns_grid_row_container {
     grid-template-columns: repeat(auto-fill, 20rem);
     column-gap: 1rem;
@@ -1125,16 +1159,19 @@ MAIN .img_container {
     HTML {
         --fontSize: 12px;
     }
-
+    .fav_card {
+        width: 18rem;
+    }
     #themes_btns_container {
         max-height: fit-content;
     }
 }
-/* #modal {
+
+/*! QUITA CONFIGURACION PARA EDICION DE CSS - START  */
+/* 
+#modal {
     display: block;
     opacity: 1;
 }
-#edit_personalized_themes_modal {
-    display: block;
-    opacity: 1;
-} */
+*/
+/*! QUITA CONFIGURACION PARA EDICION DE CSS - OVER  */
