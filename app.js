@@ -38,6 +38,7 @@ const langMenuNav = document.querySelector(".lang_menu_nav");
 const langMenuModalStart = document.querySelector("#lang_menu_modal_start");
 const langMenuModalTheme = document.querySelector("#lang_menu_modal_theme");
 const langMenuModalPersonalizedTheme = document.querySelector("#lang_menu_modal_personalized_theme");
+const langMenuModalEditPersonalizedThemes = document.querySelector("#lang_menu_modal_edit_personalized_themes");
 const langMenuModalEditPersonalizedTheme = document.querySelector("#lang_menu_modal_edit_personalized_theme");
 const langMenuModalfav = document.querySelector("#lang_menu_modal_fav");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -135,14 +136,22 @@ const themeActionBtns = document.querySelectorAll(".theme_modal_btn");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const personalizedThemeModal = document.querySelector("#personalized_theme_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const pikerThemeModalBtns = document.querySelectorAll(".piker_theme_modal_btn");
+const pikerPersonalizedThemeModalBtns = document.querySelectorAll(".piker_personalized_theme_modal_btn");
 const deletePersonalizedThemeBtn = document.querySelector("#delete_changes_btn");
-const themeNameInput = document.querySelector("#name_input");
-const colorPikers = document.querySelectorAll(".color_piker");
+const nameInputPersonalizedTheme = document.querySelector("#name_input_perzonalized_theme");
+const colorPikersPersonalizedTheme = document.querySelectorAll(".color_piker_personalized_theme");
 const personalizedActionBtns = document.querySelectorAll(".personalized_action_btn");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const editPersonalizedThemesModal = document.querySelector("#edit_personalized_themes_modal");
 
-const editPersonalizedThemeModal = document.querySelector("#edit_personalized_themes_modal");
+const pikerEditPersonalizedThemeModalBtns = document.querySelectorAll(".piker_edit_personalized_theme_modal_btn");
+const editPersonalizedThemeModal = document.querySelector("#edit_personalized_theme_modal");
+const nameInputEditPersonalizedTheme = document.querySelector("#name_input_edit_personalized_theme");
+const bgColorPikerEditPersonalizedTheme = document.querySelector("#bg_color_piker_edit_personalized_theme");
+const textColorPikerEditPersonalizedTheme = document.querySelector("#text_color_piker_edit_personalized_theme");
+const firstColorPikerEditPersonalizedTheme = document.querySelector("#first_color_piker_edit_personalized_theme");
+const bgAccentPikerEditPersonalizedTheme = document.querySelector("#bg_accent_color_piker_edit_personalized_theme");
+const colorPikersEditPersonalizedTheme = document.querySelectorAll(".color_piker_edit_personalized_theme");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const favModal = document.querySelector("#fav_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -221,10 +230,12 @@ let startModalStatus = close;
 let favModalStatus = close;
 let alertModalFavStatus = close;
 let personalizedThemeModalStatus = close;
+let editPersonalizedThemesModalStatus = close;
 let editPersonalizedThemeModalStatus = close;
 let langMenuNavStatus = close;
 let langMenuModalStartStatus = close;
 let langMenuModalThemeStatus = close;
+let langMenuModalEditPersonalizedThemesStatus = close;
 let langMenuModalEditPersonalizedThemeStatus = close;
 let langMenuModalPersonalizedThemeStatus = close;
 let langMenuModalfavStatus = close;
@@ -249,6 +260,7 @@ let currentPokemon = 1;
 
 let currentDeletingPokemonId = 0;
 let currentDeletingPokemonName = "";
+let currentEditingTheme = "";
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let speciesLink = "";
 let evoChainLink = "";
@@ -528,7 +540,7 @@ const setCurrentColors = () => {
     currentBgAccent = changeToHexa(getBgAccentStyle);
     /* console.log(currentBgColor, currentFirstColor, currentTextColor, currentBgAccent); */
 
-    colorPikers.forEach((btn) => {
+    colorPikersPersonalizedTheme.forEach((btn) => {
         let target = btn.getAttribute("data-name");
         switch (target) {
             case "bgColor":
@@ -544,6 +556,22 @@ const setCurrentColors = () => {
                 btn.value = currentBgAccent;
         }
         /* console.log(btn.value, target); */
+    });
+    colorPikersEditPersonalizedTheme.forEach((btn) => {
+        let target = btn.getAttribute("data-name");
+        switch (target) {
+            case "bgColor":
+                btn.value = currentBgColor;
+                break;
+            case "firstColor":
+                btn.value = currentFirstColor;
+                break;
+            case "textColor":
+                btn.value = currentTextColor;
+                break;
+            case "bgAccent":
+                btn.value = currentBgAccent;
+        }
     });
 };
 const deleteChildElements = (parentElement) => {
@@ -985,7 +1013,12 @@ const createFavCard = async (id, name, types, date, img) => {
         } else if (typeof currentFavCardTypes === "string") {
             cardType.textContent = currentFavCardTypes;
         }
-        cardImg.setAttribute("src", img.default);
+        if (img.default !== null) {
+            cardImg.setAttribute("src", img.default);
+        } else {
+            cardImg.setAttribute("src", img.art);
+        }
+
         cardImg.setAttribute("alt", name);
         searchCardBtn.setAttribute("data-id", id);
         deleteCardBtn.setAttribute("data-id", id);
@@ -1559,6 +1592,15 @@ const langMenuModalActions = (action) => {
             }
             break;
         case "lang_edit_personalized_themes":
+            if (langMenuModalEditPersonalizedThemesStatus === close) {
+                langMenuModalEditPersonalizedThemesStatus = open;
+                openMenu(langMenuModalEditPersonalizedThemes);
+            } else if (langMenuModalEditPersonalizedThemesStatus === open) {
+                langMenuModalEditPersonalizedThemesStatus = close;
+                closeMenu(langMenuModalEditPersonalizedThemes);
+            }
+            break;
+        case "lang_edit_personalized_theme":
             if (langMenuModalEditPersonalizedThemeStatus === close) {
                 langMenuModalEditPersonalizedThemeStatus = open;
                 openMenu(langMenuModalEditPersonalizedTheme);
@@ -1843,7 +1885,6 @@ const changePersonalizedTheme = (tm) => {
 //^^ ************************************************************************** *//
 const deletePersonalizedTheme = () => {
     console.log("borrando edicion de tema personalizado");
-
     BODY.removeAttribute("style");
     setCurrentColors();
 };
@@ -1910,6 +1951,36 @@ const checkStorageAnswer = () => {
 };
 checkStorageAnswer();
 //^^ ************************************************************************** *//
+const themeCardBtnActions = () => {
+    const actionBtns = document.querySelectorAll(".personalized_theme_card_action");
+    actionBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            console.log(btn.getAttribute("data-name"));
+            if (btn.getAttribute("data-name") === "edit_theme") {
+                console.log("editar theme");
+                animationOut(editPersonalizedThemesModal);
+                editPersonalizedThemesModalStatus = close;
+                currentEditingTheme = btn.getAttribute("data-id");
+                storagePokedex[storageThemes].forEach((item) => {
+                    if (item.name === currentEditingTheme) {
+                        console.log(item);
+                        nameInputEditPersonalizedTheme.value = item.name;
+                        bgColorPikerEditPersonalizedTheme.value = item.bgColor;
+                        textColorPikerEditPersonalizedTheme.value = item.textColor;
+                        firstColorPikerEditPersonalizedTheme.value = item.firstColor;
+                        bgAccentPikerEditPersonalizedTheme.value = item.bgAccent;
+                    }
+                });
+                setTimeout(() => {
+                    animationIn(editPersonalizedThemeModal, block);
+                    editPersonalizedThemeModalStatus = open;
+                }, 500);
+            } else if (btn.getAttribute("data-name") === "delete_theme") {
+                console.log("eliminar theme");
+            }
+        });
+    });
+};
 const createThemeCard = (data) => {
     console.log(data);
     let cloneCard = themeCardTemplate.cloneNode(true);
@@ -1918,6 +1989,11 @@ const createThemeCard = (data) => {
     let textColor = cloneCard.querySelector(".text_color_data");
     let accentColor = cloneCard.querySelector(".accent_color_data");
     let menuColor = cloneCard.querySelector(".menu_color_data");
+    let editBtn = cloneCard.querySelector(".edit_personalized_theme_btn");
+    let deleteBtn = cloneCard.querySelector(".delete_personalized_theme_btn");
+
+    editBtn.setAttribute("data-id", data.name);
+    deleteBtn.setAttribute("data-id", data.name);
     nameCard.textContent = data.name;
     backgroundColor.style.background = data.bgColor;
 
@@ -1928,7 +2004,8 @@ const createThemeCard = (data) => {
     menuColor.style.background = data.bgAccent;
     fragmentThemeCards.appendChild(cloneCard);
 };
-const personalizedThemeActionsBtnsActiions = (tm) => {
+const editPersonalizedThemeActions = (tm) => {};
+const personalizedThemeActionsBtnsActions = (tm) => {
     if (tm === "new_theme") {
         oldTheme = BODY.className;
         BODY.className = personalizedT;
@@ -1939,22 +2016,23 @@ const personalizedThemeActionsBtnsActiions = (tm) => {
             animationIn(personalizedThemeModal, block);
             personalizedThemeModalStatus = open;
         }, 1500);
-    } else if (tm === "edit_theme") {
+    } else if (tm === "edit_themes") {
+        oldTheme = BODY.className;
+        BODY.className = personalizedT;
         console.log("checando edit");
         updatePokedex();
         const currentThemes = storagePokedex.page_themes;
         currentThemes.forEach((theme) => {
             createThemeCard(theme);
-            setTimeout(() => {
-                themeCardContainer.appendChild(fragmentThemeCards);
-            }, 500);
         });
-
         animationOut(themeModal);
+        themeModalStatus = close;
         setTimeout(() => {
-            animationIn(editPersonalizedThemeModal, block);
-            editPersonalizedThemeModalStatus = open;
-        }, 1500);
+            themeCardContainer.appendChild(fragmentThemeCards);
+            animationIn(editPersonalizedThemesModal, block);
+            editPersonalizedThemesModalStatus = open;
+            setTimeout(() => themeCardBtnActions(), 500);
+        }, 1000);
     }
 };
 const themeActionsBtnsActions = (action) => {
@@ -1985,6 +2063,75 @@ const themeActionsBtnsActions = (action) => {
         }, 1000);
     }
 };
+//! ********************************************************************** */
+//! YA SE CAMBIA EL ITEM PERO HAY UN BUG DE EDICION DE COLORES, CHECAR CON CALMA  */
+const editPikerThemeActions = (action) => {
+    console.log(action);
+    if (action === cancel) {
+        console.log("Tema personalizado cancelado");
+        deletePersonalizedTheme();
+        BODY.className = oldTheme;
+        animationOut(editPersonalizedThemeModal);
+        editPersonalizedThemeModalStatus = close;
+        setTimeout(() => {
+            animationIn(editPersonalizedThemesModal, block);
+            editPersonalizedThemesModalStatus = open;
+        }, 1000);
+    } else if (action === save) {
+        console.log("Tema personalizado salvado");
+        currentTheme = personalizedT;
+        //¿ ****************************************************  */
+        if (nameInputEditPersonalizedTheme.value !== "") {
+            deleteChildElements(themeCardContainer);
+            deleteArrElements(fragmentThemeCards);
+            console.log(nameInputEditPersonalizedTheme.value);
+
+            storagePokedex[storageThemes].forEach((item) => {
+                if (item.name === currentEditingTheme) {
+                    console.log(item);
+                    item.name = properCase(nameInputEditPersonalizedTheme.value);
+                    item.bgColor = currentBgColor;
+                    item.firstColor = currentFirstColor;
+                    item.textColor = currentTextColor;
+                    item.bgAccent = currentBgAccent;
+
+                    console.log(item);
+                }
+            });
+            savePokedex();
+
+            const currentThemes = storagePokedex[storageThemes];
+            currentThemes.forEach((theme) => {
+                createThemeCard(theme);
+            });
+            createPersonalizedBtns();
+            animationOut(editPersonalizedThemeModal);
+            editPersonalizedThemeModalStatus = close;
+            deletePersonalizedTheme();
+            setTimeout(() => {
+                themeCardContainer.appendChild(fragmentThemeCards);
+                animationIn(editPersonalizedThemesModal, block);
+                editPersonalizedThemesModalStatus = open;
+                setTimeout(() => themeCardBtnActions(), 500);
+            }, 1000);
+        } else {
+            animationOut(personalizedThemeModal);
+            pastModal = personalizedThemeModal;
+            setTimeout(() => {
+                titleAlertModal.textContent = errorText;
+                if (currentLang === es) {
+                    textAlertModal.textContent = esEmptyThemeName;
+                } else if (currentLang === en) {
+                    textAlertModal.textContent = enEmptyThemeName;
+                }
+                animationIn(alertModal, block);
+            }, 1000);
+        }
+
+        //¿ **************************************************** */
+    }
+};
+//! ********************************************************************** */
 const pikerThemeActionBtns = (action) => {
     console.log(action);
     if (action === cancel) {
@@ -1998,10 +2145,10 @@ const pikerThemeActionBtns = (action) => {
     } else if (action === save) {
         console.log("Tema personalizado salvado");
         currentTheme = personalizedT;
-        if (themeNameInput.value !== "") {
-            console.log(themeNameInput.value);
+        if (nameInputPersonalizedTheme.value !== "") {
+            console.log(nameInputPersonalizedTheme.value);
             const newItem = {
-                name: themeNameInput.value,
+                name: nameInputPersonalizedTheme.value,
                 bgColor: currentBgColor,
                 firstColor: currentFirstColor,
                 textColor: currentTextColor,
@@ -2055,11 +2202,11 @@ const closeModal = (action) => {
             personalizedThemeModalStatus = close;
             themeModalStatus = close;
             break;
-        case "close_edit_personalized_theme":
+        case "close_edit_personalized_themes":
             console.log(action);
-            animationOut(editPersonalizedThemeModal);
+            animationOut(editPersonalizedThemesModal);
             setTimeout(() => animationOut(modal), 500);
-            editPersonalizedThemeModalStatus = close;
+            editPersonalizedThemesModalStatus = close;
             themeModalStatus = close;
             break;
     }
@@ -2112,22 +2259,24 @@ const alertModalFavActions = (option) => {
 closeBtns.forEach((btn) => {
     btn.addEventListener("click", () => closeModal(btn.getAttribute("data-name")));
 });
-colorPikers.forEach((btn) => {
+colorPikersPersonalizedTheme.forEach((btn) => {
     btn.addEventListener("input", () => {
         let target = btn.getAttribute("data-name");
         let value = btn.value;
+        console.log(target);
         switch (target) {
             case "bgColor":
                 currentBgColor = value;
-                break;
-            case "firstColor":
-                currentFirstColor = value;
                 break;
             case "textColor":
                 currentTextColor = value;
                 break;
             case "bgAccent":
                 currentBgAccent = value;
+                break;
+            case "firstColor":
+                currentFirstColor = value;
+                break;
         }
         console.log(value, target);
         setTimeout(() => {
@@ -2135,6 +2284,33 @@ colorPikers.forEach((btn) => {
         }, 250);
     });
 });
+//!  PRUEBA DE EDICIION DE TEMAS -- START */
+colorPikersEditPersonalizedTheme.forEach((btn) => {
+    btn.addEventListener("input", () => {
+        let target = btn.getAttribute("data-name");
+        let value = btn.value;
+        console.log(target);
+        switch (target) {
+            case "bgColor":
+                currentBgColor = value;
+                break;
+            case "textColor":
+                currentTextColor = value;
+                break;
+            case "bgAccent":
+                currentBgAccent = value;
+                break;
+            case "firstColor":
+                currentFirstColor = value;
+                break;
+        }
+        console.log(value, target);
+        setTimeout(() => {
+            personalizedProperty(personalizedT, `--${target}`, value);
+        }, 250);
+    });
+});
+//!  PRUEBA DE EDICIION DE TEMAS -- OVER */
 startBtns.forEach((btn) => {
     btn.addEventListener("click", () => startModalActions(btn.getAttribute("data-name")));
 });
@@ -2160,16 +2336,21 @@ themeActionBtns.forEach((btn) => {
     btn.addEventListener("click", () => themeActionsBtnsActions(btn.getAttribute("data-name")));
 });
 personalizedActionBtns.forEach((btn) => {
-    btn.addEventListener("click", () => personalizedThemeActionsBtnsActiions(btn.getAttribute("data-name")));
+    btn.addEventListener("click", () => personalizedThemeActionsBtnsActions(btn.getAttribute("data-name")));
 });
 alertModalFavBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
         alertModalFavActions(btn.getAttribute("data-name"));
     });
 });
-pikerThemeModalBtns.forEach((btn) => {
+pikerPersonalizedThemeModalBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
         pikerThemeActionBtns(btn.getAttribute("data-name"));
+    });
+});
+pikerEditPersonalizedThemeModalBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        editPikerThemeActions(btn.getAttribute("data-name"));
     });
 });
 optionListFavBtns.forEach((btn) => {
@@ -2203,8 +2384,8 @@ acceptBtnAlertModal.addEventListener("click", () => {
     setTimeout(() => animationIn(pastModal, block, 1000));
 });
 cancelEditThemesBtn.addEventListener("click", () => {
-    animationOut(editPersonalizedThemeModal, 500);
-    editPersonalizedThemeModalStatus = close;
+    animationOut(editPersonalizedThemesModal, 500);
+    editPersonalizedThemesModalStatus = close;
     setTimeout(() => {
         animationIn(themeModal, block, 1000);
         themeModalStatus = open;
