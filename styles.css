@@ -947,17 +947,17 @@ MAIN .img_container {
     opacity: 0;
     transition: all 1000ms ease-in-out;
     user-select: none;
+    pointer-events: none;
 }
 .save_btn .icon_container .icon_svg {
     user-select: none;
 }
 .save_btn .icon_container .cls-1 {
-    fill: red;
+    fill: greenyellow;
 }
 .save_pokemon_btn {
     background: var(--white);
     border: none;
-    user-select: none;
 }
 .save_pokemon_btn .icon_svg {
     user-select: none;
@@ -969,7 +969,7 @@ MAIN .img_container {
     left: 0;
     width: 100%;
     max-height: 15rem;
-    overflow-y: scroll;
+    overflow-y: auto;
     z-index: var(--zIndexOptionList);
 }
 .option_list {
@@ -987,7 +987,6 @@ MAIN .img_container {
     overflow: hidden;
     user-select: none;
     transition: var(--transitionF);
-    box-shadow: 2px 2px 0.5rem var(--lightGrayShadow);
 }
 .option_list_btn_search {
     position: relative;

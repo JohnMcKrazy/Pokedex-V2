@@ -68,9 +68,9 @@
             <div class="img_container">
                 <div class="poke_bg">
                     <div class="save_btn">
-                        <div class="icon_container" id="icon_heart">
+                        <div class="icon_container" id="icon_save">
                             <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                <path class="cls-1"" d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228z" />
+                                <path class="cls-1" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                             </svg>
                         </div>
                         <button type="button" class="basic_btn save_pokemon_btn" id="save_pokemon_btn">
@@ -78,7 +78,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="option_list_btns_container" id="search_varieties_btns_container"></div>
+                <div class="option_list_btns_container" id="option_list_varieties_btns_container"></div>
                 <img src="./assets/images/portal.png" alt="" class="animation_spin" id="poke_img" />
             </div>
             <div class="data_container max_width_container">
@@ -698,7 +698,7 @@
     <!--~~LIST OPTION TEMPLATE-->
     <!--~~LIST SELECTOR TEMPLATE-->
     <template id="option_list_template">
-        <div class="option_list bounce" id="option_list_varients">
+        <div class="option_list" id="option_list_varients">
             <button type="button" class="option_list_btn option_list_varients_btn option_list_btn_search" data-name="open-close" id="option_list_search_btn">
                 <span id="option_list_varients_first_text">Variantes</span>
                 <div class="icon_container">

@@ -45,9 +45,9 @@ const langMenuModalfav = document.querySelector("#lang_menu_modal_fav");
 const fragmentListVarieties = document.createDocumentFragment();
 const selectionListTemplate = document.querySelector("#option_list_template").content;
 const optionListVarientTemplate = document.querySelector("#option_list_varients_btn_template").content;
-const searchBtnsContainer = document.querySelector("#search_varieties_btns_container");
+const optionListVarientsBtnsContainer = document.querySelector("#option_list_varieties_btns_container");
 const savePokemonBtn = document.querySelector("#save_pokemon_btn");
-const iconHeart = document.querySelector("#icon_heart");
+const iconSave = document.querySelector("#icon_save");
 const imgContainer = document.querySelector("#img_container");
 
 const btnPrevious = document.querySelector(".previous_btn");
@@ -651,9 +651,14 @@ const next = () => {
             currentPokemon = 1;
             catchEmAll(currentPokemon);
         } else if (currentPokemon >= 10001 && currentPokemon <= 10246) {
-            currentPokemon = afterPokemon;
-            currentPokemon++;
-            catchEmAll(currentPokemon);
+            if (afterPokemon >= 1 && afterPokemon <= 897) {
+                currentPokemon = afterPokemon;
+                currentPokemon++;
+                catchEmAll(currentPokemon);
+            } else if (afterPokemon === 898) {
+                currentPokemon = 1;
+                catchEmAll(currentPokemon);
+            }
         }
     }
 };
@@ -1203,7 +1208,7 @@ const createPokeData = async (data) => {
         }
         deleteArrElements(pokemonTypesEn);
         deleteArrElements(pokemonTypesEs);
-        deleteChildElements(searchBtnsContainer);
+        deleteChildElements(optionListVarientsBtnsContainer);
         deleteChildElements(fragmentListVarieties);
         deleteArrElements(currentPokemonFlavors);
         deleteChildElements(optionListDescriptionsBtnsContainer);
@@ -1262,7 +1267,7 @@ const createPokeData = async (data) => {
             });
 
             fragmentListVarieties.appendChild(newList);
-            searchBtnsContainer.appendChild(fragmentListVarieties);
+            optionListVarientsBtnsContainer.appendChild(fragmentListVarieties);
 
             optionListVarients = document.querySelector("#option_list_varients");
             optionListVarientsArrow = document.querySelector("#arrow_btn_option_list_varients_svg");
@@ -1281,6 +1286,19 @@ const createPokeData = async (data) => {
                     }
                 });
             });
+
+            const timingAnimations = {
+                duration: 750,
+                iterations: 4,
+                direction: "alternate",
+                delay: 500,
+                easeing: "ease-in-out",
+            };
+            const movementVarientsContainer = [{ top: "6rem" }, { top: "9rem" }];
+
+            const movementVarientList = [{ background: "none" }, { background: "yellow" }];
+            optionListVarientsBtnsContainer.animate(movementVarientsContainer, timingAnimations);
+            optionListVarients.animate(movementVarientList, timingAnimations);
         } else if (varieties.length === 1) {
             /* console.log("este pokemon no tiene variantes"); */
         }
@@ -1686,13 +1704,13 @@ const configMenuOptions = (option) => {
 const savePokemonFav = () => {
     const savedAnimation = () => {
         console.log("animacion de corazon");
-        iconHeart.style.translate = "50% -110%";
-        iconHeart.style.scale = "1.5";
-        iconHeart.style.opacity = "1";
+        iconSave.style.translate = "50% -110%";
+        iconSave.style.scale = "1.5";
+        iconSave.style.opacity = "1";
         setTimeout(() => {
-            iconHeart.style.translate = "50% 50%";
-            iconHeart.style.opacity = "0";
-            iconHeart.style.scale = "1";
+            iconSave.style.translate = "50% 50%";
+            iconSave.style.opacity = "0";
+            iconSave.style.scale = "1";
         }, 1000);
     };
     console.log("preparando salvar pokemon function");
