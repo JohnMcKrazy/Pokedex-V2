@@ -648,13 +648,11 @@ const next = () => {
             currentPokemon++;
             catchEmAll(currentPokemon);
         } else if (currentPokemon === 898) {
-            currentPokemon = 10001;
+            currentPokemon = 1;
             catchEmAll(currentPokemon);
         } else if (currentPokemon >= 10001 && currentPokemon <= 10246) {
+            currentPokemon = afterPokemon;
             currentPokemon++;
-            catchEmAll(currentPokemon);
-        } else if (currentPokemon === 10247) {
-            currentPokemon = 1;
             catchEmAll(currentPokemon);
         }
     }
@@ -683,17 +681,15 @@ const previous = () => {
         currentPokemon = 898;
         catchEmAll(currentPokemon);
     } else if (itsFirstPokemonSearch === false) {
-        if (currentPokemon >= 10002 && currentPokemon <= 10247) {
-            currentPokemon--;
-            catchEmAll(currentPokemon);
-        } else if (currentPokemon === 10001) {
-            currentPokemon = 898;
-            catchEmAll(currentPokemon);
-        } else if (currentPokemon >= 2 && currentPokemon <= 898) {
+        if (currentPokemon >= 2 && currentPokemon <= 898) {
             currentPokemon--;
             catchEmAll(currentPokemon);
         } else if (currentPokemon === 1) {
-            currentPokemon = 10247;
+            currentPokemon = 898;
+            catchEmAll(currentPokemon);
+        } else if (currentPokemon >= 10001 && currentPokemon <= 10246) {
+            currentPokemon = afterPokemon;
+            currentPokemon--;
             catchEmAll(currentPokemon);
         }
     }
@@ -1199,6 +1195,7 @@ const optionListDescriptionsActions = (status) => {
         closeOptionList("option_list_descriptions");
     }
 };
+let afterPokemon = "";
 const createPokeData = async (data) => {
     if (data) {
         if (optionListDescriptionsStatus === open) {
@@ -1279,6 +1276,7 @@ const createPokeData = async (data) => {
                         optionListVarientsActions(optionListVarientsStatus);
                     } else if (actionName === "item") {
                         optionListVarientsActions(optionListVarientsStatus);
+                        afterPokemon = data.id;
                         catchEmAll(btn.id);
                     }
                 });

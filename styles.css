@@ -27,6 +27,7 @@ HTML {
     --blackOff: rgb(38, 38, 38);
     --whiteOff: rgb(217, 217, 217);
     --midLight: rgb(128, 128, 128);
+    --whiteOffT: rgb(217, 217, 217, 0.6);
     /*¿FONTS START  */
     /*¿ FONT SIZES--START */
     --fontSizeXL: 4rem;
@@ -401,6 +402,24 @@ NAV {
     width: 100%;
     height: var(--navHeight);
     z-index: var(--zIndexNav);
+}
+@keyframes Bounce {
+    0% {
+        translate: 0 0;
+        background: yellow;
+    }
+    50% {
+        translate: 0 100%;
+        background: var(--whiteOff);
+        border-color: transparent;
+    }
+    100% {
+        translate: 0 0;
+        background: yellow;
+    }
+}
+.bounce {
+    animation: Bounce 1.5s 2;
 }
 .content {
     min-width: 280px;
@@ -916,6 +935,7 @@ MAIN .img_container {
 .save_btn {
     position: absolute;
     right: 2rem;
+    z-index: 10;
     bottom: 2rem;
 }
 .save_btn .icon_container {
@@ -924,9 +944,11 @@ MAIN .img_container {
     justify-content: center;
     align-items: center;
     translate: 50% 50%;
-    opacity: 0; /* 
-    z-index: -1; */
+    opacity: 0;
     transition: all 1000ms ease-in-out;
+    user-select: none;
+}
+.save_btn .icon_container .icon_svg {
     user-select: none;
 }
 .save_btn .icon_container .cls-1 {
@@ -935,8 +957,8 @@ MAIN .img_container {
 .save_pokemon_btn {
     background: var(--white);
     border: none;
+    user-select: none;
 }
-
 .save_pokemon_btn .icon_svg {
     user-select: none;
     fill: var(--firstColor);
@@ -946,6 +968,8 @@ MAIN .img_container {
     top: 6rem;
     left: 0;
     width: 100%;
+    max-height: 15rem;
+    overflow-y: scroll;
     z-index: var(--zIndexOptionList);
 }
 .option_list {
@@ -973,8 +997,8 @@ MAIN .img_container {
     align-items: center;
     text-align: center;
     padding: 0.5rem 1rem;
-    color: var(--textColor);
-    background: var(--bgAccent);
+    color: var(--blackOff);
+    background: var(--whiteOffT);
     height: 3rem;
     width: 100%;
     cursor: pointer;
@@ -985,8 +1009,8 @@ MAIN .img_container {
     align-items: center;
     text-align: center;
     padding: 0.5rem 1rem;
-    color: var(--textColor);
-    background: var(--bgAccent);
+    color: var(--blackOff);
+    background: var(--whiteOffT);
     min-height: 3rem;
     width: 100%;
     /* z-index: 10; */
@@ -1066,8 +1090,8 @@ MAIN .img_container {
     align-items: center;
     gap: 2rem;
     min-width: 22.5rem;
-    width: 70%;
-    max-width: 80rem;
+    width: 100%;
+    max-width: 40rem;
     margin: 4rem auto 0;
 }
 .position_btns_row_container h1 {
@@ -1075,8 +1099,8 @@ MAIN .img_container {
     font-size: var(--fontSizeL);
 }
 .position_btn {
-    width: 3rem;
-    height: 3rem;
+    width: 6rem;
+    height: 4rem;
 }
 .position_btn .icon_svg {
     width: 100%;
@@ -1133,6 +1157,9 @@ MAIN .img_container {
 #fav_modal .btns_row_container,
 #fav_modal .btns_row_center {
     height: 3rem;
+}
+#fav_modal .option_list_btns_container {
+    overflow-y: auto;
 }
 #alert_modal_fav {
     width: fit-content;
