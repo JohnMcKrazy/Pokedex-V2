@@ -20,7 +20,7 @@ const personalizedBtnsContainer = document.querySelector("#personalized_themes_b
 const themeCardTemplate = document.querySelector("#theme_card_template").content;
 const fragmentThemeCards = document.createDocumentFragment();
 
-const themeCardContainer = document.querySelector("#personalized_theme_cards_container");
+const themeCardsContainer = document.querySelector("#personalized_theme_cards_container");
 const cancelEditThemesBtn = document.querySelector("#cancel_edit_themes_btn");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const navConfigBtns = document.querySelectorAll(".config_menu_btn_action");
@@ -129,7 +129,7 @@ const textInnerAlertModal = document.querySelector("#text_inner_alert_modal");
 const extraModal = document.querySelector("#extra_modal");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const themeModal = document.querySelector("#theme_modal");
+const themesModal = document.querySelector("#themes_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const themeActionBtns = document.querySelectorAll(".theme_modal_btn");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -141,6 +141,16 @@ const deletePersonalizedThemeBtn = document.querySelector("#delete_changes_btn")
 const nameInputPersonalizedTheme = document.querySelector("#name_input_perzonalized_theme");
 const colorPikersPersonalizedTheme = document.querySelectorAll(".color_piker_personalized_theme");
 const personalizedActionBtns = document.querySelectorAll(".personalized_action_btn");
+const newThemeModalBtn = document.querySelector("#new_theme_modal_btn");
+const editThemeModalBtn = document.querySelector("#edit_theme_modal_btn");
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+const modalEditThemes = document.querySelector("#modal_edit_themes");
+const alertModalEditThemes = document.querySelector("#alert_modal_edit_themes");
+const langMenuModalEditThemesAlert = document.querySelector("#lang_menu_modal_edit_themes_alert");
+const alertModalEditThemesBtns = document.querySelectorAll(".alert_modal_edit_themes_alert_btn");
+const nameAlertModalEditThemes = document.querySelector("#name_modal_edit_themes_alert");
+
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const editPersonalizedThemesModal = document.querySelector("#edit_personalized_themes_modal");
 
@@ -162,10 +172,10 @@ const favListFirstBtnText = document.querySelector("#option_list_fav_first_text"
 
 const modalFav = document.querySelector("#modal_fav");
 const alertModalFav = document.querySelector("#alert_modal_fav");
-const langMenuModalfavAlert = document.querySelector("#lang_menu_modal_fav_alert");
+const langMenuModalFavAlert = document.querySelector("#lang_menu_modal_fav_alert");
 const alertModalFavBtns = document.querySelectorAll(".alert_modal_fav_alert_btn");
-const nameAlertModalFav = document.querySelector("#pokemon_name_modal_fav_alert");
-const idAlertModalFav = document.querySelector("#pokemon_id_modal_fav_alert");
+const nameAlertModalFav = document.querySelector("#name_modal_fav_alert");
+const idAlertModalFav = document.querySelector("#id_modal_fav_alert");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //! |||||||||||||||||||||||||||||||//
 //!  BASIC VARIABLES AND CONSTANTS //
@@ -229,6 +239,7 @@ let alertModalStatus = close;
 let startModalStatus = close;
 let favModalStatus = close;
 let alertModalFavStatus = close;
+let alertModalEditThemesStatus = close;
 let personalizedThemeModalStatus = close;
 let editPersonalizedThemesModalStatus = close;
 let editPersonalizedThemeModalStatus = close;
@@ -260,7 +271,7 @@ let currentPokemon = 1;
 
 let currentDeletingPokemonId = 0;
 let currentDeletingPokemonName = "";
-let currentEditingTheme = "";
+let currentDeletingTheme = "";
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let speciesLink = "";
 let evoChainLink = "";
@@ -763,6 +774,17 @@ const changeLang = (lang) => {
         typeOptioListFavBtn.textContent = "Tipo";
         acceptBtnStartModal.textContent = "Aceptar";
         deniedBtnStartModal.textContent = "Rechazar";
+        newThemeModalBtn.innerHTML = `Nuevo<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <title>Nuevo Tema Personalizado</title>
+        <path
+            class="cls-1"
+            d="M12 2c5.522 0 10 3.978 10 8.889a5.558 5.558 0 0 1-5.556 5.555h-1.966c-.922 0-1.667.745-1.667 1.667 0 .422.167.811.422 1.1.267.3.434.689.434 1.122C13.667 21.256 12.9 22 12 22 6.478 22 2 17.522 2 12S6.478 2 12 2zm-1.189 16.111a3.664 3.664 0 0 1 3.667-3.667h1.966A3.558 3.558 0 0 0 20 10.89C20 7.139 16.468 4 12 4a8 8 0 0 0-.676 15.972 3.648 3.648 0 0 1-.513-1.86zM7.5 12a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm9 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM12 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
+        />
+    </svg>`;
+        editThemeModalBtn.innerHTML = `Editar<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <title>Editar Tema Personalizado</title>
+        <path class="cls-1" d="M5 19h1.414l9.314-9.314-1.414-1.414L5 17.586V19zm16 2H3v-4.243L16.435 3.322a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414L9.243 19H21v2zM15.728 6.858l1.414 1.414 1.414-1.414-1.414-1.414-1.414 1.414z" />
+    </svg>`;
     } else if (lang === en) {
         currentLang = en;
         console.log("cambiando idioma a ingles");
@@ -788,6 +810,17 @@ const changeLang = (lang) => {
         typeOptioListFavBtn.textContent = "Type";
         acceptBtnStartModal.textContent = "Accept";
         deniedBtnStartModal.textContent = "Denied";
+        newThemeModalBtn.innerHTML = `New<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <title>New Personalized theme</title>
+        <path
+            class="cls-1"
+            d="M12 2c5.522 0 10 3.978 10 8.889a5.558 5.558 0 0 1-5.556 5.555h-1.966c-.922 0-1.667.745-1.667 1.667 0 .422.167.811.422 1.1.267.3.434.689.434 1.122C13.667 21.256 12.9 22 12 22 6.478 22 2 17.522 2 12S6.478 2 12 2zm-1.189 16.111a3.664 3.664 0 0 1 3.667-3.667h1.966A3.558 3.558 0 0 0 20 10.89C20 7.139 16.468 4 12 4a8 8 0 0 0-.676 15.972 3.648 3.648 0 0 1-.513-1.86zM7.5 12a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm9 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM12 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
+        />
+    </svg>`;
+        editThemeModalBtn.innerHTML = `Edit<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <title>Edit Personalized theme</title>
+        <path class="cls-1" d="M5 19h1.414l9.314-9.314-1.414-1.414L5 17.586V19zm16 2H3v-4.243L16.435 3.322a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414L9.243 19H21v2zM15.728 6.858l1.414 1.414 1.414-1.414-1.414-1.414-1.414 1.414z" />
+    </svg>`;
     }
     if (favModalStatus === open) {
         deleteChildElements(fragmentFavCards);
@@ -1089,7 +1122,7 @@ const createEvoChainBtns = async (speciesLink) => {
                 createEvoCard(evoTypeId, evoTypeName, evoTypeTypes, evoTypeImg);
                 setTimeout(() => {
                     evoCardsContainer.appendChild(fragmentEvoCards);
-                }, 100);
+                }, 500);
                 const nextEvoData = specie.evolves_to;
                 evoTypesCount++;
                 if (nextEvoData) {
@@ -1182,14 +1215,13 @@ const createEvoChainBtns = async (speciesLink) => {
         }
         setTimeout(() => {
             const cardBtns = document.querySelectorAll(".card_btn");
-
-            cardBtns.forEach((btn) => {
-                btn.addEventListener("click", async () => {
-                    catchEmAll(btn.getAttribute("data-name"));
+            for (let i = 0; i < cardBtns.length; i++) {
+                cardBtns[i].addEventListener("click", async () => {
+                    catchEmAll(cardBtns[i].getAttribute("data-name"));
                 });
-            });
-        }, 500);
-    }, 100);
+            }
+        }, 1000);
+    }, 250);
 };
 const optionListDescriptionsActions = (status) => {
     if (status === close) {
@@ -1640,10 +1672,10 @@ const langMenuModalActions = (action) => {
         case "lang_fav_alert":
             if (langMenuModalfavAlertStatus === close) {
                 langMenuModalfavAlertStatus = open;
-                openMenu(langMenuModalfavAlert);
+                openMenu(langMenuModalFavAlert);
             } else if (langMenuModalfavAlertStatus === open) {
                 langMenuModalfavAlertStatus = close;
-                closeMenu(langMenuModalfavAlert);
+                closeMenu(langMenuModalFavAlert);
             }
             break;
     }
@@ -1803,10 +1835,10 @@ const themeMenuActions = () => {
         oldTheme = BODY.className;
         themeModalStatus = open;
         animationIn(modal, flex, 500);
-        setTimeout(() => animationIn(themeModal, block, 500), 1500);
+        setTimeout(() => animationIn(themesModal, block, 500), 1500);
     } else if (themeModalStatus === open) {
         themeModalStatus = close;
-        animationOut(themeModal, 500);
+        animationOut(themesModal, 500);
         setTimeout(() => {
             animationOut(modal, 1000);
         }, 1500);
@@ -1993,6 +2025,16 @@ const themeCardBtnActions = () => {
                 }, 500);
             } else if (btn.getAttribute("data-name") === "delete_theme") {
                 console.log("eliminar theme");
+                //! */
+                currentDeletingTheme = btn.getAttribute("data-id");
+                nameAlertModalEditThemes.textContent = btn.getAttribute("data-id");
+                animationIn(modalEditThemes, flex, 500);
+                setTimeout(() => {
+                    animationIn(alertModalEditThemes, block, 500);
+                    alertModalEditThemesStatus = open;
+                }, 1500);
+
+                //! */
             }
         });
     });
@@ -2026,7 +2068,7 @@ const personalizedThemeActionsBtnsActions = (tm) => {
         oldTheme = BODY.className;
         BODY.className = personalizedT;
         setCurrentColors();
-        animationOut(themeModal);
+        animationOut(themesModal);
         themeModalStatus = close;
         setTimeout(() => {
             animationIn(personalizedThemeModal, block);
@@ -2041,10 +2083,10 @@ const personalizedThemeActionsBtnsActions = (tm) => {
         currentThemes.forEach((theme) => {
             createThemeCard(theme);
         });
-        animationOut(themeModal);
+        animationOut(themesModal);
         themeModalStatus = close;
         setTimeout(() => {
-            themeCardContainer.appendChild(fragmentThemeCards);
+            themeCardsContainer.appendChild(fragmentThemeCards);
             animationIn(editPersonalizedThemesModal, block);
             editPersonalizedThemesModalStatus = open;
             setTimeout(() => themeCardBtnActions(), 500);
@@ -2057,7 +2099,7 @@ const themeActionsBtnsActions = (action) => {
         deletePersonalizedTheme();
     } else if (action === "try") {
         themeModalStatus = close;
-        animationOut(themeModal);
+        animationOut(themesModal);
         setTimeout(() => {
             animationOut(modal);
         }, 1000);
@@ -2065,7 +2107,7 @@ const themeActionsBtnsActions = (action) => {
         themeModalStatus = close;
         BODY.className = oldTheme;
         deletePersonalizedTheme();
-        animationOut(themeModal);
+        animationOut(themesModal);
         setTimeout(() => {
             animationOut(modal);
         }, 1000);
@@ -2073,7 +2115,7 @@ const themeActionsBtnsActions = (action) => {
         themeModalStatus = close;
         storagePokedex[storageThemeSaved] = currentPersonilizedTheme;
         savePokedex();
-        animationOut(themeModal);
+        animationOut(themesModal);
         setTimeout(() => {
             animationOut(modal);
         }, 1000);
@@ -2098,7 +2140,7 @@ const editPikerThemeActions = (action) => {
         currentTheme = personalizedT;
         //¿ ****************************************************  */
         if (nameInputEditPersonalizedTheme.value !== "") {
-            deleteChildElements(themeCardContainer);
+            deleteChildElements(themeCardsContainer);
             deleteArrElements(fragmentThemeCards);
             console.log(nameInputEditPersonalizedTheme.value);
 
@@ -2125,7 +2167,7 @@ const editPikerThemeActions = (action) => {
             editPersonalizedThemeModalStatus = close;
             deletePersonalizedTheme();
             setTimeout(() => {
-                themeCardContainer.appendChild(fragmentThemeCards);
+                themeCardsContainer.appendChild(fragmentThemeCards);
                 animationIn(editPersonalizedThemesModal, block);
                 editPersonalizedThemesModalStatus = open;
                 setTimeout(() => themeCardBtnActions(), 500);
@@ -2156,7 +2198,7 @@ const pikerThemeActionBtns = (action) => {
         BODY.className = oldTheme;
         animationOut(personalizedThemeModal);
         setTimeout(() => {
-            animationIn(themeModal, block);
+            animationIn(themesModal, block);
         }, 1000);
     } else if (action === save) {
         console.log("Tema personalizado salvado");
@@ -2176,7 +2218,7 @@ const pikerThemeActionBtns = (action) => {
             savePokedex();
             animationOut(personalizedThemeModal);
             setTimeout(() => {
-                animationIn(themeModal, block);
+                animationIn(themesModal, block);
             }, 1000);
         } else {
             animationOut(personalizedThemeModal);
@@ -2205,7 +2247,7 @@ const closeModal = (action) => {
             break;
         case "close_theme":
             console.log(action);
-            animationOut(themeModal);
+            animationOut(themesModal);
             setTimeout(() => animationOut(modal), 500);
             themeModalStatus = close;
             break;
@@ -2224,6 +2266,48 @@ const closeModal = (action) => {
             setTimeout(() => animationOut(modal), 500);
             editPersonalizedThemesModalStatus = close;
             themeModalStatus = close;
+            break;
+    }
+};
+const alertModalEditThemesActions = (option) => {
+    switch (option) {
+        case "accept_modal_edit_themes":
+            deleteChildElements(fragmentThemeCards);
+            deleteChildElements(themeCardsContainer);
+            console.log(currentDeletingTheme);
+            const newThemes = [];
+
+            storagePokedex[storageThemes].forEach((item) => {
+                if (item.name !== currentDeletingTheme) {
+                    newThemes.push(item);
+                }
+            });
+
+            setTimeout(() => {
+                console.log(newThemes);
+                storagePokedex[storageThemes] = newThemes;
+                const currentThemes = storagePokedex[storageThemes];
+                currentThemes.forEach((theme) => {
+                    createThemeCard(theme);
+                });
+                savePokedex();
+                animationOut(alertModalEditThemes);
+                alertModalEditThemesStatus = close;
+                setTimeout(() => {
+                    themeCardsContainer.appendChild(fragmentThemeCards);
+
+                    animationOut(modalEditThemes);
+                }, 1000);
+            }, 500);
+            console.log(option);
+            break;
+        case "cancel_modal_edit_themes":
+            console.log(option);
+            animationOut(alertModalEditThemes);
+            alertModalEditThemesStatus = close;
+            setTimeout(() => {
+                animationOut(modalEditThemes);
+            });
             break;
     }
 };
@@ -2354,6 +2438,11 @@ themeActionBtns.forEach((btn) => {
 personalizedActionBtns.forEach((btn) => {
     btn.addEventListener("click", () => personalizedThemeActionsBtnsActions(btn.getAttribute("data-name")));
 });
+alertModalEditThemesBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        alertModalEditThemesActions(btn.getAttribute("data-name"));
+    });
+});
 alertModalFavBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
         alertModalFavActions(btn.getAttribute("data-name"));
@@ -2403,7 +2492,7 @@ cancelEditThemesBtn.addEventListener("click", () => {
     animationOut(editPersonalizedThemesModal, 500);
     editPersonalizedThemesModalStatus = close;
     setTimeout(() => {
-        animationIn(themeModal, block, 1000);
+        animationIn(themesModal, block, 1000);
         themeModalStatus = open;
     }, 1500);
 });

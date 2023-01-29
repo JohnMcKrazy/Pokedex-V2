@@ -403,24 +403,6 @@ NAV {
     height: var(--navHeight);
     z-index: var(--zIndexNav);
 }
-@keyframes Bounce {
-    0% {
-        translate: 0 0;
-        background: yellow;
-    }
-    50% {
-        translate: 0 100%;
-        background: var(--whiteOff);
-        border-color: transparent;
-    }
-    100% {
-        translate: 0 0;
-        background: yellow;
-    }
-}
-.bounce {
-    animation: Bounce 1.5s 2;
-}
 .content {
     min-width: 280px;
     width: 1200px;
@@ -503,6 +485,15 @@ NAV {
     background: yellow;
     z-index: var(--zIndexDB);
 }
+.theme_btn {
+    width: 90%;
+    justify-content: space-between;
+    align-items: center;
+}
+.personalized_theme_btn {
+    width: 90%;
+    justify-content: center;
+}
 .btn_container {
     display: flex;
     justify-content: center;
@@ -524,6 +515,8 @@ NAV {
     justify-content: space-between;
     align-items: center;
     gap: 0.5rem;
+    margin-top: 1rem;
+    width: 100%;
 }
 .btns_row_center {
     display: flex;
@@ -534,10 +527,9 @@ NAV {
 }
 .btns_grid_row_container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 18rem);
-    justify-content: center;
-    row-gap: 1rem;
-    padding: 0.25rem;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 1rem;
 }
 .btns_column_container {
     display: flex;
@@ -573,10 +565,12 @@ NAV {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: 0.5rem;
     height: fit-content;
-    margin-bottom: 0.5rem;
+    padding: 2rem 0;
+    max-height: calc(100vh - 16rem);
+    overflow-y: auto;
 }
 .section_subtitle {
     text-align: center;
@@ -598,15 +592,16 @@ NAV {
 }
 .fav_card {
     position: relative;
-    height: 20rem;
-    width: 15rem;
+    height: fit-content;
+    width: 100%;
+    justify-content: space-between;
 }
 .theme_card {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 20rem;
+    width: 100%;
     padding: 0.5rem 1.5rem;
     background: var(--bgAccent);
 }
@@ -626,20 +621,15 @@ NAV {
     color: var(--firstColor);
     margin-bottom: 1rem;
 }
-.theme_card .btns_row_container {
-    width: 100%;
-}
 .card_btn .accent_color,
 .fav_card .accent_color {
     font-size: var(--fontSizeS);
     font-weight: 600;
 }
 .fav_card .btns_row_container {
-    position: absolute;
     width: calc(100% - 1rem);
-    bottom: 0.5rem;
-    left: 50%;
-    translate: -50% 0;
+
+    margin-bottom: 0.5rem;
 }
 .card_btn .data_card,
 .fav_card .data_card {
@@ -917,7 +907,7 @@ MAIN .img_container {
     bottom: -8rem;
     left: 50%;
     min-width: 20rem;
-    width: 30rem;
+    width: 28rem;
     max-width: 80%;
     translate: -50% 0;
     object-fit: contain;
@@ -1139,7 +1129,6 @@ MAIN .img_container {
     max-height: 30vh;
     height: fit-content;
     overflow-y: auto;
-    grid-template-columns: repeat(auto-fill, 14rem);
 }
 #theme_btns_container {
     min-height: 200px;
@@ -1164,13 +1153,9 @@ MAIN .img_container {
     width: fit-content;
     padding: 1rem 2rem;
 }
-#alert_modal_fav .btns_row_container {
-    margin-top: 1rem;
-}
-#edit_personalized_themes_modal .btns_grid_row_container {
-    grid-template-columns: repeat(auto-fill, 20rem);
-    column-gap: 1rem;
-    margin-bottom: 2rem;
+#fav_modal,
+#edit_personalized_themes_modal {
+    overflow: hidden;
 }
 @media screen and (min-width: 420px) {
     HTML {
@@ -1180,7 +1165,24 @@ MAIN .img_container {
         height: 32rem;
     }
 }
-
+@media screen and (min-width: 440px) {
+    .fav_card {
+        width: 15rem;
+    }
+}
+@media screen and (min-width: 520px) {
+    .btns_grid_row_container {
+        grid-template-columns: repeat(auto-fill, 18rem);
+        justify-content: center;
+        row-gap: 1rem;
+        padding: 0.25rem;
+    }
+}
+@media screen and (min-width: 550px) {
+    .theme_card {
+        width: 20rem;
+    }
+}
 @media screen and (min-width: 900px) {
     HTML {
         --fontSize: 12px;

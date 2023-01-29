@@ -37,12 +37,7 @@
                     </button>
                     <div class="btns_column_container" id="config_menu">
                         <button type="button" class="config_btn config_menu_btn_action" id="fav_btn" data-name="fav">
-                            <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                <path
-                                    class="cls-1"
-                                    d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228zm6.826 1.641c-1.5-1.502-3.92-1.563-5.49-.153l-1.335 1.198-1.336-1.197c-1.575-1.412-3.99-1.35-5.494.154-1.49 1.49-1.565 3.875-.192 5.451L12 18.654l7.02-7.03c1.374-1.577 1.299-3.959-.193-5.454z"
-                                />
-                            </svg>
+                            <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="cls-1" d="M7 19v-6h10v6h2V7.828L16.172 5H5v14h2zM4 3h13l4 4v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm5 12v4h6v-4H9z" /></svg>
                         </button>
                         <button type="button" class="config_btn config_menu_btn_action" id="themes_menu_btn" data-name="theme">
                             <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="cls-1" d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0-2V6a6 6 0 1 1 0 12z" /></svg>
@@ -178,9 +173,9 @@
                     <button type="button" class="btn more_btn" id="more_alert_modal_btn">No entiendo</button>
                 </div>
             </div>
-            <div class="modal_content" id="theme_modal">
+            <div class="modal_content" id="themes_modal">
                 <div class="btns_column_container lang_menu_container modal_action_btn">
-                    <button type="button" class="lang_modal_btn lang_menu_modal_btn" data-name="lang_theme">
+                    <button type="button" class="lang_modal_btn lang_menu_modal_btn" data-name="lang_themes">
                         <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                             <title>Languaje</title>
                             <path
@@ -189,7 +184,7 @@
                             />
                         </svg>
                     </button>
-                    <div class="btns_column_container lang_menu_modal" id="lang_menu_modal_theme">
+                    <div class="btns_column_container lang_menu_modal" id="lang_menu_modal_themes">
                         <button type="button" class="lang_modal_btn lang_modal_action_btn" data-name="es">Es</button>
 
                         <button type="button" class="lang_modal_btn lang_modal_action_btn" data-name="en">En</button>
@@ -200,7 +195,7 @@
                         <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="cls-1" d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" /></svg>
                     </button>
                 </div>
-                <h1 class="title_modal" id="title_start_modal">Selecciona tu Tema</h1>
+                <h1 class="title_modal" id="title_themes_modal">Selecciona tu Tema</h1>
                 <div class="btns_grid_row_container" id="themes_btns_container">
                     <button type="button" class="btn basic_btn theme_btn" data-name="light_theme">
                         Tema Claro
@@ -370,11 +365,11 @@
                     </button>
                 </div>
                 <div class="divider"></div>
-                <h2 class="subtitle_modal" id="subtitle_start_modal">Temas personalizados</h2>
+                <h2 class="subtitle_modal" id="subtitle_themes_modal">Temas personalizados</h2>
                 <div class="btns_grid_row_container" id="personalized_themes_btns_container"></div>
                 <div class="btns_row_container">
-                    <button type="button" class="btn action_btn personalized_action_btn" data-name="new_theme">
-                        Nuevo Tema Personalizado
+                    <button type="button" class="btn action_btn personalized_action_btn" id="new_theme_modal_btn" data-name="new_theme">
+                        Nuevo
                         <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                             <title>Nuevo Tema Personalizado</title>
                             <path
@@ -384,7 +379,7 @@
                         </svg>
                     </button>
                     <button type="button" class="btn action_btn personalized_action_btn" id="edit_theme_modal_btn" data-name="edit_themes">
-                        Editar Temas
+                        Editar
                         <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                             <title>Editar Tema Personalizado</title>
                             <path class="cls-1" d="M5 19h1.414l9.314-9.314-1.414-1.414L5 17.586V19zm16 2H3v-4.243L16.435 3.322a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414L9.243 19H21v2zM15.728 6.858l1.414 1.414 1.414-1.414-1.414-1.414-1.414 1.414z" />
@@ -394,10 +389,10 @@
                 <div class="divider"></div>
 
                 <div class="btns_row_container">
-                    <button type="button" class="btn theme_modal_btn" id="try_theme_modal_btn" data-name="try">Probar Tema</button>
-                    <button type="button" class="btn theme_modal_btn" id="accept_theme_modal_btn" data-name="save">Salvar Tema</button>
-                    <button type="button" class="btn theme_modal_btn" id="delete_theme_modal_btn" data-name="delete">Borrar Cambios</button>
-                    <button type="button" class="btn theme_modal_btn" id="denied_theme_modal_btn" data-name="cancel">Cancelar Cambios</button>
+                    <button type="button" class="btn theme_modal_btn" id="try_theme_modal_btn" data-name="try">Probar</button>
+                    <button type="button" class="btn theme_modal_btn" id="accept_theme_modal_btn" data-name="save">Salvar</button>
+                    <button type="button" class="btn theme_modal_btn" id="delete_theme_modal_btn" data-name="delete">Borrar</button>
+                    <button type="button" class="btn theme_modal_btn" id="denied_theme_modal_btn" data-name="cancel">Cancelar</button>
                 </div>
             </div>
             <div class="modal_content" id="personalized_theme_modal">
@@ -471,7 +466,7 @@
                 </div>
 
                 <h1 class="title_modal" id="title_edit_personalized_themes_modal">Editar Temas Personalizados</h1>
-                <div class="btns_grid_row_container" id="personalized_theme_cards_container"></div>
+                <div class="cards_row_container" id="personalized_theme_cards_container"></div>
                 <div class="btn_container_right">
                     <button type="button" class="btn" id="cancel_edit_themes_btn">Cancelar</button>
                 </div>
@@ -583,36 +578,65 @@
                     <div class="btns_row_center"></div>
                 </div>
                 <div class="cards_row_container" id="fav_cards_container"></div>
-                <div class="modal" id="modal_fav">
-                    <div class="modal_content" id="alert_modal_fav">
-                        <div class="btns_column_container lang_menu_container modal_action_btn">
-                            <button type="button" class="lang_modal_btn lang_menu_modal_btn" id="lang_btn_modal_fav_alert" data-name="lang_fav_alert">
-                                <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                    <title>Languaje</title>
-                                    <path
-                                        class="cls-1"
-                                        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-2.29-2.333A17.9 17.9 0 0 1 8.027 13H4.062a8.008 8.008 0 0 0 5.648 6.667zM10.03 13c.151 2.439.848 4.73 1.97 6.752A15.905 15.905 0 0 0 13.97 13h-3.94zm9.908 0h-3.965a17.9 17.9 0 0 1-1.683 6.667A8.008 8.008 0 0 0 19.938 13zM4.062 11h3.965A17.9 17.9 0 0 1 9.71 4.333 8.008 8.008 0 0 0 4.062 11zm5.969 0h3.938A15.905 15.905 0 0 0 12 4.248 15.905 15.905 0 0 0 10.03 11zm4.259-6.667A17.9 17.9 0 0 1 15.973 11h3.965a8.008 8.008 0 0 0-5.648-6.667z"
-                                    />
-                                </svg>
-                            </button>
-                            <div class="btns_column_container lang_menu_modal" id="lang_menu_modal_fav_alert">
-                                <button type="button" class="lang_modal_btn lang_modal_action_btn" data-name="es">Es</button>
+            </div>
+        </div>
+        <div class="modal" id="modal_fav">
+            <div class="modal_content" id="alert_modal_fav">
+                <div class="btns_column_container lang_menu_container modal_action_btn">
+                    <button type="button" class="lang_modal_btn lang_menu_modal_btn" id="lang_btn_modal_fav_alert" data-name="lang_modal_fav_alert">
+                        <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <title>Languaje</title>
+                            <path
+                                class="cls-1"
+                                d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-2.29-2.333A17.9 17.9 0 0 1 8.027 13H4.062a8.008 8.008 0 0 0 5.648 6.667zM10.03 13c.151 2.439.848 4.73 1.97 6.752A15.905 15.905 0 0 0 13.97 13h-3.94zm9.908 0h-3.965a17.9 17.9 0 0 1-1.683 6.667A8.008 8.008 0 0 0 19.938 13zM4.062 11h3.965A17.9 17.9 0 0 1 9.71 4.333 8.008 8.008 0 0 0 4.062 11zm5.969 0h3.938A15.905 15.905 0 0 0 12 4.248 15.905 15.905 0 0 0 10.03 11zm4.259-6.667A17.9 17.9 0 0 1 15.973 11h3.965a8.008 8.008 0 0 0-5.648-6.667z"
+                            />
+                        </svg>
+                    </button>
+                    <div class="btns_column_container lang_menu_modal" id="lang_menu_modal_fav_alert">
+                        <button type="button" class="lang_modal_btn lang_modal_action_btn" data-name="es">Es</button>
 
-                                <button type="button" class="lang_modal_btn lang_modal_action_btn" data-name="en">En</button>
-                            </div>
-                        </div>
-                        <h1 class="title_modal" id="title_modal_fav_alert">Alerta</h1>
-                        <p class="text_modal" id="text_modal_fav_alert">Estas seguro que deseas eliminar el elemento salvado</p>
-                        <p class="important_text_modal margin_t_s accent_color" id="pokemon_name_modal_fav_alert"></p>
-                        <p class="important_text_modal">#<span id="pokemon_id_modal_fav_alert"></span></p>
-                        <div class="btns_row_container">
-                            <button type="button" class="btn alert_modal_fav_alert_btn" id="accept_alert_modal_fav_alert_btn" data-name="accept_modal_fav">Aceptar</button>
-                            <button type="button" class="btn alert_modal_fav_alert_btn" id="cancel_alert_modal_fav_alert_btn" data-name="cancel_modal_fav">Cancelar</button>
-                        </div>
+                        <button type="button" class="lang_modal_btn lang_modal_action_btn" data-name="en">En</button>
                     </div>
+                </div>
+                <h1 class="title_modal" id="title_modal_fav_alert">Alerta</h1>
+                <p class="text_modal" id="text_modal_fav_alert">Estas seguro que deseas eliminar el elemento salvado</p>
+                <p class="important_text_modal margin_t_s accent_color" id="name_modal_fav_alert"></p>
+                <p class="important_text_modal">#<span id="id_modal_fav_alert"></span></p>
+                <div class="btns_row_container">
+                    <button type="button" class="btn alert_modal_fav_alert_btn" id="accept_alert_modal_fav_alert_btn" data-name="accept_modal_fav">Aceptar</button>
+                    <button type="button" class="btn alert_modal_fav_alert_btn" id="cancel_alert_modal_fav_alert_btn" data-name="cancel_modal_fav">Cancelar</button>
                 </div>
             </div>
         </div>
+        <!-- ! -->
+        <div class="modal" id="modal_edit_themes">
+            <div class="modal_content" id="alert_modal_edit_themes">
+                <div class="btns_column_container lang_menu_container modal_action_btn">
+                    <button type="button" class="lang_modal_btn lang_menu_modal_btn" id="lang_btn_modal_fav_alert" data-name="lang_modal_edit_themes_alert">
+                        <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <title>Languaje</title>
+                            <path
+                                class="cls-1"
+                                d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-2.29-2.333A17.9 17.9 0 0 1 8.027 13H4.062a8.008 8.008 0 0 0 5.648 6.667zM10.03 13c.151 2.439.848 4.73 1.97 6.752A15.905 15.905 0 0 0 13.97 13h-3.94zm9.908 0h-3.965a17.9 17.9 0 0 1-1.683 6.667A8.008 8.008 0 0 0 19.938 13zM4.062 11h3.965A17.9 17.9 0 0 1 9.71 4.333 8.008 8.008 0 0 0 4.062 11zm5.969 0h3.938A15.905 15.905 0 0 0 12 4.248 15.905 15.905 0 0 0 10.03 11zm4.259-6.667A17.9 17.9 0 0 1 15.973 11h3.965a8.008 8.008 0 0 0-5.648-6.667z"
+                            />
+                        </svg>
+                    </button>
+                    <div class="btns_column_container lang_menu_modal" id="lang_menu_modal_edit_themes_alert">
+                        <button type="button" class="lang_modal_btn lang_modal_action_btn" data-name="es">Es</button>
+
+                        <button type="button" class="lang_modal_btn lang_modal_action_btn" data-name="en">En</button>
+                    </div>
+                </div>
+                <h1 class="title_modal" id="title_modal_edit_themes_alert">Alerta</h1>
+                <p class="text_modal" id="text_modal_edit_themes_alert">Estas seguro que deseas eliminar el elemento salvado</p>
+                <p class="important_text_modal margin_t_s accent_color" id="name_modal_edit_themes_alert"></p>
+                <div class="btns_row_container">
+                    <button type="button" class="btn alert_modal_edit_themes_alert_btn" id="accept_alert_modal_edit_themes_alert_btn" data-name="accept_modal_edit_themes">Aceptar</button>
+                    <button type="button" class="btn alert_modal_edit_themes_alert_btn" id="cancel_alert_modal_edit_themes_alert_btn" data-name="cancel_modal_edit_themes">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <!-- ! -->
     </body>
     <template id="theme_btn_template">
         <button type="button" class="btn basic_btn theme_btn personalized_theme_btn" data-name="">Prueba 1</button>
