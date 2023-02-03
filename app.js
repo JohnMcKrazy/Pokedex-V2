@@ -1425,6 +1425,7 @@ const createPokeData = async (data) => {
         const year = dataDate.getUTCFullYear();
         const minutes = dataDate.getMinutes();
         const hours = dataDate.getHours();
+        let actualDate = "";
         let currentDayOfTheWeek = {};
         let currentMonthOfTheYear = {};
 
@@ -1464,24 +1465,29 @@ const createPokeData = async (data) => {
                 console.log(currentMonthOfTheYear[en]); */
             }
         }
+        console.log(date);
+        if (date < 10) {
+            actualDate = `0${date}`;
+        } else {
+            actualDate = date;
+        }
+
         currentCompleteDate["year"] = year;
         currentCompleteDate["month_text"][es] = currentMonthOfTheYear[es];
         currentCompleteDate["month_text"][en] = currentMonthOfTheYear[en];
         currentCompleteDate["month_number"] = month + 1;
-        currentCompleteDate["date"] = date;
+        currentCompleteDate["date"] = actualDate;
         currentCompleteDate["time"] = `${hours}:${minutes}`;
-        currentCompleteDate["short_date_text"][es] = `${date}-${currentMonthOfTheYear[es]}-${year}`;
-        currentCompleteDate["short_date_text"][en] = `${date}-${currentMonthOfTheYear[en]}-${year}`;
-        if (date < 10) {
-            date = `0${date}`;
-        }
+        currentCompleteDate["short_date_text"][es] = `${actualDate}-${currentMonthOfTheYear[es]}-${year}`;
+        currentCompleteDate["short_date_text"][en] = `${actualDate}-${currentMonthOfTheYear[en]}-${year}`;
+
         if (month + 1 < 10) {
-            currentCompleteDate["short_date_number"] = `${date}-0${month + 1}-${year}`;
+            currentCompleteDate["short_date_number"] = `${actualDate}-0${month + 1}-${year}`;
         } else {
-            currentCompleteDate["short_date_number"] = `${date}-${month + 1}-${year}`;
+            currentCompleteDate["short_date_number"] = `${actualDate}-${month + 1}-${year}`;
         }
-        currentCompleteDate["complete_date_es"] = `${currentDayOfTheWeek[es]} ${date} ${currentMonthOfTheYear[es]} ${year}, ${hours}:${minutes}`;
-        currentCompleteDate["complete_date_en"] = `${currentDayOfTheWeek[en]} ${date} ${currentMonthOfTheYear[en]} ${year}, ${hours}:${minutes}`;
+        currentCompleteDate["complete_date_es"] = `${currentDayOfTheWeek[es]} ${actualDate} ${currentMonthOfTheYear[es]} ${year}, ${hours}:${minutes}`;
+        currentCompleteDate["complete_date_en"] = `${currentDayOfTheWeek[en]} ${actualDate} ${currentMonthOfTheYear[en]} ${year}, ${hours}:${minutes}`;
         //! OBJETO Y FUNCION PARA SACAR LOS DIAS DE LA SEMANA COMO TEXTO -- END //
         //! CREACION DE DATA TIPO/S DE POKEMON //
         if (data.types.length > 1) {
