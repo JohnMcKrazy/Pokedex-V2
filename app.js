@@ -48,6 +48,7 @@ const optionListVarientTemplate = document.querySelector("#option_list_varients_
 const optionListVarientsBtnsContainer = document.querySelector("#option_list_varieties_btns_container");
 const savePokemonBtn = document.querySelector("#save_pokemon_btn");
 const iconSave = document.querySelector("#icon_save");
+const iconSaveError = document.querySelector("#icon_save_error");
 const imgContainer = document.querySelector("#img_container");
 
 const btnPrevious = document.querySelector(".previous_btn");
@@ -269,6 +270,8 @@ const pokemonTypesEs = [];
 const currentPokemonFlavors = [];
 let currentPokemon = 1;
 
+let afterPokemon = "";
+
 let currentDeletingPokemonId = 0;
 let currentDeletingPokemonName = "";
 let currentDeletingTheme = "";
@@ -276,8 +279,8 @@ let currentDeletingTheme = "";
 let speciesLink = "";
 let evoChainLink = "";
 let itemToSave = {
-    name: "",
     id: "",
+    name: "",
     sprites: {
         default: "",
         art: "",
@@ -408,7 +411,211 @@ let storagePokedex = {
     ],
     theme_saved: {},
     page_view_count: 0,
-    saved_pokemon: [],
+    saved_pokemon: [
+        {
+            id: 2,
+            name: "Ivysaur",
+            sprites: {
+                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png",
+                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png",
+            },
+            date: {
+                year: 2023,
+                month_text: {
+                    es: "Febrero",
+                    en: "February",
+                },
+                month_number: 2,
+                date: "02",
+                time: "18:13",
+                short_date_text: {
+                    es: "02-Febrero-2023",
+                    en: "02-February-2023",
+                },
+                short_date_number: "02-02-2023",
+                complete_date_es: "Viernes 02 Febrero 2023, 18:13",
+                complete_date_en: "Friday 02 February 2023, 18:13",
+            },
+            types: {
+                es: ["Planta", "Veneno"],
+                en: ["Grass", "Poison"],
+            },
+        },
+        {
+            id: 10195,
+            name: "Venusaur-gmax",
+            sprites: {
+                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10195.png",
+                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10195.png",
+            },
+            date: {
+                year: 2023,
+                month_text: {
+                    es: "Febrero",
+                    en: "February",
+                },
+                month_number: 2,
+                date: "02",
+                time: "18:13",
+                short_date_text: {
+                    es: "02-Febrero-2023",
+                    en: "02-February-2023",
+                },
+                short_date_number: "02-02-2023",
+                complete_date_es: "Viernes 02 Febrero 2023, 18:13",
+                complete_date_en: "Friday 02 February 2023, 18:13",
+            },
+            types: {
+                es: ["Planta", "Veneno"],
+                en: ["Grass", "Poison"],
+            },
+        },
+        {
+            id: 10196,
+            name: "Charizard-gmax",
+            sprites: {
+                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10196.png",
+                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10196.png",
+            },
+            date: {
+                year: 2023,
+                month_text: {
+                    es: "Febrero",
+                    en: "February",
+                },
+                month_number: 2,
+                date: "02",
+                time: "18:14",
+                short_date_text: {
+                    es: "02-Febrero-2023",
+                    en: "02-February-2023",
+                },
+                short_date_number: "02-02-2023",
+                complete_date_es: "Viernes 02 Febrero 2023, 18:14",
+                complete_date_en: "Friday 02 February 2023, 18:14",
+            },
+            types: {
+                es: ["Fuego", "Volador"],
+                en: ["Fire", "Flying"],
+            },
+        },
+        {
+            id: 6,
+            name: "Charizard",
+            sprites: {
+                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
+                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png",
+            },
+            date: {
+                year: 2023,
+                month_text: {
+                    es: "Febrero",
+                    en: "February",
+                },
+                month_number: 2,
+                date: "02",
+                time: "18:14",
+                short_date_text: {
+                    es: "02-Febrero-2023",
+                    en: "02-February-2023",
+                },
+                short_date_number: "02-02-2023",
+                complete_date_es: "Viernes 02 Febrero 2023, 18:14",
+                complete_date_en: "Friday 02 February 2023, 18:14",
+            },
+            types: {
+                es: ["Fuego", "Volador"],
+                en: ["Fire", "Flying"],
+            },
+        },
+        {
+            id: 10194,
+            name: "Calyrex-shadow",
+            sprites: {
+                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10194.png",
+                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10194.png",
+            },
+            date: {
+                year: 2023,
+                month_text: {
+                    es: "Febrero",
+                    en: "February",
+                },
+                month_number: 2,
+                date: "02",
+                time: "18:14",
+                short_date_text: {
+                    es: "02-Febrero-2023",
+                    en: "02-February-2023",
+                },
+                short_date_number: "02-02-2023",
+                complete_date_es: "Viernes 02 Febrero 2023, 18:14",
+                complete_date_en: "Friday 02 February 2023, 18:14",
+            },
+            types: {
+                es: ["Psíquico", "Fantasma"],
+                en: ["Psychic", "Ghost"],
+            },
+        },
+        {
+            id: 897,
+            name: "Spectrier",
+            sprites: {
+                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/897.png",
+                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/897.png",
+            },
+            date: {
+                year: 2023,
+                month_text: {
+                    es: "Febrero",
+                    en: "February",
+                },
+                month_number: 2,
+                date: "02",
+                time: "18:14",
+                short_date_text: {
+                    es: "02-Febrero-2023",
+                    en: "02-February-2023",
+                },
+                short_date_number: "02-02-2023",
+                complete_date_es: "Viernes 02 Febrero 2023, 18:14",
+                complete_date_en: "Friday 02 February 2023, 18:14",
+            },
+            types: {
+                es: ["Fantasma"],
+                en: ["Ghost"],
+            },
+        },
+        {
+            id: 10227,
+            name: "Urshifu-rapid-strike-gmax",
+            sprites: {
+                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10227.png",
+                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10227.png",
+            },
+            date: {
+                year: 2023,
+                month_text: {
+                    es: "Febrero",
+                    en: "February",
+                },
+                month_number: 2,
+                date: "02",
+                time: "18:15",
+                short_date_text: {
+                    es: "02-Febrero-2023",
+                    en: "02-February-2023",
+                },
+                short_date_number: "02-02-2023",
+                complete_date_es: "Viernes 02 Febrero 2023, 18:15",
+                complete_date_en: "Friday 02 February 2023, 18:15",
+            },
+            types: {
+                es: ["Lucha", "Agua"],
+                en: ["Fighting", "Water"],
+            },
+        },
+    ],
     background_colors: {
         ghost: {
             img: "url(./assets/images/ghost.jpg)",
@@ -969,29 +1176,38 @@ const optionListFavOptionActions = (action) => {
                 break;
             case "option_fav_type":
                 console.log(action);
-                sortedByType = storagePokedex[storageSaved].sort((a, b) => {
-                    if (a.types.es[0] < b.types.es[0]) {
-                        return -1;
-                    }
-                });
+                if (currentLang === es) {
+                    sortedByType = storagePokedex[storageSaved].sort((a, b) => {
+                        if (a.types.es[0] < b.types.es[0]) {
+                            return -1;
+                        }
+                    });
+                } else if (currentLang === en) {
+                    sortedByType = storagePokedex[storageSaved].sort((a, b) => {
+                        if (a.types.en[0] < b.types.en[0]) {
+                            return -1;
+                        }
+                    });
+                }
                 currentSortedObject = sortedByType;
                 console.log(sortedByType);
                 break;
             case "option_fav_date":
                 console.log(action);
-                currentSortedObject = storagePokedex[storageSaved];
+                sortedByDate = storagePokedex[storageSaved].sort((a, b) => {
+                    if (a.date["short_date_number"] < b.date["short_date_number"]) {
+                        if (a.date.time < b.date.time) {
+                            return -1;
+                        }
+                    }
+                });
+                console.log(sortedByDate);
+                currentSortedObject = sortedByDate;
+                console.log(currentSortedObject);
                 break;
         }
-        currentSortedObject.forEach((item) => {
-            createFavCard(item.id, item.name, item.types, item.date, item.sprites);
-        });
 
-        setTimeout(() => {
-            favCardsContainer.appendChild(fragmentFavCards);
-            setTimeout(() => {
-                createFavCardBtns();
-            }, 100);
-        }, 100);
+        createCurrentSortPokemonFav(currentSortedObject);
     }
 };
 const createEvoCard = async (id, name, types, img) => {
@@ -1041,7 +1257,7 @@ const createFavCard = async (id, name, types, date, img) => {
         currentFavCardTypes = types.en;
     }
     setTimeout(() => {
-        console.log(typeof currentFavCardTypes);
+        /* console.log(typeof currentFavCardTypes); */
         if (typeof currentFavCardTypes === "object") {
             cardType.textContent = currentFavCardTypes.join("/");
         } else if (typeof currentFavCardTypes === "string") {
@@ -1232,7 +1448,6 @@ const optionListDescriptionsActions = (status) => {
         closeOptionList("option_list_descriptions");
     }
 };
-let afterPokemon = "";
 const createPokeData = async (data) => {
     if (data) {
         if (optionListDescriptionsStatus === open) {
@@ -1477,7 +1692,19 @@ const createPokeData = async (data) => {
         currentCompleteDate["month_text"][en] = currentMonthOfTheYear[en];
         currentCompleteDate["month_number"] = month + 1;
         currentCompleteDate["date"] = actualDate;
-        currentCompleteDate["time"] = `${hours}:${minutes}`;
+        if (hours < 10) {
+            if (minutes < 10) {
+                currentCompleteDate["time"] = `0${hours}:0${minutes}`;
+            } else {
+                currentCompleteDate["time"] = `0${hours}:${minutes}`;
+            }
+        } else {
+            if (minutes < 10) {
+                currentCompleteDate["time"] = `${hours}:0${minutes}`;
+            } else {
+                currentCompleteDate["time"] = `${hours}:${minutes}`;
+            }
+        }
         currentCompleteDate["short_date_text"][es] = `${actualDate}-${currentMonthOfTheYear[es]}-${year}`;
         currentCompleteDate["short_date_text"][en] = `${actualDate}-${currentMonthOfTheYear[en]}-${year}`;
 
@@ -1549,8 +1776,8 @@ const createPokeData = async (data) => {
         //! CREACION DE ITEM PARA OBJETO POR SALVAR //
         setTimeout(() => {
             itemToSave = {
-                name: dataName,
                 id: dataId,
+                name: dataName,
                 sprites: {
                     default: data.sprites.front_default,
                     art: artworkImg,
@@ -1751,6 +1978,17 @@ const savePokemonFav = () => {
             iconSave.style.scale = "1";
         }, 1000);
     };
+    const savedErrorAnimation = () => {
+        console.log("animacion de error de salvado");
+        iconSaveError.style.translate = "50% -110%";
+        iconSaveError.style.scale = "1.5";
+        iconSaveError.style.opacity = "1";
+        setTimeout(() => {
+            iconSaveError.style.translate = "50% 50%";
+            iconSaveError.style.opacity = "0";
+            iconSaveError.style.scale = "1";
+        }, 1000);
+    };
     console.log("preparando salvar pokemon function");
     /* console.log(itemToSave); */
     updatePokedex();
@@ -1767,6 +2005,8 @@ const savePokemonFav = () => {
             console.log(pokemonExistInList);
             switch (pokemonExistInList) {
                 case false:
+                    savedErrorAnimation();
+                    console.log("No se salvo el pokemon, ya existe en la data");
                     break;
                 case true:
                     savedAnimation();
@@ -1780,6 +2020,9 @@ const savePokemonFav = () => {
                     break;
             }
         }
+    } else {
+        savedErrorAnimation();
+        console.log("No se puede salvar un elemento vacio");
     }
 };
 //! BOTONES DE ACENDENTE Y DECENDENTE SORT LIST - HACER FUNCION - START  */
@@ -1809,25 +2052,39 @@ const favMenuActions = () => {
         animationIn(modal, flex, 1000);
         setTimeout(() => animationIn(favModal, block, 500), 1500);
         updatePokedex();
-        if (storagePokedex[storageSaved].length >= 1) {
-            console.log("existen salvados en storage");
-            switch (currentSortedObject.length >= 1) {
-                case true:
-                    console.log("existe current sorted object");
-                    createCurrentSortPokemonFav(currentSortedObject);
-                    break;
-                case false:
-                    console.log("no existe current sorted object, creando nueva lista");
-                    currentSortedObject = storagePokedex[storageSaved];
-                    createCurrentSortPokemonFav(currentSortedObject);
-                    break;
-                default:
-                    console.log("este mensaje no deberia de salir, error en la creacion de currentSortedObject");
-                    break;
+        setTimeout(() => {
+            if (storagePokedex[storageSaved].length >= 1) {
+                console.log("existen salvados en storage");
+                switch (currentSortedObject.length >= 1) {
+                    case true:
+                        console.log("existe current sorted object");
+                        createCurrentSortPokemonFav(currentSortedObject);
+
+                        break;
+                    case false:
+                        console.log("no existe current sorted object, creando nueva lista");
+                        sortedByDate = storagePokedex[storageSaved].sort((a, b) => {
+                            if (a.date["short_date_number"] < b.date["short_date_number"]) {
+                                if (a.date.time < b.date.time) {
+                                    return -1;
+                                }
+                            }
+                        });
+                        console.log(sortedByDate);
+                        currentSortedObject = sortedByDate;
+                        console.log(currentSortedObject);
+                        setTimeout(() => {
+                            createCurrentSortPokemonFav(currentSortedObject);
+                        }, 250);
+                        break;
+                    default:
+                        console.log("este mensaje no deberia de salir, error en la creacion de currentSortedObject");
+                        break;
+                }
+            } else {
+                console.log("no existen salvados en storage");
             }
-        } else {
-            console.log("no existen salvados en storage");
-        }
+        }, 250);
     } else if (favModalStatus === open) {
         favModalStatus = close;
         animationOut(favModal, 500);

@@ -942,8 +942,11 @@ MAIN .img_container {
 .save_btn .icon_container .icon_svg {
     user-select: none;
 }
-.save_btn .icon_container .cls-1 {
+.save_btn #icon_save .cls-1 {
     fill: greenyellow;
+}
+.save_btn #icon_save_error .cls-1 {
+    fill: crimson;
 }
 .save_pokemon_btn {
     background: var(--white);
@@ -1144,6 +1147,11 @@ MAIN .img_container {
 }
 #fav_modal .btns_row_container,
 #fav_modal .btns_row_center {
+    height: 3rem;
+}
+#fav_modal .config_btn {
+    padding: 0.5rem;
+    width: 3rem;
     height: 3rem;
 }
 #fav_modal .option_list_btns_container {
