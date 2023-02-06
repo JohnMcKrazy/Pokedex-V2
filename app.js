@@ -36,7 +36,8 @@ const langBtnsModal = document.querySelectorAll(".lang_modal_action_btn");
 const langMenuNavBtns = document.querySelectorAll(".lang_menu_btn");
 const langMenuNav = document.querySelector(".lang_menu_nav");
 const langMenuModalStart = document.querySelector("#lang_menu_modal_start");
-const langMenuModalTheme = document.querySelector("#lang_menu_modal_theme");
+const langMenuModalAlert = document.querySelector("#lang_menu_modal_alert");
+const langMenuModalThemes = document.querySelector("#lang_menu_modal_themes");
 const langMenuModalPersonalizedTheme = document.querySelector("#lang_menu_modal_personalized_theme");
 const langMenuModalEditPersonalizedThemes = document.querySelector("#lang_menu_modal_edit_personalized_themes");
 const langMenuModalEditPersonalizedTheme = document.querySelector("#lang_menu_modal_edit_personalized_theme");
@@ -116,7 +117,6 @@ const deniedBtnStartModal = document.querySelector("#denied_start_modal_btn");
 const alertModal = document.querySelector("#alert_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const acceptBtnAlertModal = document.querySelector("#accept_alert_modal_btn");
-const titleAlertModal = document.querySelector("#title_modal_alert");
 const textAlertModal = document.querySelector("#text_modal_alert");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -216,8 +216,8 @@ let itsFirstPokemonSearch = true;
 const errorText = "Error";
 const goodText = "Good";
 const bienText = "Bien";
-const esIncName = "Ese es un nombre incorrecto";
-const enIncName = "That's a incorrect name";
+const esIncName = "Ese nombre o ID es incorrecto";
+const enIncName = "That name or ID it's incorrect";
 const esEmptyThemeName = "Agrega un nombre para tu nuevo tema";
 const enEmptyThemeName = "Add a name to your new theme";
 const esEmpty = "Debe de llenar algun campo antes de hacer la busqueda";
@@ -246,7 +246,8 @@ let editPersonalizedThemesModalStatus = close;
 let editPersonalizedThemeModalStatus = close;
 let langMenuNavStatus = close;
 let langMenuModalStartStatus = close;
-let langMenuModalThemeStatus = close;
+let langMenuModalAlertStatus = close;
+let langMenuModalThemesStatus = close;
 let langMenuModalEditPersonalizedThemesStatus = close;
 let langMenuModalEditPersonalizedThemeStatus = close;
 let langMenuModalPersonalizedThemeStatus = close;
@@ -1051,8 +1052,7 @@ const changeLang = (lang) => {
 //^^ ************************************************************************** *//
 const lunchAlert = (alertError) => {
     alertModalStatus = open;
-    animationIn(modal, flex, 1000);
-    titleAlertModal.textContent = errorText;
+    animationIn(modal, flex, 500);
     if (alertError === "name") {
         if (currentLang === es) {
             textAlertModal.textContent = esIncName;
@@ -1061,7 +1061,7 @@ const lunchAlert = (alertError) => {
         }
     }
     setTimeout(() => {
-        animationIn(alertModal);
+        animationIn(alertModal, block, 500);
     }, 1000);
 };
 const fetchFunc = async (url) => {
@@ -1814,7 +1814,6 @@ const searchFunction = () => {
         itsFirstPokemonSearch = false;
     }
     if (myName === "" && myNumber === "") {
-        titleAlertModal.textContent = errorText;
         if (currentLang === es) {
             textAlertModal.textContent = esEmpty;
         } else if (currentLang === en) {
@@ -1854,13 +1853,22 @@ const langMenuModalActions = (action) => {
                 closeMenu(langMenuModalStart);
             }
             break;
-        case "lang_theme":
-            if (langMenuModalThemeStatus === close) {
-                langMenuModalThemeStatus = open;
-                openMenu(langMenuModalTheme);
-            } else if (langMenuModalThemeStatus === open) {
-                langMenuModalThemeStatus = close;
-                closeMenu(langMenuModalTheme);
+        case "lang_alert":
+            if (langMenuModalAlertStatus === close) {
+                langMenuModalAlertStatus = open;
+                openMenu(langMenuModalAlert);
+            } else if (langMenuModalAlertStatus === open) {
+                langMenuModalAlertStatus = close;
+                closeMenu(langMenuModalAlert);
+            }
+            break;
+        case "lang_themes":
+            if (langMenuModalThemesStatus === close) {
+                langMenuModalThemesStatus = open;
+                openMenu(langMenuModalThemes);
+            } else if (langMenuModalThemesStatus === open) {
+                langMenuModalThemesStatus = close;
+                closeMenu(langMenuModalThemes);
             }
             break;
         case "lang_personalized_theme":
@@ -2439,7 +2447,6 @@ const editPikerThemeActions = (action) => {
             animationOut(personalizedThemeModal);
             pastModal = personalizedThemeModal;
             setTimeout(() => {
-                titleAlertModal.textContent = errorText;
                 if (currentLang === es) {
                     textAlertModal.textContent = esEmptyThemeName;
                 } else if (currentLang === en) {
@@ -2487,7 +2494,6 @@ const pikerThemeActionBtns = (action) => {
             animationOut(personalizedThemeModal);
             pastModal = personalizedThemeModal;
             setTimeout(() => {
-                titleAlertModal.textContent = errorText;
                 if (currentLang === es) {
                     textAlertModal.textContent = esEmptyThemeName;
                 } else if (currentLang === en) {
@@ -2748,8 +2754,12 @@ sortBtns.forEach((btn) => {
 //! |||||||||||||||||||||//
 acceptBtnAlertModal.addEventListener("click", () => {
     console.log("click activo");
+    if (langMenuModalAlertStatus === open) {
+        langMenuModalAlertStatus = close;
+        closeMenu(langMenuModalAlert);
+    }
     animationOut(alertModal);
-    setTimeout(() => animationIn(pastModal, block, 1000));
+    setTimeout(() => animationOut(modal), 500);
 });
 cancelEditThemesBtn.addEventListener("click", () => {
     animationOut(editPersonalizedThemesModal, 500);

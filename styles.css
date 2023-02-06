@@ -1100,6 +1100,10 @@ MAIN .img_container {
     height: 100%;
     fill: var(--firstColor);
 }
+#config_menu_btn {
+    fill: var(--whiteOff);
+    border: solid 2px var(--whiteOff);
+}
 #basic_data_container .btns_row_container {
     position: inherit;
     margin: 0.5rem 0 1rem;
