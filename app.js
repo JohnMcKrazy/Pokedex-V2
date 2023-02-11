@@ -86,9 +86,13 @@ const optionListDescriptionsFirstBtnText = document.querySelector("#option_list_
 const optionListDescriptionsArrow = document.querySelector("#arrow_btn_select_list_descriptions_svg");
 const optionListDescriptionsSearchBtn = document.querySelector(".option_list_descriptions_btn_search");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const pokeDescriptionGenerationTitle = document.querySelector("#name_generation_subtitle");
+const pokeDescriptionVersionTitle = document.querySelector("#name_version_subtitle");
 
-const pokeDescriptionName = document.querySelector("#poke_data_info_name_description");
-const pokeDescription = document.querySelector("#poke_data_info_description");
+const pokeDescriptionNameGeneration = document.querySelector("#poke_data_info_name_generation");
+const pokeDescriptionGeneration = document.querySelector("#poke_data_info_description_generation");
+const pokeDescriptionNameVersion = document.querySelector("#poke_data_info_name_version");
+const pokeDescriptionVersion = document.querySelector("#poke_data_info_description_version");
 
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -974,7 +978,9 @@ const changeLang = (lang) => {
         textStartModal.textContent = "Estás entrando a una página fan made, la única intención es entretenimiento, toda la información es almacenada en la memoria del navegador, ninguna información es recolectada o vendida";
 
         optionListDescriptionsFirstBtnText.textContent = "Opciones";
-        descriptionSubtitle.textContent = "Descripción";
+        descriptionSubtitle.textContent = "Información";
+        pokeDescriptionGenerationTitle.textContent = "Generación:";
+        pokeDescriptionVersionTitle.textContent = "Descripción De Personaje Versión:";
         evoSubtitle.textContent = "Cadena De Evolución";
         titlefavModal.textContent = "Favoritos";
         favListFirstBtnText.textContent = "Ordenar";
@@ -1010,7 +1016,10 @@ const changeLang = (lang) => {
         titleStartModal.textContent = "Welcome";
         textStartModal.textContent = "You'r enter in a fan made page, the only intention is entertainment, all stored informatio is in the browser's memory, no information is collected or sold";
         optionListDescriptionsFirstBtnText.textContent = "Options";
-        descriptionSubtitle.textContent = "Description";
+        descriptionSubtitle.textContent = "Data";
+
+        pokeDescriptionGenerationTitle.textContent = "Generation:";
+        pokeDescriptionVersionTitle.textContent = "Flavor Text Version:";
         evoSubtitle.textContent = "Evolution Chain";
         titlefavModal.textContent = "Favorite";
         favListFirstBtnText.textContent = "Sort";
@@ -1485,7 +1494,11 @@ const createPokeData = async (data) => {
             pokedex_numbers: pokedexNumbers,
             varieties,
         } = speciesData;
-        console.log(generation);
+
+        const generationData = await fetchFunc(generation.url);
+        const { id: generationID, main_region: generationRegion, version_groups: generationVersiones } = generationData;
+        console.log(generationData);
+        pokeDescriptionNameGeneration.textContent = generationID;
         createEvoChainBtns(speciesLink);
         /* console.log(varieties.length); */
         if (varieties.length > 1) {
@@ -1613,15 +1626,15 @@ const createPokeData = async (data) => {
                     });
                     console.log(flavorBtnsData);
                     console.log(changeFlavorTo);
-                    pokeDescriptionName.textContent = properCase(changeFlavorTo[0].version.name);
-                    pokeDescription.innerHTML = changeFlavorTo[0].flavor_text.split("\n");
+                    pokeDescriptionNameVersion.textContent = properCase(changeFlavorTo[0].version.name);
+                    pokeDescriptionVersion.innerHTML = changeFlavorTo[0].flavor_text.split("\n");
                     optionListDescriptionsActions(optionListDescriptionsStatus);
                 });
             });
         }, 100);
         /* console.log(flavorBtnsData); */
-        pokeDescriptionName.textContent = properCase(flavorBtnsData[0].version.name);
-        pokeDescription.innerHTML = flavorBtnsData[0].flavor_text.split("\n");
+        pokeDescriptionNameVersion.textContent = properCase(flavorBtnsData[0].version.name);
+        pokeDescriptionVersion.innerHTML = flavorBtnsData[0].flavor_text.split("\n");
 
         //! AGREGAR LOS BOTONES DE TEXTOS DESCRIPTIVOS POR EDICION -- END */
         //! ******************************************************************************************************************* //
@@ -2346,8 +2359,6 @@ const personalizedThemeActionsBtnsActions = (tm) => {
             personalizedThemeModalStatus = open;
         }, 1500);
     } else if (tm === "edit_themes") {
-        oldTheme = BODY.className;
-        BODY.className = personalizedT;
         console.log("checando edit");
         updatePokedex();
         const currentThemes = storagePokedex.page_themes;
@@ -2441,6 +2452,7 @@ const editPikerThemeActions = (action) => {
                 themeCardsContainer.appendChild(fragmentThemeCards);
                 animationIn(editPersonalizedThemesModal, block);
                 editPersonalizedThemesModalStatus = open;
+
                 setTimeout(() => themeCardBtnActions(), 500);
             }, 1000);
         } else {
@@ -2566,6 +2578,7 @@ const alertModalEditThemesActions = (option) => {
                     themeCardsContainer.appendChild(fragmentThemeCards);
 
                     animationOut(modalEditThemes);
+                    setTimeout(() => themeCardBtnActions(), 500);
                 }, 1000);
             }, 500);
             console.log(option);

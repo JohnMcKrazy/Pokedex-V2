@@ -320,7 +320,7 @@ BODY {
     margin: 0;
     padding: 0;
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     scroll-behavior: smooth;
 }
 :focus {
@@ -477,7 +477,7 @@ NAV {
 }
 .delete_DB_btn {
     position: absolute;
-    top: 2rem;
+    top: 0;
     left: 2rem;
     width: 2rem;
     height: 2rem;
@@ -543,6 +543,30 @@ NAV {
     max-width: 1400px;
     margin: 0 auto;
 }
+.basic_data_container {
+    width: 100%;
+}
+
+.basic_data_container .btns_row_container {
+    position: inherit;
+    margin: 0.5rem 0 1rem;
+    width: 100%;
+    height: 3rem;
+}
+.basic_data_container .btns_row_container .btns_row_center {
+    font-size: var(--fontSizeG);
+    align-self: flex-start;
+
+    height: 3rem;
+    align-items: center;
+}
+.description_container {
+    background: var(--bgAccent);
+    margin-top: 1rem;
+    padding: 1rem;
+    width: 100%;
+}
+
 .data_container {
     display: flex;
     flex-direction: column;
@@ -550,6 +574,19 @@ NAV {
     align-items: center;
     padding: 2rem 0 0;
     height: fit-content;
+}
+.basic_sb_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: 1rem;
+}
+.data_info_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
 }
 .data_btn {
     width: 95%;
@@ -577,6 +614,15 @@ NAV {
     color: var(--firstColor);
     font-size: var(--fontSizeG);
     margin-top: 1rem;
+}
+.section_subtitle_data {
+    color: var(--firstColor);
+    font-size: var(--fontSizeG);
+}
+.section_subtitle_name {
+    font-size: var(--fontSizeG);
+    font-weight: 600;
+    color: var(--textColor);
 }
 .fav_card,
 .card_btn {
@@ -961,7 +1007,7 @@ MAIN .img_container {
     position: absolute;
     top: 6rem;
     left: 0;
-    width: 100%;
+    width: fit-content;
     max-height: 15rem;
     overflow-y: auto;
     z-index: var(--zIndexOptionList);
@@ -1035,6 +1081,7 @@ MAIN .img_container {
 .poke_data_info {
     background: var(--bgContrast);
     color: var(--textContrastColor);
+    margin-top: 0.5rem;
     padding: 1rem;
     border-radius: 0.5rem;
     width: 100%;
@@ -1104,26 +1151,19 @@ MAIN .img_container {
     fill: var(--whiteOff);
     border: solid 2px var(--whiteOff);
 }
-#basic_data_container .btns_row_container {
-    position: inherit;
-    margin: 0.5rem 0 1rem;
-    width: 100%;
-    height: 3rem;
+#flavor_text_container {
+    height: 4rem;
 }
-#basic_data_container .btns_row_container .option_list {
-    position: inherit;
-    margin: 0;
-}
-#basic_data_container .btns_row_container .btns_row_center {
-    font-size: var(--fontSizeG);
-    align-self: flex-start;
-
+#name_version_subtitle {
     height: 3rem;
+    display: flex;
+    justify-content: flex-start;
     align-items: center;
 }
-#poke_data_info_name_description {
-    color: var(--firstColor);
-    margin-left: 0.5rem;
+
+#option_list_descriptions {
+    position: inherit;
+    margin: 0;
 }
 #option_list_descriptions_btns_container {
     position: inherit;

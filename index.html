@@ -95,16 +95,18 @@
                     </button>
                 </div>
                 <h2 id="poke_types">Busca tus pokemon favoritos por nombre o por numero ID</h2>
-                <div class="" id="basic_data_container">
+                <div class="basic_data_container">
                     <!-- ! INSERT DATA  -->
+                    <h1 class="section_subtitle" id="description_subtitle">Información</h1>
                     <div class="description_container">
-                        <h3 class="section_subtitle" id="description_subtitle">Descipción</h3>
-
-                        <div class="btns_row_container">
-                            <div class="btns_row_center">
-                                <h4 id="name_description_subtitle">Version:</h4>
-                                <h4 id="poke_data_info_name_description"></h4>
-                            </div>
+                        <!-- ! -->
+                        <div class="data_info_container">
+                            <h2 class="section_subtitle_data" id="name_generation_subtitle">Generación:</h2>
+                            <p class="section_subtitle_name" id="poke_data_info_name_generation"></p>
+                        </div>
+                        <!-- ! -->
+                        <div class="basic_sb_container" id="flavor_text_container">
+                            <h4 class="section_subtitle_data" id="name_version_subtitle">Descripción De Personaje Versión:</h4>
                             <div class="option_list" id="option_list_descriptions">
                                 <button type="button" class="option_list_btn option_list_btn_search option_list_descriptions_btn_search" data-name="open-close">
                                     <span id="option_list_descriptions_first_text">Opciones</span>
@@ -117,7 +119,9 @@
                                 <div class="option_list_btns_container" id="option_list_descriptions_btns_container"></div>
                             </div>
                         </div>
-                        <p class="poke_data_info" id="poke_data_info_description"></p>
+                        <p class="section_subtitle_name" id="poke_data_info_name_version"></p>
+
+                        <p class="poke_data_info" id="poke_data_info_description_version"></p>
                     </div>
                     <!-- ! INSERT DATA  -->
                 </div>
@@ -734,6 +738,7 @@
                     </svg>
                 </div>
             </button>
+            <div class="option_list_btns_container" id="option_list_btns_container_varients"></div>
         </div>
     </template>
     <!--~~LIST SELECTOR TEMPLATE-->
