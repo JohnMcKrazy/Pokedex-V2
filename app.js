@@ -1504,7 +1504,7 @@ const createPokeData = async (data) => {
         if (varieties.length > 1) {
             /* console.log("este pokemon tiene variantes"); */
             const selectionListTemplateClone = selectionListTemplate.cloneNode(true);
-            const newList = selectionListTemplateClone.querySelector("#option_list_varients");
+            const newList = selectionListTemplateClone.querySelector(".option_list_btns_container");
             const varietiesListFirstBtnText = selectionListTemplateClone.querySelector("#option_list_varients_first_text");
             if (currentLang === es) {
                 varietiesListFirstBtnText.textContent = "Variantes";
@@ -1522,12 +1522,12 @@ const createPokeData = async (data) => {
                 newOptionBtn.id = variation.pokemon.name;
                 newOptionBtn.setAttribute("data-url", variation.pokemon.url);
                 newOptionBtn.textContent = properCase(variation.pokemon.name);
-                newList.appendChild(newOptionBtn);
+                fragmentListVarieties.appendChild(newOptionBtn);
                 //~~  */
             });
+            newList.appendChild(fragmentListVarieties);
 
-            fragmentListVarieties.appendChild(newList);
-            optionListVarientsBtnsContainer.appendChild(fragmentListVarieties);
+            optionListVarientsBtnsContainer.appendChild(selectionListTemplateClone);
 
             optionListVarients = document.querySelector("#option_list_varients");
             optionListVarientsArrow = document.querySelector("#arrow_btn_option_list_varients_svg");

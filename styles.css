@@ -1004,12 +1004,16 @@ MAIN .img_container {
     fill: var(--firstColor);
 }
 .option_list_btns_container {
-    position: absolute;
-    top: 6rem;
-    left: 0;
     width: fit-content;
     max-height: 15rem;
     overflow-y: auto;
+    z-index: var(--zIndexOptionList);
+}
+.option_list_varieties_btns_container {
+    position: absolute;
+    top: 6rem;
+    left: 50%;
+    translate: -50% 0;
     z-index: var(--zIndexOptionList);
 }
 .option_list {
@@ -1150,6 +1154,10 @@ MAIN .img_container {
 #config_menu_btn {
     fill: var(--whiteOff);
     border: solid 2px var(--whiteOff);
+}
+#option_list_btns_container_varients {
+    max-height: 15rem;
+    overflow-y: auto;
 }
 #flavor_text_container {
     height: 4rem;
