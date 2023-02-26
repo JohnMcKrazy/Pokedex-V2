@@ -1090,6 +1090,16 @@ MAIN .img_container {
     border-radius: 0.5rem;
     width: 100%;
 }
+
+.poke_data_info_grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 1rem;
+}
+.poke_data_info_grid P {
+    color: var(--textContrastColor);
+    margin-left: 0.5rem;
+}
 #config_menu {
     display: none;
     position: absolute;
@@ -1237,6 +1247,10 @@ MAIN .img_container {
         justify-content: center;
         row-gap: 1rem;
         padding: 0.25rem;
+    }
+    .poke_data_info_grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
     }
 }
 @media screen and (min-width: 550px) {

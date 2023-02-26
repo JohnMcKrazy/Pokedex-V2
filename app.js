@@ -89,8 +89,21 @@ const optionListDescriptionsSearchBtn = document.querySelector(".option_list_des
 const pokeDescriptionGenerationTitle = document.querySelector("#name_generation_subtitle");
 const pokeDescriptionVersionTitle = document.querySelector("#name_version_subtitle");
 
-const pokeDescriptionNameGeneration = document.querySelector("#poke_data_info_name_generation");
-const pokeDescriptionGeneration = document.querySelector("#poke_data_info_description_generation");
+const pokeDescriptionNameHabitat = document.querySelector("#poke_data_info_name_habitat");
+const pokeDescriptionHabitat = document.querySelector("#poke_data_info_description_habitat");
+
+const pokeDescriptionNameWeight = document.querySelector("#poke_data_info_name_weight");
+const pokeDescriptionNameHeight = document.querySelector("#poke_data_info_name_height");
+const pokeDescriptionNameCategory = document.querySelector("#poke_data_info_name_category");
+const pokeDescriptionNameHabilities = document.querySelector("#poke_data_info_name_habilities");
+const pokeDescriptionNameGender = document.querySelector("#poke_data_info_name_gender");
+
+const pokeDescriptionWeight = document.querySelector("#poke_data_info_description_weight");
+const pokeDescriptionHeight = document.querySelector("#poke_data_info_description_height");
+const pokeDescriptionCategory = document.querySelector("#poke_data_info_description_category");
+const pokeDescriptionHabilities = document.querySelector("#poke_data_info_description_habilities");
+const pokeDescriptionGender = document.querySelector("#poke_data_info_description_gender");
+
 const pokeDescriptionNameVersion = document.querySelector("#poke_data_info_name_version");
 const pokeDescriptionVersion = document.querySelector("#poke_data_info_description_version");
 
@@ -1469,7 +1482,6 @@ const createPokeData = async (data) => {
         deleteArrElements(currentPokemonFlavors);
         deleteChildElements(optionListDescriptionsBtnsContainer);
         deleteArrElements(fragmentListDescriptions);
-        //! ARREGLAR BOTONES DE FLAVOR VERSIONES, QUE SE BORREN  */
 
         searchInputNumber.value = "";
         searchInputNumber.value = "";
@@ -1498,7 +1510,27 @@ const createPokeData = async (data) => {
         const generationData = await fetchFunc(generation.url);
         const { id: generationID, main_region: generationRegion, version_groups: generationVersiones } = generationData;
         console.log(generationData);
-        pokeDescriptionNameGeneration.textContent = generationID;
+        //! agregar nueva data de personaje //
+        const habitatData = await fetchFunc(habitat.url);
+        let habitatNameEs = "";
+        let habitatNameEn = "";
+        console.log(habitatData);
+        habitatData.names.forEach((item) => {
+            if (item.language.name === es) {
+                habitatNameEs = properCase(item.name);
+            } else if (item.language.name === en) {
+                habitatNameEn = properCase(item.name);
+            }
+        });
+
+        if (currentLang === es) {
+            pokeDescriptionHabitat.textContent = habitatNameEs;
+        } else if (currentLang === en) {
+            pokeDescriptionHabitat.textContent = habitatNameEn;
+        }
+        pokeDescriptionHeight.textContent = data.height;
+        pokeDescriptionWeight.textContent = data.weight;
+        //!  //
         createEvoChainBtns(speciesLink);
         /* console.log(varieties.length); */
         if (varieties.length > 1) {
@@ -1533,8 +1565,6 @@ const createPokeData = async (data) => {
             optionListVarientsArrow = document.querySelector("#arrow_btn_option_list_varients_svg");
             optionListVarientsBtns = document.querySelectorAll(".option_list_varients_btn");
             optionListVarientsBtns.forEach((btn) => {
-                //* console.log(optionType);
-
                 btn.addEventListener("click", async () => {
                     const actionName = btn.getAttribute("data-name");
                     if (actionName === "open-close") {
@@ -1603,6 +1633,7 @@ const createPokeData = async (data) => {
             flavorBtnsData = pokemonFlavorsEn;
         }
         //! CREACION DE FLAVORS OBJECT EN IDIOMAS -- END  /
+        //^ ******************************************************************************************************************* //
         //! AGREGAR LOS BOTONES DE TEXTOS DESCRIPTIVOS POR EDICION -- START */
         flavorBtnsData.forEach((data) => {
             /* console.log(data.flavor_text); */
@@ -1636,9 +1667,9 @@ const createPokeData = async (data) => {
         pokeDescriptionNameVersion.textContent = properCase(flavorBtnsData[0].version.name);
         pokeDescriptionVersion.innerHTML = flavorBtnsData[0].flavor_text.split("\n");
 
-        //! AGREGAR LOS BOTONES DE TEXTOS DESCRIPTIVOS POR EDICION -- END */
-        //! ******************************************************************************************************************* //
-        //! PRUEBA DE DATOS A IMPRIMIR  /
+        //! AGREGAR LOS BOTONES DE TEXTOS DESCRIPTIVOS POR EDICION -- END *//
+        //^ ******************************************************************************************************************* //
+        //! PRUEBA DE DATOS A IMPRIMIR
         const artworkImg = data.sprites.other["official-artwork"]["front_default"];
         const dataName = properCase(data.name);
         const dataId = data.id;
@@ -1841,8 +1872,6 @@ const searchFunction = () => {
     }
 
     catchEmAll(currentPokemon);
-
-    //*console.log(currentPokemon);
 };
 //^^ ************************************************************************** *//
 const langMenuModalActions = (action) => {
@@ -2309,7 +2338,7 @@ const themeCardBtnActions = () => {
                 }, 500);
             } else if (btn.getAttribute("data-name") === "delete_theme") {
                 console.log("eliminar theme");
-                //! */
+
                 currentDeletingTheme = btn.getAttribute("data-id");
                 nameAlertModalEditThemes.textContent = btn.getAttribute("data-id");
                 animationIn(modalEditThemes, flex, 500);
@@ -2317,8 +2346,6 @@ const themeCardBtnActions = () => {
                     animationIn(alertModalEditThemes, block, 500);
                     alertModalEditThemesStatus = open;
                 }, 1500);
-
-                //! */
             }
         });
     });
@@ -2403,8 +2430,6 @@ const themeActionsBtnsActions = (action) => {
         }, 1000);
     }
 };
-//! ********************************************************************** */
-//! YA SE CAMBIA EL ITEM PERO HAY UN BUG DE EDICION DE COLORES, CHECAR CON CALMA  */
 const editPikerThemeActions = (action) => {
     console.log(action);
     if (action === cancel) {
@@ -2471,7 +2496,6 @@ const editPikerThemeActions = (action) => {
         //¿ **************************************************** */
     }
 };
-//! ********************************************************************** */
 const pikerThemeActionBtns = (action) => {
     console.log(action);
     if (action === cancel) {
@@ -2666,7 +2690,6 @@ colorPikersPersonalizedTheme.forEach((btn) => {
         }, 250);
     });
 });
-//!  PRUEBA DE EDICIION DE TEMAS -- START */
 colorPikersEditPersonalizedTheme.forEach((btn) => {
     btn.addEventListener("input", () => {
         let target = btn.getAttribute("data-name");
@@ -2692,7 +2715,6 @@ colorPikersEditPersonalizedTheme.forEach((btn) => {
         }, 250);
     });
 });
-//!  PRUEBA DE EDICIION DE TEMAS -- OVER */
 startBtns.forEach((btn) => {
     btn.addEventListener("click", () => startModalActions(btn.getAttribute("data-name")));
 });
