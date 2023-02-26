@@ -94,13 +94,11 @@ const pokeDescriptionHabitat = document.querySelector("#poke_data_info_descripti
 
 const pokeDescriptionNameWeight = document.querySelector("#poke_data_info_name_weight");
 const pokeDescriptionNameHeight = document.querySelector("#poke_data_info_name_height");
-const pokeDescriptionNameCategory = document.querySelector("#poke_data_info_name_category");
 const pokeDescriptionNameHabilities = document.querySelector("#poke_data_info_name_habilities");
 const pokeDescriptionNameGender = document.querySelector("#poke_data_info_name_gender");
 
 const pokeDescriptionWeight = document.querySelector("#poke_data_info_description_weight");
 const pokeDescriptionHeight = document.querySelector("#poke_data_info_description_height");
-const pokeDescriptionCategory = document.querySelector("#poke_data_info_description_category");
 const pokeDescriptionHabilities = document.querySelector("#poke_data_info_description_habilities");
 const pokeDescriptionGender = document.querySelector("#poke_data_info_description_gender");
 
@@ -294,6 +292,10 @@ let currentDeletingPokemonId = 0;
 let currentDeletingPokemonName = "";
 let currentDeletingTheme = "";
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+let habitatNameEs = "";
+let habitatNameEn = "";
+
 let speciesLink = "";
 let evoChainLink = "";
 let itemToSave = {
@@ -1489,6 +1491,7 @@ const createPokeData = async (data) => {
         speciesLink = data.species.url;
         const speciesData = await fetchFunc(speciesLink);
         console.log(speciesData);
+        const { height: pokemonHeight, weight: pokemonWeight, abilities, base_experience: pokemonExperience, held_items: pokemonHeldItems, stats } = data;
         const {
             base_happiness,
             shape,
@@ -1506,30 +1509,34 @@ const createPokeData = async (data) => {
             pokedex_numbers: pokedexNumbers,
             varieties,
         } = speciesData;
+        if (generation) {
+            const generationData = await fetchFunc(generation.url);
+            const { id: generationID, main_region: generationRegion, version_groups: generationVersiones } = generationData;
+        }
 
-        const generationData = await fetchFunc(generation.url);
-        const { id: generationID, main_region: generationRegion, version_groups: generationVersiones } = generationData;
-        console.log(generationData);
         //! agregar nueva data de personaje //
-        const habitatData = await fetchFunc(habitat.url);
-        let habitatNameEs = "";
-        let habitatNameEn = "";
-        console.log(habitatData);
-        habitatData.names.forEach((item) => {
-            if (item.language.name === es) {
-                habitatNameEs = properCase(item.name);
-            } else if (item.language.name === en) {
-                habitatNameEn = properCase(item.name);
-            }
-        });
+        if (habitat) {
+            const habitatData = await fetchFunc(habitat.url);
+            console.log(habitatData);
+            habitatData.names.forEach((item) => {
+                if (item.language.name === es) {
+                    habitatNameEs = properCase(item.name);
+                } else if (item.language.name === en) {
+                    habitatNameEn = properCase(item.name);
+                }
+            });
+        } else if (habitat === null || habitat === {} || habitat === none) {
+            habitatNameEs = "Desconocida";
+            habitatNameEn = "Unknown";
+        }
 
         if (currentLang === es) {
             pokeDescriptionHabitat.textContent = habitatNameEs;
         } else if (currentLang === en) {
             pokeDescriptionHabitat.textContent = habitatNameEn;
         }
-        pokeDescriptionHeight.textContent = data.height;
-        pokeDescriptionWeight.textContent = data.weight;
+        pokeDescriptionHeight.textContent = pokemonHeight;
+        pokeDescriptionWeight.textContent = pokemonWeight;
         //!  //
         createEvoChainBtns(speciesLink);
         /* console.log(varieties.length); */
@@ -1592,7 +1599,6 @@ const createPokeData = async (data) => {
         } else if (varieties.length === 1) {
             /* console.log("este pokemon no tiene variantes"); */
         }
-        //! PRUEBAS DETALLES TIPO DE EVOLUCION  */
         evoChainLink = speciesData.evolution_chain.url;
         const evoData = await fetchFunc(evoChainLink);
         console.log(evoData.chain);
@@ -1611,9 +1617,6 @@ const createPokeData = async (data) => {
                 }
             });
         }
-        //! PRUEBAS DETALLES TIPO DE EVOLUCION  */
-        /* console.log(dataName); */
-        //! CREACION DE FLAVORS OBJECT EN IDIOMAS  /
         const pokeFlavors = speciesData.flavor_text_entries;
         pokeFlavors.forEach((flavor) => {
             /* console.log(flavor); */
@@ -1632,9 +1635,6 @@ const createPokeData = async (data) => {
         } else if (currentLang == en) {
             flavorBtnsData = pokemonFlavorsEn;
         }
-        //! CREACION DE FLAVORS OBJECT EN IDIOMAS -- END  /
-        //^ ******************************************************************************************************************* //
-        //! AGREGAR LOS BOTONES DE TEXTOS DESCRIPTIVOS POR EDICION -- START */
         flavorBtnsData.forEach((data) => {
             /* console.log(data.flavor_text); */
             /* console.log(data.version.name); */
@@ -1667,9 +1667,6 @@ const createPokeData = async (data) => {
         pokeDescriptionNameVersion.textContent = properCase(flavorBtnsData[0].version.name);
         pokeDescriptionVersion.innerHTML = flavorBtnsData[0].flavor_text.split("\n");
 
-        //! AGREGAR LOS BOTONES DE TEXTOS DESCRIPTIVOS POR EDICION -- END *//
-        //^ ******************************************************************************************************************* //
-        //! PRUEBA DE DATOS A IMPRIMIR
         const artworkImg = data.sprites.other["official-artwork"]["front_default"];
         const dataName = properCase(data.name);
         const dataId = data.id;

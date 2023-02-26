@@ -98,26 +98,26 @@ HTML {
 }
 .water_theme {
     /*¿COLORS */
-    --textColor: rgb(164, 235, 248);
+    --textColor: rgb(208, 226, 252);
     --textContrastColor: rgb(25, 25, 25);
-    --firstColor: rgb(75, 180, 255);
+    --firstColor: rgb(137, 247, 254);
     /*¿BACKGROUNDS */
-    --bgColor: rgb(10, 100, 200);
+    --bgColor: linear-gradient(120deg, #35eb93 0%, #2cacd1 37%, #2b76b9 65%, #3d3393 100%); /* linear-gradient(rgb(137, 247, 254) 0%, rgb(102, 166, 255) 100%) */
     --bgContrast: rgb(225, 225, 225);
     --bgContrastT: rgb(225, 225, 225, 0.7);
-    --bgAccent: rgb(8, 81, 163);
+    --bgAccent: rgba(15, 100, 210, 0.5);
     /*¿GENERALS */
 }
 .fire_theme {
     /*¿COLORS */
-    --textColor: rgb(225, 225, 225);
+    --textColor: rgb(10, 10, 10);
     --textContrastColor: rgb(25, 25, 25);
-    --firstColor: rgb(202, 159, 18);
+    --firstColor: #ca1518;
     /*¿BACKGROUNDS */
-    --bgColor: rgb(200, 50, 15);
+    --bgColor: linear-gradient(#f9d423 0%, #ff4e50 100%);
     --bgContrast: rgb(225, 225, 225);
     --bgContrastT: rgb(225, 225, 225, 0.7);
-    --bgAccent: rgb(100, 25, 5);
+    --bgAccent: rgb(202, 21, 24, 0.5);
     /*¿GENERALS */
 }
 .grass_theme {
@@ -126,10 +126,10 @@ HTML {
     --textContrastColor: rgb(25, 25, 25);
     --firstColor: rgb(100, 250, 115);
     /*¿BACKGROUNDS */
-    --bgColor: rgb(15, 107, 3);
+    --bgColor: linear-gradient(#3cba92 0%, #047745 100%);
     --bgContrast: rgb(225, 225, 225);
     --bgContrastT: rgb(225, 225, 225, 0.7);
-    --bgAccent: rgb(10, 78, 1);
+    --bgAccent: rgb(10, 78, 1, 0.3);
     /*¿GENERALS */
 }
 .normal_theme {
@@ -150,7 +150,7 @@ HTML {
     --textContrastColor: rgb(25, 25, 25);
     --firstColor: rgb(170, 40, 250);
     /*¿BACKGROUNDS */
-    --bgColor: rgb(30, 5, 80);
+    --bgColor: linear-gradient(rgb(118, 75, 162) 0%, rgb(30, 5, 80) 100%);
     --bgContrast: rgb(225, 225, 225);
     --bgContrastT: rgb(225, 225, 225, 0.7);
     --bgAccent: rgb(19, 3, 49);
@@ -168,16 +168,16 @@ HTML {
     --bgAccent: rgb(56, 0, 88);
     /*¿GENERALS */
 }
-.fairy_theme {
+.legendary_theme {
     /*¿COLORS */
-    --textColor: rgb(225, 225, 225);
-    --textContrastColor: rgb(25, 25, 25);
-    --firstColor: rgb(252, 172, 248);
+    --textColor: rgb(25, 25, 25);
+    --textContrastColor: rgb(30, 30, 30);
+    --firstColor: rgb(255, 20, 150);
     /*¿BACKGROUNDS */
-    --bgColor: rgb(25, 25, 25);
+    --bgColor: linear-gradient(rgb(255, 192, 203) 0%, rgb(135, 206, 235) 50%, rgb(72, 61, 139) 100%);
     --bgContrast: rgb(225, 225, 225);
     --bgContrastT: rgb(225, 225, 225, 0.7);
-    --bgAccent: rgb(15, 15, 15);
+    --bgAccent: rgb(240, 240, 240, 0.5);
     /*¿GENERALS */
 }
 .electric_theme {
@@ -198,22 +198,22 @@ HTML {
     --textContrastColor: rgb(25, 25, 25);
     --firstColor: rgb(99, 156, 202);
     /*¿BACKGROUNDS */
-    --bgColor: rgb(150, 220, 245);
+    --bgColor: linear-gradient(45deg, #89f7fe 0%, #66a6ff 100%);
     --bgContrast: rgb(225, 225, 225);
     --bgContrastT: rgb(225, 225, 225, 0.7);
-    --bgAccent: rgb(15, 15, 15, 0.7);
+    --bgAccent: rgb(200, 200, 200, 0.5);
     /*¿GENERALS */
 }
 .ice_theme {
     /*¿COLORS */
     --textColor: rgb(20, 20, 20);
     --textContrastColor: rgb(25, 25, 25);
-    --firstColor: rgb(83, 213, 253);
+    --firstColor: darkslateblue;
     /*¿BACKGROUNDS */
-    --bgColor: rgb(160, 230, 250);
+    --bgColor: linear-gradient(#b490ca, #5ee7df);
     --bgContrast: rgb(225, 225, 225);
     --bgContrastT: rgb(225, 225, 225, 0.7);
-    --bgAccent: rgb(138, 212, 233);
+    --bgAccent: rgb(225, 225, 225, 0.5);
     /*¿GENERALS */
 }
 .poison_theme {
@@ -222,10 +222,10 @@ HTML {
     --textContrastColor: rgb(25, 25, 25);
     --firstColor: rgb(84, 250, 84);
     /*¿BACKGROUNDS */
-    --bgColor: rgb(115, 5, 200);
+    --bgColor: linear-gradient(#cc208e 0%, #6713d2 100%);
     --bgContrast: rgb(225, 225, 225);
     --bgContrastT: rgb(225, 225, 225, 0.7);
-    --bgAccent: rgb(143, 22, 236);
+    --bgAccent: rgb(220, 220, 220, 0.5);
     /*¿GENERALS */
 }
 .fighter_theme {
@@ -270,7 +270,7 @@ HTML {
     --textContrastColor: rgb(25, 25, 25);
     --firstColor: rgb(237, 139, 28);
     /*¿BACKGROUNDS */
-    --bgColor: rgb(7, 133, 49);
+    --bgColor: linear-gradient(rgb(35, 196, 150) 0%, rgb(7, 133, 49) 100%);
     --bgContrast: rgb(225, 225, 225);
     --bgContrastT: rgb(225, 225, 225, 0.7);
     --bgAccent: rgb(15, 15, 15, 0.7);
@@ -282,19 +282,19 @@ HTML {
     --textContrastColor: rgb(25, 25, 25);
     --firstColor: rgb(190, 188, 33);
     /*¿BACKGROUNDS */
-    --bgColor: rgb(226, 226, 226);
-    --bgContrast: rgb(225, 225, 225);
+    --bgColor: linear-gradient(to bottom, #f1ebfa 0%, #fbfcdb 100%);
+    --bgContrast: rgb(210, 210, 210);
     --bgContrastT: rgb(225, 225, 225, 0.7);
-    --bgAccent: rgb(15, 15, 15, 0.7);
+    --bgAccent: rgb(225, 225, 225, 0.5);
     /*¿GENERALS */
 }
-.legendary_theme {
+.fairy_theme {
     /*¿COLORS */
-    --textColor: rgb(160, 160, 160);
+    --textColor: rgb(255, 255, 255);
     --textContrastColor: rgb(25, 25, 25);
-    --firstColor: rgb(104, 213, 247);
+    --firstColor: rgb(173, 233, 252);
     /*¿BACKGROUNDS */
-    --bgColor: rgb(25, 25, 25);
+    --bgColor: linear-gradient(to top, #9795f0 0%, #d6c8fb 100%);
     --bgContrast: rgb(225, 225, 225);
     --bgContrastT: rgb(225, 225, 225, 0.7);
     --bgAccent: rgb(15, 15, 15, 0.7);
