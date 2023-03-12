@@ -2327,6 +2327,11 @@ const themeCardBtnActions = () => {
                         textColorPikerEditPersonalizedTheme.value = item.textColor;
                         firstColorPikerEditPersonalizedTheme.value = item.firstColor;
                         bgAccentPikerEditPersonalizedTheme.value = item.bgAccent;
+
+                        personalizedProperty(personalizedT, `--bgColor`, item.bgColor);
+                        personalizedProperty(personalizedT, `--textColor`, item.textColor);
+                        personalizedProperty(personalizedT, `--firstColor`, item.firstColor);
+                        personalizedProperty(personalizedT, `--bgAccent`, item.bgAccent);
                     }
                 });
                 setTimeout(() => {
@@ -2370,7 +2375,6 @@ const createThemeCard = (data) => {
     menuColor.style.background = data.bgAccent;
     fragmentThemeCards.appendChild(cloneCard);
 };
-const editPersonalizedThemeActions = (tm) => {};
 const personalizedThemeActionsBtnsActions = (tm) => {
     if (tm === "new_theme") {
         oldTheme = BODY.className;
@@ -2383,6 +2387,7 @@ const personalizedThemeActionsBtnsActions = (tm) => {
             personalizedThemeModalStatus = open;
         }, 1500);
     } else if (tm === "edit_themes") {
+        deleteChildElements(themeCardsContainer);
         console.log("checando edit");
         updatePokedex();
         const currentThemes = storagePokedex.page_themes;

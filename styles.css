@@ -102,7 +102,7 @@ HTML {
     --textContrastColor: rgb(25, 25, 25);
     --firstColor: rgb(137, 247, 254);
     /*¿BACKGROUNDS */
-    --bgColor: linear-gradient(120deg, #35eb93 0%, #2cacd1 37%, #2b76b9 65%, #3d3393 100%); /* linear-gradient(rgb(137, 247, 254) 0%, rgb(102, 166, 255) 100%) */
+    --bgColor: linear-gradient(325deg, #35eb93 0%, #2cacd1 37%, #2b76b9 65%, #3d3393 100%); /* linear-gradient(rgb(137, 247, 254) 0%, rgb(102, 166, 255) 100%) */
     --bgContrast: rgb(225, 225, 225);
     --bgContrastT: rgb(225, 225, 225, 0.7);
     --bgAccent: rgba(15, 100, 210, 0.5);
@@ -605,7 +605,7 @@ NAV {
     align-items: flex-start;
     gap: 0.5rem;
     height: fit-content;
-    padding: 2rem 0;
+    padding: 2rem;
     max-height: calc(100vh - 16rem);
     overflow-y: auto;
 }
@@ -764,7 +764,7 @@ NAV {
     width: 90%;
     max-width: 80rem;
     max-height: 90vh;
-    padding: 1rem 2rem;
+    padding: 4rem 2rem 1rem;
     border-radius: 1rem;
     overflow-y: auto;
 }
@@ -947,7 +947,7 @@ MAIN .img_container {
     width: 100%;
     height: auto;
     z-index: var(--zIndexImg);
-    box-shadow: 0 4rem 5rem var(--textContrastColor);
+    box-shadow: 0 4rem 5rem var(--bgAccent);
 }
 .img_container IMG {
     position: absolute;
