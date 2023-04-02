@@ -108,7 +108,6 @@ const pokeDescriptionVersion = document.querySelector("#poke_data_info_descripti
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const descriptionSubtitle = document.querySelector("#description_subtitle");
 const evoSubtitle = document.querySelector("#evo_subtitle");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentEvoCards = document.createDocumentFragment();
@@ -937,6 +936,7 @@ const previous = () => {
         }
     }
 };
+const toThetop = () => window.scrollTo({ top: 0, behavior: `smooth` });
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const sanitizeInput = (inputValue) => {
     const div = document.createElement("div");
@@ -993,7 +993,6 @@ const changeLang = (lang) => {
         textStartModal.textContent = "Estás entrando a una página fan made, la única intención es entretenimiento, toda la información es almacenada en la memoria del navegador, ninguna información es recolectada o vendida";
 
         optionListDescriptionsFirstBtnText.textContent = "Opciones";
-        descriptionSubtitle.textContent = "Información";
         pokeDescriptionGenerationTitle.textContent = "Generación:";
         pokeDescriptionVersionTitle.textContent = "Descripción De Personaje Versión:";
         evoSubtitle.textContent = "Cadena De Evolución";
@@ -1031,7 +1030,6 @@ const changeLang = (lang) => {
         titleStartModal.textContent = "Welcome";
         textStartModal.textContent = "You'r enter in a fan made page, the only intention is entertainment, all stored informatio is in the browser's memory, no information is collected or sold";
         optionListDescriptionsFirstBtnText.textContent = "Options";
-        descriptionSubtitle.textContent = "Data";
 
         pokeDescriptionGenerationTitle.textContent = "Generation:";
         pokeDescriptionVersionTitle.textContent = "Flavor Text Version:";
@@ -1841,6 +1839,7 @@ const catchEmAll = async (id) => {
     try {
         const data = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${id}`);
 
+        toThetop();
         console.log("Primera fetch data", data);
         createPokeData(data);
     } catch (error) {
@@ -1848,6 +1847,7 @@ const catchEmAll = async (id) => {
         console.log(error);
     }
 };
+catchEmAll(currentPokemon);
 const searchFunction = () => {
     let myName = searchInputName.value.toLowerCase();
     let myNumber = searchInputNumber.value;
@@ -2824,6 +2824,7 @@ btnNext.addEventListener("click", next);
 btnPrevious.addEventListener("click", previous);
 optionListDescriptionsSearchBtn.addEventListener("click", () => optionListDescriptionsActions(optionListDescriptionsStatus));
 deletePersonalizedThemeBtn.addEventListener("click", deletePersonalizedTheme);
+document.querySelector("#top_btn").addEventListener("click", toThetop);
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //! |||||||||||||||||||||||||//
 //!  DELETE WHEN YOUR FINISH //

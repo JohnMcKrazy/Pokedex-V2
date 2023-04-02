@@ -198,7 +198,7 @@ HTML {
     --textContrastColor: rgb(25, 25, 25);
     --firstColor: rgb(99, 156, 202);
     /*¿BACKGROUNDS */
-    --bgColor: linear-gradient(45deg, #89f7fe 0%, #66a6ff 100%);
+    --bgColor: linear-gradient(45deg, #c4dcfd, #66a6ff);
     --bgContrast: rgb(225, 225, 225);
     --bgContrastT: rgb(225, 225, 225, 0.7);
     --bgAccent: rgb(200, 200, 200, 0.5);
@@ -425,6 +425,12 @@ NAV {
 .margin_b_s {
     margin-bottom: 0.5rem;
 }
+.flex_row {
+    flex-direction: row;
+}
+.flex_column {
+    flex-direction: column;
+}
 .btn {
     display: flex;
     flex-direction: row;
@@ -475,8 +481,17 @@ NAV {
 .basic_btn:hover .icon_svg {
     fill: var(--white);
 }
+.extra_btn {
+    position: fixed;
+}
+.top_btn {
+    bottom: 2rem;
+    right: 2rem;
+    width: 4rem;
+    height: 4rem;
+    padding: 0.25rem;
+}
 .delete_DB_btn {
-    position: absolute;
     top: 0;
     left: 2rem;
     width: 2rem;
@@ -537,36 +552,6 @@ NAV {
     justify-content: flex-start;
     align-items: center;
 }
-.max_width_container {
-    min-width: 200px;
-    width: 95%;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-.basic_data_container {
-    width: 100%;
-}
-
-.basic_data_container .btns_row_container {
-    position: inherit;
-    margin: 0.5rem 0 1rem;
-    width: 100%;
-    height: 3rem;
-}
-.basic_data_container .btns_row_container .btns_row_center {
-    font-size: var(--fontSizeG);
-    align-self: flex-start;
-
-    height: 3rem;
-    align-items: center;
-}
-.description_container {
-    background: var(--bgAccent);
-    margin-top: 1rem;
-    padding: 1rem;
-    width: 100%;
-}
-
 .data_container {
     display: flex;
     flex-direction: column;
@@ -575,6 +560,32 @@ NAV {
     padding: 2rem 0 0;
     height: fit-content;
 }
+.max_width_container {
+    min-width: 200px;
+    width: 95%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.data_info_container {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1rem;
+}
+
+.data_infocontainer .btns_row_container {
+    position: inherit;
+    margin: 0.5rem 0 1rem;
+    width: 100%;
+    height: 3rem;
+}
+.data_infocontainer .btns_row_container .btns_row_center {
+    font-size: var(--fontSizeG);
+    align-self: flex-start;
+
+    height: 3rem;
+    align-items: center;
+}
+
 .basic_sb_container {
     display: flex;
     flex-direction: row;
@@ -582,11 +593,21 @@ NAV {
     align-items: flex-start;
     padding-top: 1rem;
 }
-.data_info_container {
+.data_info {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
+    margin-bottom: 1rem;
+}
+.data_info_card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 8rem;
+    padding: 0.5rem;
+    background: var(--bgAccent);
 }
 .data_btn {
     width: 95%;
@@ -616,13 +637,13 @@ NAV {
     margin-top: 1rem;
 }
 .section_subtitle_data {
-    color: var(--firstColor);
+    color: var(--textColor);
     font-size: var(--fontSizeG);
 }
 .section_subtitle_name {
-    font-size: var(--fontSizeG);
+    font-size: var(--fontSizeXL);
     font-weight: 600;
-    color: var(--textColor);
+    color: var(--firstColor);
 }
 .fav_card,
 .card_btn {
@@ -918,12 +939,6 @@ MAIN {
     background: var(--bgColor);
     padding-bottom: 4rem;
 }
-MAIN .img_container {
-    position: sticky;
-    position: -webkit-sticky;
-    top: 0;
-    left: 0;
-}
 /*! PARTS */
 .poke_icon .cls-1 {
     fill: rgb(244, 243, 243);
@@ -1091,14 +1106,10 @@ MAIN .img_container {
     width: 100%;
 }
 
-.poke_data_info_grid {
+.data_grid {
     display: grid;
     grid-template-columns: 1fr;
-    row-gap: 1rem;
-}
-.poke_data_info_grid P {
-    color: var(--textContrastColor);
-    margin-left: 0.5rem;
+    gap: 1rem;
 }
 #config_menu {
     display: none;
@@ -1248,7 +1259,7 @@ MAIN .img_container {
         row-gap: 1rem;
         padding: 0.25rem;
     }
-    .poke_data_info_grid {
+    .data_grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
