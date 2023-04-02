@@ -98,32 +98,32 @@
                 <div class="data_info_container">
                     <!-- ! INSERT DATA  -->
                     <!-- ~ DESCRIPTION CONTENT - START -->
-
-                    <div class="basic_sb_container" id="flavor_text_container">
-                        <h4 class="section_subtitle_data" id="name_version_subtitle">Descripción De Personaje Versión:</h4>
-                        <div class="option_list" id="option_list_descriptions">
-                            <button type="button" class="option_list_btn option_list_btn_search option_list_descriptions_btn_search" data-name="open-close">
-                                <span id="option_list_descriptions_first_text">Opciones</span>
-                                <div class="icon_container">
-                                    <svg class="icon_svg" id="arrow_btn_select_list_descriptions_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path class="cls-1" d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                                    </svg>
-                                </div>
-                            </button>
-                            <div class="option_list_btns_container" id="option_list_descriptions_btns_container"></div>
+                    <div class="data_info flex_column">
+                        <div class="basic_sb_container" id="flavor_text_container">
+                            <h4 class="section_subtitle_data" id="name_version_subtitle">Descripción De Personaje</h4>
+                            <div class="option_list" id="option_list_descriptions">
+                                <button type="button" class="option_list_btn option_list_btn_search option_list_descriptions_btn_search" data-name="open-close">
+                                    <span id="option_list_descriptions_first_text">Versión</span>
+                                    <div class="icon_container">
+                                        <svg class="icon_svg" id="arrow_btn_select_list_descriptions_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <path class="cls-1" d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                                        </svg>
+                                    </div>
+                                </button>
+                                <div class="option_list_btns_container" id="option_list_descriptions_btns_container"></div>
+                            </div>
                         </div>
+                        <p class="section_subtitle_name" id="poke_data_info_name_version"></p>
+
+                        <p class="poke_data_info" id="poke_data_info_description_version"></p>
                     </div>
-                    <p class="section_subtitle_name" id="poke_data_info_name_version"></p>
-
-                    <p class="poke_data_info" id="poke_data_info_description_version"></p>
-
                     <!-- ~ DESCRIPTION CONTENT - OVER -->
                     <div class="data_info flex_column">
                         <h2 class="section_subtitle_data" id="poke_data_info_name_habitat">Habitad</h2>
                         <p class="section_subtitle_name" id="poke_data_info_description_habitat"></p>
                     </div>
                     <!-- ~ BASIC DATA CARDS - START -->
-                    <div class="data_grid">
+                    <div class="data_grid margin_b">
                         <div class="data_info_card">
                             <h2 class="section_subtitle_data" id="poke_data_info_name_weight">Peso</h2>
                             <p class="section_subtitle_name" id="poke_data_info_description_weight"></p>
@@ -135,20 +135,39 @@
                         </div>
 
                         <div class="data_info_card">
-                            <h2 class="section_subtitle_data" id="poke_data_info_name_habilities">Habilidades</h2>
-                            <p class="section_subtitle_name" id="poke_data_info_description_habilities"></p>
+                            <h2 class="section_subtitle_data" id="poke_data_info_name_abilities">Habilidades</h2>
+                            <div class="btns_row_center gap_rc_1" id="poke_data_info_description_abilities_container"></div>
                         </div>
 
                         <div class="data_info_card">
                             <h2 class="section_subtitle_data" id="poke_data_info_name_gender">Genero</h2>
-                            <p class="section_subtitle_name" id="poke_data_info_description_gender"></p>
+                            <div class="btns_row_center">
+                                <div class="icon_container gender_icon male_icon">
+                                    <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
+                                            class="cls-1"
+                                            d="M15.0491 8.53666L18.5858 5H14V3H22V11H20V6.41421L16.4633 9.95088C17.4274 11.2127 18 12.7895 18 14.5C18 18.6421 14.6421 22 10.5 22C6.35786 22 3 18.6421 3 14.5C3 10.3579 6.35786 7 10.5 7C12.2105 7 13.7873 7.57264 15.0491 8.53666ZM10.5 20C13.5376 20 16 17.5376 16 14.5C16 11.4624 13.5376 9 10.5 9C7.46243 9 5 11.4624 5 14.5C5 17.5376 7.46243 20 10.5 20Z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                                <div class="icon_container gender_icon female_icon">
+                                    <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
+                                            class="cls-1"
+                                            d="M11 15.9339C7.33064 15.445 4.5 12.3031 4.5 8.5C4.5 4.35786 7.85786 1 12 1C16.1421 1 19.5 4.35786 19.5 8.5C19.5 12.3031 16.6694 15.445 13 15.9339V18H18V20H13V24H11V20H6V18H11V15.9339ZM12 14C15.0376 14 17.5 11.5376 17.5 8.5C17.5 5.46243 15.0376 3 12 3C8.96243 3 6.5 5.46243 6.5 8.5C6.5 11.5376 8.96243 14 12 14Z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                         <!-- ~ BASIC DATA CARDS - OVER -->
                     </div>
                     <!-- ! INSERT DATA  -->
+                    <div class="data_info flex_column">
+                        <h3 class="section_subtitle" id="evo_subtitle">Cadena De Evolución</h3>
+                        <div class="cards_row_container" id="btns_evo_chain_container"></div>
+                    </div>
                 </div>
-                <h3 class="section_subtitle" id="evo_subtitle">Cadena De Evolución</h3>
-                <div class="cards_row_container" id="btns_evo_chain_container"></div>
             </div>
         </main>
         <button type="button" class="extra_btn basic_btn top_btn" id="top_btn">
@@ -206,6 +225,26 @@
                     <button type="button" class="btn accept_btn" id="accept_alert_modal_btn">Lo vuelvo a intentar</button>
                     <button type="button" class="btn more_btn" id="more_alert_modal_btn">No entiendo</button>
                 </div>
+            </div>
+            <div class="modal_content" id="ability_modal">
+                <div class="btns_column_container lang_menu_container modal_action_btn">
+                    <button type="button" class="lang_modal_btn lang_menu_modal_btn" data-name="lang_ability">
+                        <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <title>Languaje</title>
+                            <path
+                                class="cls-1"
+                                d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-2.29-2.333A17.9 17.9 0 0 1 8.027 13H4.062a8.008 8.008 0 0 0 5.648 6.667zM10.03 13c.151 2.439.848 4.73 1.97 6.752A15.905 15.905 0 0 0 13.97 13h-3.94zm9.908 0h-3.965a17.9 17.9 0 0 1-1.683 6.667A8.008 8.008 0 0 0 19.938 13zM4.062 11h3.965A17.9 17.9 0 0 1 9.71 4.333 8.008 8.008 0 0 0 4.062 11zm5.969 0h3.938A15.905 15.905 0 0 0 12 4.248 15.905 15.905 0 0 0 10.03 11zm4.259-6.667A17.9 17.9 0 0 1 15.973 11h3.965a8.008 8.008 0 0 0-5.648-6.667z"
+                            />
+                        </svg>
+                    </button>
+                    <div class="btns_column_container lang_menu_modal" id="lang_menu_modal_ability">
+                        <button type="button" class="lang_modal_btn lang_modal_action_btn" data-name="es">Es</button>
+
+                        <button type="button" class="lang_modal_btn lang_modal_action_btn" data-name="en">En</button>
+                    </div>
+                </div>
+                <h1 class="title_modal" id="title_modal_ability"></h1>
+                <p class="text_modal" id="text_modal_ability"></p>
             </div>
             <div class="modal_content" id="themes_modal">
                 <div class="btns_column_container lang_menu_container modal_action_btn">
@@ -672,6 +711,9 @@
         </div>
         <!-- ! -->
     </body>
+    <template id="ability_btn_template">
+        <button type="button" class="ability_btn" data-url=""></button>
+    </template>
     <template id="theme_btn_template">
         <button type="button" class="btn basic_btn theme_btn personalized_theme_btn" data-name="">Prueba 1</button>
     </template>

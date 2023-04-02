@@ -86,7 +86,6 @@ const optionListDescriptionsFirstBtnText = document.querySelector("#option_list_
 const optionListDescriptionsArrow = document.querySelector("#arrow_btn_select_list_descriptions_svg");
 const optionListDescriptionsSearchBtn = document.querySelector(".option_list_descriptions_btn_search");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const pokeDescriptionGenerationTitle = document.querySelector("#name_generation_subtitle");
 const pokeDescriptionVersionTitle = document.querySelector("#name_version_subtitle");
 
 const pokeDescriptionNameHabitat = document.querySelector("#poke_data_info_name_habitat");
@@ -99,8 +98,17 @@ const pokeDescriptionNameGender = document.querySelector("#poke_data_info_name_g
 
 const pokeDescriptionWeight = document.querySelector("#poke_data_info_description_weight");
 const pokeDescriptionHeight = document.querySelector("#poke_data_info_description_height");
-const pokeDescriptionHabilities = document.querySelector("#poke_data_info_description_habilities");
+
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const fragmentAbilityBtns = document.createDocumentFragment();
+const abilityBtnTemplate = document.querySelector("#ability_btn_template").content;
+const pokeDescriptionAbilitiesContainer = document.querySelector("#poke_data_info_description_abilities_container");
+const abilityModal = document.querySelector("#ability_modal");
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 const pokeDescriptionGender = document.querySelector("#poke_data_info_description_gender");
+
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 const pokeDescriptionNameVersion = document.querySelector("#poke_data_info_name_version");
 const pokeDescriptionVersion = document.querySelector("#poke_data_info_description_version");
@@ -992,8 +1000,7 @@ const changeLang = (lang) => {
         titleStartModal.textContent = "Bienvenido";
         textStartModal.textContent = "Estás entrando a una página fan made, la única intención es entretenimiento, toda la información es almacenada en la memoria del navegador, ninguna información es recolectada o vendida";
 
-        optionListDescriptionsFirstBtnText.textContent = "Opciones";
-        pokeDescriptionGenerationTitle.textContent = "Generación:";
+        optionListDescriptionsFirstBtnText.textContent = "Versión";
         pokeDescriptionVersionTitle.textContent = "Descripción De Personaje Versión:";
         evoSubtitle.textContent = "Cadena De Evolución";
         titlefavModal.textContent = "Favoritos";
@@ -1029,9 +1036,7 @@ const changeLang = (lang) => {
         searchInputName.setAttribute("placeholder", "Name");
         titleStartModal.textContent = "Welcome";
         textStartModal.textContent = "You'r enter in a fan made page, the only intention is entertainment, all stored informatio is in the browser's memory, no information is collected or sold";
-        optionListDescriptionsFirstBtnText.textContent = "Options";
-
-        pokeDescriptionGenerationTitle.textContent = "Generation:";
+        optionListDescriptionsFirstBtnText.textContent = "Version";
         pokeDescriptionVersionTitle.textContent = "Flavor Text Version:";
         evoSubtitle.textContent = "Evolution Chain";
         titlefavModal.textContent = "Favorite";
@@ -1481,6 +1486,7 @@ const createPokeData = async (data) => {
         deleteChildElements(fragmentListVarieties);
         deleteArrElements(currentPokemonFlavors);
         deleteChildElements(optionListDescriptionsBtnsContainer);
+        deleteChildElements(pokeDescriptionAbilitiesContainer);
         deleteArrElements(fragmentListDescriptions);
 
         searchInputNumber.value = "";
@@ -1533,8 +1539,43 @@ const createPokeData = async (data) => {
         } else if (currentLang === en) {
             pokeDescriptionHabitat.textContent = habitatNameEn;
         }
+        //^^ REVISAR CONFIGURACION DE SISTEMA DE MEDICION  //
         pokeDescriptionHeight.textContent = pokemonHeight;
         pokeDescriptionWeight.textContent = pokemonWeight;
+        //!  //
+        console.log(abilities.length);
+        let timeOutFuncTime = 250;
+        let abilitieBtnsCount = 0;
+        abilities.forEach(async (ability) => {
+            abilitieBtnsCount++;
+            console.log(ability);
+            const abilitiesData = await fetchFunc(ability.ability.url);
+            setTimeout(() => {
+                console.log(abilitiesData);
+                const newAbilityBtn = abilityBtnTemplate.cloneNode(true);
+                const abilityBtn = newAbilityBtn.querySelector(".ability_btn");
+                abilitiesData.names.forEach((abilitieNamesData) => {
+                    if (currentLang === abilitieNamesData.language.name) {
+                        console.log(abilitieNamesData.name);
+                        abilityBtn.setAttribute("data-url", ability.ability.url);
+                        console.log(abilitiesData.flavor_text_entries);
+                        abilityBtn.textContent = abilitieNamesData.name;
+                    }
+                });
+                fragmentAbilityBtns.appendChild(newAbilityBtn);
+            }, timeOutFuncTime);
+        });
+        setTimeout(() => {
+            pokeDescriptionAbilitiesContainer.appendChild(fragmentAbilityBtns);
+            setTimeout(() => {
+                const abilityBtns = document.querySelectorAll(".ability_btn");
+                abilityBtns.forEach((btn) => {
+                    btn.addEventListener("click", () => {
+                        console.log(btn.getAttribute("data-url"));
+                    });
+                });
+            }, 250);
+        }, timeOutFuncTime * abilitieBtnsCount + 500);
         //!  //
         createEvoChainBtns(speciesLink);
         /* console.log(varieties.length); */
@@ -1719,7 +1760,6 @@ const createPokeData = async (data) => {
                 console.log(currentMonthOfTheYear[en]); */
             }
         }
-        console.log(date);
         if (date < 10) {
             actualDate = `0${date}`;
         } else {
@@ -2156,7 +2196,7 @@ const themeMenuActions = () => {
 };
 const updatePokedex = () => {
     storagePokedex = JSON.parse(localStorage.getItem(DB_NAME));
-    console.log("Pokedex Updated");
+    /* console.log("Pokedex Updated"); */
 };
 const savePokedex = () => {
     localStorage.setItem(DB_NAME, JSON.stringify(storagePokedex));

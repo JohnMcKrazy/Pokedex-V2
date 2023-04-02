@@ -402,6 +402,7 @@ NAV {
     width: 100%;
     height: var(--navHeight);
     z-index: var(--zIndexNav);
+    background: var(--bgColorT);
 }
 .content {
     min-width: 280px;
@@ -425,11 +426,25 @@ NAV {
 .margin_b_s {
     margin-bottom: 0.5rem;
 }
+.gap_rc_1 {
+    gap: 1rem;
+}
 .flex_row {
     flex-direction: row;
 }
 .flex_column {
     flex-direction: column;
+}
+.gender_icon {
+    display: none;
+    width: 3rem;
+    height: 3rem;
+}
+.male_icon .icon_svg {
+    fill: skyblue;
+}
+.female_icon .icon_svg {
+    fill: pink;
 }
 .btn {
     display: flex;
@@ -484,12 +499,29 @@ NAV {
 .extra_btn {
     position: fixed;
 }
+.ability_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    padding: 1rem 2rem;
+    background: var(--bgColor);
+    color: var(--textColor);
+    font-size: var(--fontSizeN);
+    border-radius: 1rem;
+}
+.ability_btn:hover {
+    background: var(--firstColor);
+    color: var(--whiteOff);
+}
 .top_btn {
     bottom: 2rem;
     right: 2rem;
     width: 4rem;
     height: 4rem;
     padding: 0.25rem;
+    background: var(--whiteOff);
 }
 .delete_DB_btn {
     top: 0;
@@ -571,21 +603,19 @@ NAV {
     margin-top: 1rem;
     padding: 1rem;
 }
-
-.data_infocontainer .btns_row_container {
+.data_info_container .btns_row_container {
     position: inherit;
     margin: 0.5rem 0 1rem;
     width: 100%;
     height: 3rem;
 }
-.data_infocontainer .btns_row_container .btns_row_center {
+.data_info_container .btns_row_container .btns_row_center {
     font-size: var(--fontSizeG);
     align-self: flex-start;
 
     height: 3rem;
     align-items: center;
 }
-
 .basic_sb_container {
     display: flex;
     flex-direction: row;
@@ -597,7 +627,7 @@ NAV {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 .data_info_card {
     display: flex;
@@ -639,6 +669,7 @@ NAV {
 .section_subtitle_data {
     color: var(--textColor);
     font-size: var(--fontSizeG);
+    margin-bottom: 1rem;
 }
 .section_subtitle_name {
     font-size: var(--fontSizeXL);
@@ -891,17 +922,6 @@ NAV {
     text-align: center;
 }
 /* ^PAGE */
-/* 
-.extra_btn:hover {
-    background: var(--firstColor);
-}
-.extra_btn:hover .btn_label {
-    color: var(--white);
-}
-.extra_btn:hover .icon_svg {
-    fill: var(--white);
-}
-*/
 NAV .content {
     position: relative;
     display: flex;
@@ -1105,7 +1125,6 @@ MAIN {
     border-radius: 0.5rem;
     width: 100%;
 }
-
 .data_grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -1189,7 +1208,6 @@ MAIN {
     justify-content: flex-start;
     align-items: center;
 }
-
 #option_list_descriptions {
     position: inherit;
     margin: 0;
