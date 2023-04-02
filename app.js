@@ -1001,7 +1001,7 @@ const changeLang = (lang) => {
         textStartModal.textContent = "Estás entrando a una página fan made, la única intención es entretenimiento, toda la información es almacenada en la memoria del navegador, ninguna información es recolectada o vendida";
 
         optionListDescriptionsFirstBtnText.textContent = "Versión";
-        pokeDescriptionVersionTitle.textContent = "Descripción De Personaje Versión:";
+        pokeDescriptionVersionTitle.textContent = "Descripción:";
         evoSubtitle.textContent = "Cadena De Evolución";
         titlefavModal.textContent = "Favoritos";
         favListFirstBtnText.textContent = "Ordenar";
@@ -1037,7 +1037,7 @@ const changeLang = (lang) => {
         titleStartModal.textContent = "Welcome";
         textStartModal.textContent = "You'r enter in a fan made page, the only intention is entertainment, all stored informatio is in the browser's memory, no information is collected or sold";
         optionListDescriptionsFirstBtnText.textContent = "Version";
-        pokeDescriptionVersionTitle.textContent = "Flavor Text Version:";
+        pokeDescriptionVersionTitle.textContent = "Flavor:";
         evoSubtitle.textContent = "Evolution Chain";
         titlefavModal.textContent = "Favorite";
         favListFirstBtnText.textContent = "Sort";
