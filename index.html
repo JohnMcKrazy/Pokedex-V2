@@ -118,10 +118,7 @@
                         <p class="poke_data_info" id="poke_data_info_description_version"></p>
                     </div>
                     <!-- ~ DESCRIPTION CONTENT - OVER -->
-                    <div class="data_info flex_column">
-                        <h2 class="section_subtitle_data" id="poke_data_info_name_habitat">Habitad</h2>
-                        <p class="section_subtitle_name" id="poke_data_info_description_habitat"></p>
-                    </div>
+
                     <!-- ~ BASIC DATA CARDS - START -->
                     <div class="data_grid margin_b">
                         <div class="data_info_card">
@@ -132,11 +129,6 @@
                         <div class="data_info_card">
                             <h2 class="section_subtitle_data" id="poke_data_info_name_height">Altura</h2>
                             <p class="section_subtitle_name" id="poke_data_info_description_height"></p>
-                        </div>
-
-                        <div class="data_info_card">
-                            <h2 class="section_subtitle_data" id="poke_data_info_name_abilities">Habilidades</h2>
-                            <div class="btns_row_center gap_rc_1" id="poke_data_info_description_abilities_container"></div>
                         </div>
 
                         <div class="data_info_card">
@@ -161,6 +153,15 @@
                             </div>
                         </div>
                         <!-- ~ BASIC DATA CARDS - OVER -->
+                    </div>
+
+                    <div class="data_info flex_column">
+                        <h2 class="section_subtitle_data" id="poke_data_info_name_habitat">Habitad</h2>
+                        <p class="section_subtitle_name" id="poke_data_info_description_habitat"></p>
+                    </div>
+                    <div class="data_info flex_column">
+                        <h2 class="section_subtitle_data" id="poke_data_info_name_abilities">Habilidades</h2>
+                        <div class="btns_row_center gap_rc_1" id="poke_data_info_description_abilities_container"></div>
                     </div>
                     <!-- ! INSERT DATA  -->
                     <div class="data_info flex_column">
@@ -242,6 +243,25 @@
 
                         <button type="button" class="lang_modal_btn lang_modal_action_btn" data-name="en">En</button>
                     </div>
+                </div>
+                <div class="btn_container close_btn_container modal_action_btn">
+                    <button type="button" class="close_modal_btn" data-name="close_ability_modal">
+                        <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="cls-1" d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" /></svg>
+                    </button>
+                </div>
+                <div class="option_list" id="option_list_ability">
+                    <!--! add buttons  -->
+                    <button type="button" class="option_list_btn option_list_ability_btn option_list_btn_search" data-name="open-close">
+                        <span id="option_list_ability_first_text">Versión</span>
+                        <div class="icon_container">
+                            <svg class="icon_svg" id="arrow_btn_select_list_ability_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path class="cls-1" d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="option_list_btns_container" id="option_list_btns_container_ability"></div>
+
+                    <!--! add buttons  -->
                 </div>
                 <h1 class="title_modal" id="title_modal_ability"></h1>
                 <p class="text_modal" id="text_modal_ability"></p>
@@ -811,10 +831,16 @@
         </div>
     </template>
     <!--~~LIST SELECTOR TEMPLATE-->
-    <!--~~LIST OPTION TEMPLATE-->
+    <!--~~LIST OPTION TEMPLATE VARIENT-->
     <template id="option_list_varients_btn_template">
         <button type="button" class="option_list_btn option_list_varients_btn" data-name="item" data-url=""></button>
     </template>
-    <!--~~LIST OPTION TEMPLATE-->
+    <!--~~LIST OPTION TEMPLATE VARIENT-->
+
+    <!--~~LIST OPTION TEMPLATE ABILITY-->
+    <template id="option_list_ability_btn_template">
+        <button type="button" class="option_list_btn option_list_ability_btn" data-name=""></button>
+    </template>
+    <!--~~LIST OPTION TEMPLATE ABILITY-->
     <script src="./app.js" defer></script>
 </html>

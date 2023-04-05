@@ -103,7 +103,14 @@ const pokeDescriptionHeight = document.querySelector("#poke_data_info_descriptio
 const fragmentAbilityBtns = document.createDocumentFragment();
 const abilityBtnTemplate = document.querySelector("#ability_btn_template").content;
 const pokeDescriptionAbilitiesContainer = document.querySelector("#poke_data_info_description_abilities_container");
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const abilityModal = document.querySelector("#ability_modal");
+const langMenuModalAbility = document.querySelector("#lang_menu_modal_ability");
+const optionListAbility = document.querySelector("#option_list_btns_container_ability");
+const optionListAbilityArrow = document.querySelector("#arrow_btn_select_list_ability_svg");
+const fragmentListAbility = document.createDocumentFragment();
+const optionListAbilityBtnTemplate = document.querySelector("#option_list_ability_btn_template").content;
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 const pokeDescriptionGender = document.querySelector("#poke_data_info_description_gender");
@@ -260,6 +267,7 @@ let configMenuStatus = close;
 let themeModalStatus = close;
 let alertModalStatus = close;
 let startModalStatus = close;
+let abilityModalStatus = close;
 let favModalStatus = close;
 let alertModalFavStatus = close;
 let alertModalEditThemesStatus = close;
@@ -269,6 +277,7 @@ let editPersonalizedThemeModalStatus = close;
 let langMenuNavStatus = close;
 let langMenuModalStartStatus = close;
 let langMenuModalAlertStatus = close;
+let langMenuModalAbilityStatus = close;
 let langMenuModalThemesStatus = close;
 let langMenuModalEditPersonalizedThemesStatus = close;
 let langMenuModalEditPersonalizedThemeStatus = close;
@@ -278,6 +287,7 @@ let langMenuModalfavAlertStatus = close;
 let optionListDescriptionsStatus = close;
 let optionListVarientsStatus = close;
 let optionListFavStatus = close;
+let optionListAbilityStatus = close;
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let currentLang = es;
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -884,6 +894,10 @@ const next = () => {
     if (optionListDescriptionsStatus === open) {
         closeOptionList("option_list_descriptions");
     }
+
+    if (optionListAbilityStatus === open) {
+        closeOptionList("option_list_ability");
+    }
     if (itsFirstPokemonSearch === true) {
         itsFirstPokemonSearch = false;
         currentPokemon = 1;
@@ -925,6 +939,9 @@ const previous = () => {
 
     if (optionListDescriptionsStatus === open) {
         closeOptionList("option_list_descriptions");
+    }
+    if (optionListAbilityStatus === open) {
+        closeOptionList("option_list_ability");
     }
     if (itsFirstPokemonSearch === true) {
         itsFirstPokemonSearch = false;
@@ -1146,6 +1163,11 @@ const closeOptionList = (list) => {
             optionListDescriptionsArrow.style.transform = "rotate(0)";
             optionListDescriptions.style.height = "3rem";
             break;
+        case "option_list_ability":
+            optionListAbilityStatus = close;
+            optionListAbilityArrow.style.transform = "rotate(0)";
+            optionListAbility.style.height = "3rem";
+            break;
     }
 };
 const optionListVarientsActions = (status) => {
@@ -1235,6 +1257,10 @@ const optionListFavOptionActions = (action) => {
         }
 
         createCurrentSortPokemonFav(currentSortedObject);
+    }
+};
+const ootionListAbilityOptionActions = (action) => {
+    if (action === "open-close") {
     }
 };
 const createEvoCard = async (id, name, types, img) => {
@@ -1570,8 +1596,30 @@ const createPokeData = async (data) => {
             setTimeout(() => {
                 const abilityBtns = document.querySelectorAll(".ability_btn");
                 abilityBtns.forEach((btn) => {
-                    btn.addEventListener("click", () => {
+                    btn.addEventListener("click", async () => {
                         console.log(btn.getAttribute("data-url"));
+                        const abilityData = await fetchFunc(btn.getAttribute("data-url"));
+                        console.log(abilityData);
+                        const abilityFlavorsEn = [];
+                        const abilityFlavorsEs = [];
+                        abilityData.flavor_text_entries.forEach((abilityFlavor) => {
+                            console.log(abilityFlavor);
+                            if (abilityFlavor.language.name === en) {
+                                abilityFlavorsEn.push({
+                                    version: abilityFlavor.version_group.name,
+                                    flavor: abilityFlavor.flavor_text,
+                                });
+                            } else if (abilityFlavor.language.name === es) {
+                                abilityFlavorsEs.push({
+                                    version: abilityFlavor.version_group.name,
+                                    flavor: abilityFlavor.flavor_text,
+                                });
+                            }
+                        });
+                        console.log(abilityFlavorsEn, abilityFlavorsEs);
+                        animationIn(modal, flex, 500);
+                        abilityModalStatus = open;
+                        setTimeout(() => animationIn(abilityModal, block, 500), 1500);
                     });
                 });
             }, 250);
@@ -1939,6 +1987,15 @@ const langMenuModalActions = (action) => {
             } else if (langMenuModalAlertStatus === open) {
                 langMenuModalAlertStatus = close;
                 closeMenu(langMenuModalAlert);
+            }
+            break;
+        case "lang_ability":
+            if (langMenuModalAbilityStatus === close) {
+                langMenuModalAbilityStatus = open;
+                openMenu(langMenuModalAbility);
+            } else if (langMenuModalAbilityStatus === open) {
+                langMenuModalAbilityStatus = close;
+                closeMenu(langMenuModalAbility);
             }
             break;
         case "lang_themes":
@@ -2584,13 +2641,19 @@ const pikerThemeActionBtns = (action) => {
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const closeModal = (action) => {
-    console.log(action);
+    /* console.log(action); */
     switch (action) {
         case "close_fav":
             console.log(action);
             animationOut(favModal);
             setTimeout(() => animationOut(modal), 500);
             favModalStatus = close;
+            break;
+        case "close_ability_modal":
+            console.log(action);
+            animationOut(abilityModal);
+            setTimeout(() => animationOut(modal), 500);
+            abilityModalStatus = close;
             break;
         case "close_theme":
             console.log(action);

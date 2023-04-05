@@ -506,7 +506,7 @@ NAV {
     width: fit-content;
     height: fit-content;
     padding: 1rem 2rem;
-    background: var(--bgColor);
+    background: var(--bgAccent);
     color: var(--textColor);
     font-size: var(--fontSizeN);
     border-radius: 1rem;
@@ -1257,15 +1257,17 @@ MAIN {
 #edit_personalized_themes_modal {
     overflow: hidden;
 }
-@media screen and (min-width: 420px) {
+@media screen and (min-width: 440px) {
     HTML {
         --fontSize: 11px;
     }
     .poke_bg {
         height: 32rem;
     }
-}
-@media screen and (min-width: 440px) {
+    .data_grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
     .fav_card {
         width: 15rem;
     }
@@ -1276,10 +1278,6 @@ MAIN {
         justify-content: center;
         row-gap: 1rem;
         padding: 0.25rem;
-    }
-    .data_grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
     }
 }
 @media screen and (min-width: 550px) {
