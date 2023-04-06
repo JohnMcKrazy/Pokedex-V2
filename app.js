@@ -1935,7 +1935,6 @@ const catchEmAll = async (id) => {
         console.log(error);
     }
 };
-catchEmAll(currentPokemon);
 const searchFunction = () => {
     let myName = searchInputName.value.toLowerCase();
     let myNumber = searchInputNumber.value;
@@ -2362,7 +2361,7 @@ const checkStorageAnswer = () => {
     if (window.navigator.language === "es" || window.navigator.language === "es-ES") {
         console.log("navegador en idioma español");
     } else {
-        console.log("navegador en idioma otro idioma no español");
+        console.log("navegador en otro idioma no español");
         changeLang(en);
     }
     storageContent = JSON.parse(localStorage.getItem(DB_NAME));
@@ -2405,6 +2404,8 @@ const checkStorageAnswer = () => {
     }
 };
 checkStorageAnswer();
+
+catchEmAll(currentPokemon);
 //^^ ************************************************************************** *//
 const themeCardBtnActions = () => {
     const actionBtns = document.querySelectorAll(".personalized_theme_card_action");
