@@ -1,3 +1,5 @@
+const titleEditPersonalizedThemesModal = document.querySelector("#title_edit_personalized_themes_modal");
+
 //! ||||||||||||//
 //!  PAGE ITEMS //
 //! ||||||||||||//
@@ -165,14 +167,25 @@ const themeActionBtns = document.querySelectorAll(".theme_modal_btn");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const personalizedThemeModal = document.querySelector("#personalized_theme_modal");
+const titlePersonalizedThemeModal = document.querySelector("#title_personalized_theme_modal");
+const subtitlePersonalizedThemeModal = document.querySelector("#text_personalized_theme_modal");
+
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const pikerPersonalizedThemeModalBtns = document.querySelectorAll(".piker_personalized_theme_modal_btn");
 const deletePersonalizedThemeBtn = document.querySelector("#delete_changes_btn");
 const nameInputPersonalizedTheme = document.querySelector("#name_input_perzonalized_theme");
 const colorPikersPersonalizedTheme = document.querySelectorAll(".color_piker_personalized_theme");
 const personalizedActionBtns = document.querySelectorAll(".personalized_action_btn");
-const newThemeModalBtn = document.querySelector("#new_theme_modal_btn");
-const editThemeModalBtn = document.querySelector("#edit_theme_modal_btn");
+const titleThemesModal = document.querySelector("#title_themes_modal");
+const subtitleThemesModal = document.querySelector("#subtitle_themes_modal");
+const newThemeModalBtnLabel = document.querySelector("#new_theme_modal_btn_label");
+const editThemeModalBtnLabel = document.querySelector("#edit_theme_modal_btn_label");
+const tryThemeModalBtnLabel = document.querySelector("#try_theme_modal_btn_label");
+const saveThemeModalBtnLabel = document.querySelector("#save_theme_modal_btn_label");
+const cancelThemeModalBtnLabel = document.querySelector("#cancel_theme_modal_btn_label");
+const deleteThemeModalBtnLabel = document.querySelector("#delete_theme_modal_btn_label");
+
+const titleEditPersonalizedThemeModal = document.querySelector("#title_edit_personalized_theme_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 const modalEditThemes = document.querySelector("#modal_edit_themes");
@@ -1000,6 +1013,7 @@ const closeMenu = (menu, delay = 250) => {
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const changeLang = (lang) => {
     const varietiesListFirstBtnText = document.querySelector("#option_list_varients_first_text");
+
     if (lang === es) {
         currentLang = es;
         console.log("cambiando idioma a español");
@@ -1027,17 +1041,93 @@ const changeLang = (lang) => {
         typeOptioListFavBtn.textContent = "Tipo";
         acceptBtnStartModal.textContent = "Aceptar";
         deniedBtnStartModal.textContent = "Rechazar";
-        newThemeModalBtn.innerHTML = `Nuevo<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-        <title>Nuevo Tema Personalizado</title>
-        <path
-            class="cls-1"
-            d="M12 2c5.522 0 10 3.978 10 8.889a5.558 5.558 0 0 1-5.556 5.555h-1.966c-.922 0-1.667.745-1.667 1.667 0 .422.167.811.422 1.1.267.3.434.689.434 1.122C13.667 21.256 12.9 22 12 22 6.478 22 2 17.522 2 12S6.478 2 12 2zm-1.189 16.111a3.664 3.664 0 0 1 3.667-3.667h1.966A3.558 3.558 0 0 0 20 10.89C20 7.139 16.468 4 12 4a8 8 0 0 0-.676 15.972 3.648 3.648 0 0 1-.513-1.86zM7.5 12a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm9 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM12 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
-        />
-    </svg>`;
-        editThemeModalBtn.innerHTML = `Editar<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-        <title>Editar Tema Personalizado</title>
-        <path class="cls-1" d="M5 19h1.414l9.314-9.314-1.414-1.414L5 17.586V19zm16 2H3v-4.243L16.435 3.322a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414L9.243 19H21v2zM15.728 6.858l1.414 1.414 1.414-1.414-1.414-1.414-1.414 1.414z" />
-    </svg>`;
+
+        titleThemesModal.textContent = "Selecciona Tu Tema";
+        subtitleThemesModal.textContent = "Temas Personalizados";
+        newThemeModalBtnLabel.textContent = "Nuevo";
+
+        titlePersonalizedThemeModal.textContent = "Crea Tu Tema";
+        subtitlePersonalizedThemeModal.textContent = "Con las siguientes herramientas puedes elegir los colores que mas te gusten para poder atrapar mas pokemon";
+
+        editThemeModalBtnLabel.textContent = "Editar";
+        tryThemeModalBtnLabel.textContent = "Probar";
+        saveThemeModalBtnLabel.textContent = "Salvar";
+        cancelThemeModalBtnLabel.textContent = "Cancelar";
+        deleteThemeModalBtnLabel.textContent = "Borrar";
+
+        themeBtns.forEach((btn) => {
+            switch (btn.getAttribute("data-name")) {
+                case "light_theme":
+                    btn.querySelector(".label_btn").textContent = "Claro";
+                    break;
+                case "dark_theme":
+                    btn.querySelector(".label_btn").textContent = "Obscuro";
+                    break;
+                case "water_theme":
+                    btn.querySelector(".label_btn").textContent = "Agua";
+                    break;
+                case "fire_theme":
+                    btn.querySelector(".label_btn").textContent = "Fuego";
+                    break;
+                case "grass_theme":
+                    btn.querySelector(".label_btn").textContent = "Hierba";
+                    break;
+                case "ghost_theme":
+                    btn.querySelector(".label_btn").textContent = "Fantasma";
+                    break;
+                case "psychic_theme":
+                    btn.querySelector(".label_btn").textContent = "Psyquico";
+                    break;
+                case "fairy_theme":
+                    btn.querySelector(".label_btn").textContent = "Hada";
+                    break;
+                case "electric_theme":
+                    btn.querySelector(".label_btn").textContent = "Electrico";
+                    break;
+                case "flying_theme":
+                    btn.querySelector(".label_btn").textContent = "Volador";
+                    break;
+                case "ice_theme":
+                    btn.querySelector(".label_btn").textContent = "Hielo";
+                    break;
+                case "poison_theme":
+                    btn.querySelector(".label_btn").textContent = "Veneno";
+                    break;
+                case "fighter_theme":
+                    btn.querySelector(".label_btn").textContent = "Peleador";
+                    break;
+                case "rock_theme":
+                    btn.querySelector(".label_btn").textContent = "Piedra";
+                    break;
+                case "steel_theme":
+                    btn.querySelector(".label_btn").textContent = "Metal";
+                    break;
+                case "bug_theme":
+                    btn.querySelector(".label_btn").textContent = "Insecto";
+                    break;
+                case "ultrarare_theme":
+                    btn.querySelector(".label_btn").textContent = "Ultra Raro";
+                    break;
+                case "legendary_theme":
+                    btn.querySelector(".label_btn").textContent = "Legendario";
+                    break;
+            }
+        });
+
+        titleEditPersonalizedThemeModal.textContent = "Edita Tu Tema";
+
+        titleEditPersonalizedThemesModal.textContent = "Editar Temas Personalizados";
+        if (editPersonalizedThemesModalStatus === open) {
+            const cardsBgColorTexts = document.querySelectorAll(".name_data_bg");
+            const cardsTextColorTexts = document.querySelectorAll(".name_data_text");
+            const cardsFirstColorColorTexts = document.querySelectorAll(".name_data_firstColor");
+            const cardsBgAccentColorTexts = document.querySelectorAll(".name_data_bgAccent");
+
+            cardsBgColorTexts.forEach((item) => (item.textContent = "Fondo"));
+            cardsTextColorTexts.forEach((item) => (item.textContent = "Texto"));
+            cardsFirstColorColorTexts.forEach((item) => (item.textContent = "Acento"));
+            cardsBgAccentColorTexts.forEach((item) => (item.textContent = "Tarjetas"));
+        }
     } else if (lang === en) {
         currentLang = en;
         console.log("cambiando idioma a ingles");
@@ -1063,17 +1153,93 @@ const changeLang = (lang) => {
         typeOptioListFavBtn.textContent = "Type";
         acceptBtnStartModal.textContent = "Accept";
         deniedBtnStartModal.textContent = "Denied";
-        newThemeModalBtn.innerHTML = `New<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-        <title>New Personalized theme</title>
-        <path
-            class="cls-1"
-            d="M12 2c5.522 0 10 3.978 10 8.889a5.558 5.558 0 0 1-5.556 5.555h-1.966c-.922 0-1.667.745-1.667 1.667 0 .422.167.811.422 1.1.267.3.434.689.434 1.122C13.667 21.256 12.9 22 12 22 6.478 22 2 17.522 2 12S6.478 2 12 2zm-1.189 16.111a3.664 3.664 0 0 1 3.667-3.667h1.966A3.558 3.558 0 0 0 20 10.89C20 7.139 16.468 4 12 4a8 8 0 0 0-.676 15.972 3.648 3.648 0 0 1-.513-1.86zM7.5 12a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm9 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM12 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
-        />
-    </svg>`;
-        editThemeModalBtn.innerHTML = `Edit<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-        <title>Edit Personalized theme</title>
-        <path class="cls-1" d="M5 19h1.414l9.314-9.314-1.414-1.414L5 17.586V19zm16 2H3v-4.243L16.435 3.322a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414L9.243 19H21v2zM15.728 6.858l1.414 1.414 1.414-1.414-1.414-1.414-1.414 1.414z" />
-    </svg>`;
+
+        titleThemesModal.textContent = "Pick Your Theme";
+        subtitleThemesModal.textContent = "Personalized Themes";
+        newThemeModalBtnLabel.textContent = "New";
+
+        titlePersonalizedThemeModal.textContent = "Create Your Theme";
+        subtitlePersonalizedThemeModal.textContent = "With this tools you Can choose your favorite colors to catch more pokemon";
+
+        editThemeModalBtnLabel.textContent = "Edit";
+        tryThemeModalBtnLabel.textContent = "Try";
+        saveThemeModalBtnLabel.textContent = "Save";
+        cancelThemeModalBtnLabel.textContent = "Cancel";
+        deleteThemeModalBtnLabel.textContent = "Delete";
+
+        themeBtns.forEach((btn) => {
+            switch (btn.getAttribute("data-name")) {
+                case "light_theme":
+                    btn.querySelector(".label_btn").textContent = "Light";
+                    break;
+                case "dark_theme":
+                    btn.querySelector(".label_btn").textContent = "Dark";
+                    break;
+                case "water_theme":
+                    btn.querySelector(".label_btn").textContent = "Water";
+                    break;
+                case "fire_theme":
+                    btn.querySelector(".label_btn").textContent = "Fire";
+                    break;
+                case "grass_theme":
+                    btn.querySelector(".label_btn").textContent = "Grass";
+                    break;
+                case "ghost_theme":
+                    btn.querySelector(".label_btn").textContent = "Ghost";
+                    break;
+                case "psychic_theme":
+                    btn.querySelector(".label_btn").textContent = "Psychic";
+                    break;
+                case "fairy_theme":
+                    btn.querySelector(".label_btn").textContent = "Fairy";
+                    break;
+                case "electric_theme":
+                    btn.querySelector(".label_btn").textContent = "Electric";
+                    break;
+                case "flying_theme":
+                    btn.querySelector(".label_btn").textContent = "Flying";
+                    break;
+                case "ice_theme":
+                    btn.querySelector(".label_btn").textContent = "Ice";
+                    break;
+                case "poison_theme":
+                    btn.querySelector(".label_btn").textContent = "Poison";
+                    break;
+                case "fighter_theme":
+                    btn.querySelector(".label_btn").textContent = "Fighter";
+                    break;
+                case "rock_theme":
+                    btn.querySelector(".label_btn").textContent = "Rock";
+                    break;
+                case "steel_theme":
+                    btn.querySelector(".label_btn").textContent = "Steel";
+                    break;
+                case "bug_theme":
+                    btn.querySelector(".label_btn").textContent = "Bug";
+                    break;
+                case "ultrarare_theme":
+                    btn.querySelector(".label_btn").textContent = "Ultra Rare";
+                    break;
+                case "legendary_theme":
+                    btn.querySelector(".label_btn").textContent = "Legendary";
+                    break;
+            }
+        });
+
+        titleEditPersonalizedThemeModal.textContent = "Edit Your Theme";
+
+        titleEditPersonalizedThemesModal.textContent = "Edit Personalized Themes";
+        if (editPersonalizedThemesModalStatus === open) {
+            const cardsBgColorTexts = document.querySelectorAll(".name_data_bg");
+            const cardsTextColorTexts = document.querySelectorAll(".name_data_text");
+            const cardsFirstColorColorTexts = document.querySelectorAll(".name_data_firstColor");
+            const cardsBgAccentColorTexts = document.querySelectorAll(".name_data_bgAccent");
+            cardsBgColorTexts.forEach((item) => (item.textContent = "Background"));
+            cardsTextColorTexts.forEach((item) => (item.textContent = "Text"));
+            cardsFirstColorColorTexts.forEach((item) => (item.textContent = "Accent"));
+            cardsBgAccentColorTexts.forEach((item) => (item.textContent = "Cards"));
+        }
+        /*  */
     }
     if (favModalStatus === open) {
         deleteChildElements(fragmentFavCards);
@@ -2472,15 +2638,29 @@ const createThemeCard = (data) => {
     let editBtn = cloneCard.querySelector(".edit_personalized_theme_btn");
     let deleteBtn = cloneCard.querySelector(".delete_personalized_theme_btn");
 
+    let labelBg = cloneCard.querySelector(".name_data_bg");
+    let labelText = cloneCard.querySelector(".name_data_text");
+    let labelFirstColor = cloneCard.querySelector(".name_data_firstColor");
+    let labelBgAccent = cloneCard.querySelector(".name_data_bgAccent");
+
     editBtn.setAttribute("data-id", data.name);
     deleteBtn.setAttribute("data-id", data.name);
     nameCard.textContent = data.name;
+    if (currentLang === es) {
+        labelBg.textContent = "Fondo";
+        labelText.textContent = "Texto";
+        labelFirstColor.textContent = "Acento";
+        labelBgAccent.textContent = "Tarjetas";
+    } else if (currentLang === en) {
+        labelBg.textContent = "Background";
+        labelText.textContent = "Text";
+        labelFirstColor.textContent = "Accent";
+        labelBgAccent.textContent = "Cards";
+    }
+
     backgroundColor.style.background = data.bgColor;
-
     textColor.style.background = data.textColor;
-
     accentColor.style.background = data.firstColor;
-
     menuColor.style.background = data.bgAccent;
     fragmentThemeCards.appendChild(cloneCard);
 };
@@ -2564,7 +2744,6 @@ const editPikerThemeActions = (action) => {
 
             storagePokedex[storageThemes].forEach((item) => {
                 if (item.name === currentEditingTheme) {
-                    console.log(item);
                     item.name = properCase(nameInputEditPersonalizedTheme.value);
 
                     item.bgColor = bgColorPikerEditPersonalizedTheme.value;
@@ -2585,7 +2764,13 @@ const editPikerThemeActions = (action) => {
             animationOut(editPersonalizedThemeModal);
             editPersonalizedThemeModalStatus = close;
             deletePersonalizedTheme();
-            currentTheme = oldTheme;
+            console.log(storageContent[storageThemeSaved]);
+            if (storageContent[storageThemeSaved] !== {}) {
+                storageContent[storageThemeSaved].name;
+                console.log(storageContent[storageThemeSaved]);
+                const temaSalvadoPrueba = storageContent[storageThemes].filter((theme) => (theme.name === storageContent[storageThemeSaved].name ? theme : console.log("error en checar tema anterior despues de salvar personalizado")));
+                console.log(temaSalvadoPrueba);
+            }
             setTimeout(() => {
                 BODY.className = oldTheme;
                 themeCardsContainer.appendChild(fragmentThemeCards);

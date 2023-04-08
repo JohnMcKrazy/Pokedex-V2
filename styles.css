@@ -714,6 +714,7 @@ NAV {
 .color_data {
     width: 2rem;
     height: 2rem;
+    border: solid 1px var(--textColor);
 }
 .theme_card .card_name {
     color: var(--firstColor);
