@@ -261,6 +261,7 @@ let optionListVarientsBtns;
 let pastModal = "";
 let currentPersonilizedTheme = {};
 
+let currentEditingTheme = "";
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 let configMenuStatus = close;
@@ -2298,7 +2299,6 @@ const changeBasicTheme = (tm) => {
                 break;
             default:
                 console.log("tienes un problema con tu funcion changeTheme");
-                nn;
         }
     } else {
         BODY.className = tm;
@@ -2394,11 +2394,20 @@ const checkStorageAnswer = () => {
     if (storageContent && storageContent[storageThemeSaved] !== {} && storageContent && storageContent[storageThemeSaved]["tag"] === personalizedT) {
         console.log(storageContent[storageThemeSaved]);
         BODY.className = personalizedT;
-        personalizedProperty(personalizedT, `--bgColor`, storageContent[storageThemeSaved]["bgColor"]);
-        personalizedProperty(personalizedT, `--firstColor`, storageContent[storageThemeSaved]["firstColor"]);
-        personalizedProperty(personalizedT, `--textColor`, storageContent[storageThemeSaved]["textColor"]);
-        personalizedProperty(personalizedT, `--bgAccent`, storageContent[storageThemeSaved]["bgAccent"]);
-        currentPersonilizedTheme = storageContent[storageThemeSaved];
+
+        console.log(storageContent[storageThemeSaved]);
+        console.log(storageContent[storageThemeSaved].name);
+        storageContent[storageThemes].forEach((theme) => {
+            console.log(theme);
+            if (storageContent[storageThemeSaved].name === theme.name) {
+                console.log(theme);
+                currentPersonilizedTheme = theme;
+                personalizedProperty(personalizedT, `--bgColor`, theme["bgColor"]);
+                personalizedProperty(personalizedT, `--firstColor`, theme["firstColor"]);
+                personalizedProperty(personalizedT, `--textColor`, theme["textColor"]);
+                personalizedProperty(personalizedT, `--bgAccent`, theme["bgAccent"]);
+            }
+        });
     } else if (storageContent && storageContent[storageThemeSaved] !== {} && storageContent && storageContent[storageThemeSaved]["tag"] !== personalizedT) {
         changeBasicTheme(storageContent[storageThemeSaved]["tag"]);
     }
@@ -2413,6 +2422,8 @@ const themeCardBtnActions = () => {
         btn.addEventListener("click", () => {
             console.log(btn.getAttribute("data-name"));
             if (btn.getAttribute("data-name") === "edit_theme") {
+                oldTheme = BODY.className;
+                BODY.className = personalizedT;
                 console.log("editar theme");
                 animationOut(editPersonalizedThemesModal);
                 editPersonalizedThemesModalStatus = close;
@@ -2435,7 +2446,7 @@ const themeCardBtnActions = () => {
                 setTimeout(() => {
                     animationIn(editPersonalizedThemeModal, block);
                     editPersonalizedThemeModalStatus = open;
-                }, 500);
+                }, 1000);
             } else if (btn.getAttribute("data-name") === "delete_theme") {
                 console.log("eliminar theme");
 
@@ -2555,10 +2566,11 @@ const editPikerThemeActions = (action) => {
                 if (item.name === currentEditingTheme) {
                     console.log(item);
                     item.name = properCase(nameInputEditPersonalizedTheme.value);
-                    item.bgColor = currentBgColor;
-                    item.firstColor = currentFirstColor;
-                    item.textColor = currentTextColor;
-                    item.bgAccent = currentBgAccent;
+
+                    item.bgColor = bgColorPikerEditPersonalizedTheme.value;
+                    item.firstColor = firstColorPikerEditPersonalizedTheme.value;
+                    item.textColor = textColorPikerEditPersonalizedTheme.value;
+                    item.bgAccent = bgAccentPikerEditPersonalizedTheme.value;
 
                     console.log(item);
                 }
@@ -2573,12 +2585,15 @@ const editPikerThemeActions = (action) => {
             animationOut(editPersonalizedThemeModal);
             editPersonalizedThemeModalStatus = close;
             deletePersonalizedTheme();
+            currentTheme = oldTheme;
             setTimeout(() => {
+                BODY.className = oldTheme;
                 themeCardsContainer.appendChild(fragmentThemeCards);
                 animationIn(editPersonalizedThemesModal, block);
                 editPersonalizedThemesModalStatus = open;
-
-                setTimeout(() => themeCardBtnActions(), 500);
+                setTimeout(() => {
+                    themeCardBtnActions();
+                }, 500);
             }, 1000);
         } else {
             animationOut(personalizedThemeModal);

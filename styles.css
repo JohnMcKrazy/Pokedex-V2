@@ -1192,8 +1192,8 @@ MAIN {
     fill: var(--firstColor);
 }
 #config_menu_btn {
-    fill: var(--whiteOff);
-    border: solid 2px var(--whiteOff);
+    fill: var(--textColor);
+    border: solid 2px var(--textColor);
 }
 #option_list_btns_container_varients {
     max-height: 15rem;
