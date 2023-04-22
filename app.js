@@ -110,8 +110,11 @@ const abilityModal = document.querySelector("#ability_modal");
 const langMenuModalAbility = document.querySelector("#lang_menu_modal_ability");
 const optionListAbility = document.querySelector("#option_list_btns_container_ability");
 const optionListAbilityArrow = document.querySelector("#arrow_btn_select_list_ability_svg");
-const fragmentListAbility = document.createDocumentFragment();
+const fragmentOptionListAbilityBtns = document.createDocumentFragment();
 const optionListAbilityBtnTemplate = document.querySelector("#option_list_ability_btn_template").content;
+
+const titleAbilityFlavorsModal = document.querySelector("#title_modal_ability");
+const textAbilityFlavorsModal = document.querySelector("#text_modal_ability");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -1572,7 +1575,7 @@ const createEvoChainBtns = async (speciesLink) => {
                 } else {
                     /* console.log(`No tienes ${evoTypesCount + 1} evoluciones`); */
                 }
-            }, 100);
+            }, 200);
         });
     };
     /*! EXTRA DATA */
@@ -1711,10 +1714,15 @@ const createPokeData = async (data) => {
             const { id: generationID, main_region: generationRegion, version_groups: generationVersiones } = generationData;
         }
 
+        //!  REVISION DE DATA DE GENEROS, HACERLA COHERENTE//
+        /*  const pokeGengers = await fetchFunc(`https://pokeapi.co/api/v2/gender/${currentPokemon}`);
+        console.log(pokeGengers); */
+        //!  REVISION DE DATA DE GENEROS, HACERLA COHERENTE//
+
         //! agregar nueva data de personaje //
         if (habitat) {
             const habitatData = await fetchFunc(habitat.url);
-            console.log(habitatData);
+            /*  console.log(habitatData); */
             habitatData.names.forEach((item) => {
                 if (item.language.name === es) {
                     habitatNameEs = properCase(item.name);
@@ -1736,7 +1744,7 @@ const createPokeData = async (data) => {
         pokeDescriptionHeight.textContent = pokemonHeight;
         pokeDescriptionWeight.textContent = pokemonWeight;
         //!  //
-        console.log(abilities.length);
+        /* console.log(abilities.length); */
         let timeOutFuncTime = 250;
         let abilitieBtnsCount = 0;
         abilities.forEach(async (ability) => {
@@ -1767,6 +1775,8 @@ const createPokeData = async (data) => {
                         console.log(btn.getAttribute("data-url"));
                         const abilityData = await fetchFunc(btn.getAttribute("data-url"));
                         console.log(abilityData);
+
+                        let currentAbilityFlavors = [];
                         const abilityFlavorsEn = [];
                         const abilityFlavorsEs = [];
                         abilityData.flavor_text_entries.forEach((abilityFlavor) => {
@@ -1783,10 +1793,45 @@ const createPokeData = async (data) => {
                                 });
                             }
                         });
-                        console.log(abilityFlavorsEn, abilityFlavorsEs);
-                        animationIn(modal, flex, 500);
-                        abilityModalStatus = open;
-                        setTimeout(() => animationIn(abilityModal, block, 500), 1500);
+                        if (currentLang === es) {
+                            currentAbilityFlavors = abilityFlavorsEs;
+                        } else if (currentLang === en) {
+                            currentAbilityFlavors = abilityFlavorsEn;
+                        }
+                        setTimeout(() => {
+                            console.log(abilityFlavorsEn, abilityFlavorsEs, currentAbilityFlavors);
+                            console.log(currentAbilityFlavors[0]);
+
+                            titleAbilityFlavorsModal.textContent = currentAbilityFlavors[0].version;
+                            textAbilityFlavorsModal.textContent = currentAbilityFlavors[0].flavor;
+                            currentAbilityFlavors.forEach((abilityFlavor) => {
+                                const newCloneOptionListBtn = optionListAbilityBtnTemplate.cloneNode(true);
+                                const abilityOptionListBtn = newCloneOptionListBtn.querySelector(".option_list_ability_btn");
+                                abilityOptionListBtn.textContent = properCase(abilityFlavor.version);
+                                abilityOptionListBtn.setAttribute("data-name", abilityFlavor.version);
+                                console.log(abilityFlavor);
+
+                                fragmentOptionListAbilityBtns.appendChild(abilityOptionListBtn);
+                            });
+                            optionListAbility.appendChild(fragmentOptionListAbilityBtns);
+                            setTimeout(() => {
+                                const abilityOptionListBtns = document.querySelectorAll(".option_list_ability_btn");
+                                abilityOptionListBtns.forEach((btn) => {
+                                    btn.addEventListener("click", () => {
+                                        console.log(btn.getAttribute("data-name"));
+                                        titleAbilityFlavorsModal.textContent = properCase(btn.getAttribute("data-name"));
+                                        currentAbilityFlavors.forEach((abilityFlavor) => {
+                                            if (btn.getAttribute("data-name") === abilityFlavor.version) {
+                                                textAbilityFlavorsModal.textContent = properCase(abilityFlavor.flavor);
+                                            }
+                                        });
+                                    });
+                                });
+                                animationIn(modal, flex, 500);
+                                abilityModalStatus = open;
+                                setTimeout(() => animationIn(abilityModal, block, 500), 1500);
+                            }, 500);
+                        }, 500);
                     });
                 });
             }, 250);

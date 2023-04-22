@@ -1128,7 +1128,7 @@ MAIN {
 }
 .data_grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 1rem;
 }
 #config_menu {
@@ -1264,10 +1264,6 @@ MAIN {
     }
     .poke_bg {
         height: 32rem;
-    }
-    .data_grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
     }
     .fav_card {
         width: 15rem;
