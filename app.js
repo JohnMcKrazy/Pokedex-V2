@@ -105,17 +105,7 @@ const pokeDescriptionHeight = document.querySelector("#poke_data_info_descriptio
 const fragmentAbilityBtns = document.createDocumentFragment();
 const abilityBtnTemplate = document.querySelector("#ability_btn_template").content;
 const pokeDescriptionAbilitiesContainer = document.querySelector("#poke_data_info_description_abilities_container");
-//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const abilityModal = document.querySelector("#ability_modal");
-const langMenuModalAbility = document.querySelector("#lang_menu_modal_ability");
-const optionListAbility = document.querySelector("#option_list_btns_container_ability");
-const optionListAbilityArrow = document.querySelector("#arrow_btn_select_list_ability_svg");
-const fragmentOptionListAbilityBtns = document.createDocumentFragment();
-const optionListAbilityBtnTemplate = document.querySelector("#option_list_ability_btn_template").content;
 
-const titleAbilityFlavorsModal = document.querySelector("#title_modal_ability");
-const textAbilityFlavorsModal = document.querySelector("#text_modal_ability");
-//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 const pokeDescriptionGender = document.querySelector("#poke_data_info_description_gender");
@@ -222,6 +212,21 @@ const langMenuModalFavAlert = document.querySelector("#lang_menu_modal_fav_alert
 const alertModalFavBtns = document.querySelectorAll(".alert_modal_fav_alert_btn");
 const nameAlertModalFav = document.querySelector("#name_modal_fav_alert");
 const idAlertModalFav = document.querySelector("#id_modal_fav_alert");
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const abilityModal = document.querySelector("#ability_modal");
+const langMenuModalAbility = document.querySelector("#lang_menu_modal_ability");
+
+const titleModalAbility = document.querySelector("#modal_title_ability");
+const subtitleModalAbility = document.querySelector("#modal_subtitle_ability");
+const optionListAbility = document.querySelector("#option_list_ability");
+const optionListBtnsContainerAbility = document.querySelector("#option_list_btns_container_ability");
+const optionListAbilityArrow = document.querySelector("#arrow_btn_select_list_ability_svg");
+const fragmentOptionListAbilityBtns = document.createDocumentFragment();
+const optionListAbilityBtnTemplate = document.querySelector("#option_list_ability_btn_template").content;
+
+const titleAbilityFlavorsModal = document.querySelector("#title_modal_ability");
+const textAbilityFlavorsModal = document.querySelector("#text_modal_ability");
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //! |||||||||||||||||||||||||||||||//
 //!  BASIC VARIABLES AND CONSTANTS //
@@ -278,6 +283,8 @@ let pastModal = "";
 let currentPersonilizedTheme = {};
 
 let currentEditingTheme = "";
+
+let currentAbilityFlavors = [];
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 let configMenuStatus = close;
@@ -1266,7 +1273,7 @@ const changeLang = (lang) => {
 //^^ ************************************************************************** *//
 const lunchAlert = (alertError) => {
     alertModalStatus = open;
-    animationIn(modal, flex, 500);
+    animationIn(modal, block, 500);
     if (alertError === "name") {
         if (currentLang === es) {
             textAlertModal.textContent = esIncName;
@@ -1429,8 +1436,23 @@ const optionListFavOptionActions = (action) => {
         createCurrentSortPokemonFav(currentSortedObject);
     }
 };
-const ootionListAbilityOptionActions = (action) => {
+const optionListAbilitiesActions = (action) => {
     if (action === "open-close") {
+        if (optionListAbilityStatus === close) {
+            optionListAbilityStatus = open;
+            optionListAbilityArrow.style.transform = "rotate(180deg)";
+            optionListAbility.style.height = "fit-content";
+        } else if (optionListAbilityStatus === open) {
+            closeOptionList("option_list_ability");
+        }
+    } else {
+        titleAbilityFlavorsModal.textContent = properCase(action);
+        currentAbilityFlavors.forEach((abilityFlavor) => {
+            if (action === abilityFlavor.version) {
+                textAbilityFlavorsModal.textContent = properCase(abilityFlavor.flavor);
+            }
+        });
+        closeOptionList("option_list_ability");
     }
 };
 const createEvoCard = async (id, name, types, img) => {
@@ -1759,6 +1781,7 @@ const createPokeData = async (data) => {
                     if (currentLang === abilitieNamesData.language.name) {
                         console.log(abilitieNamesData.name);
                         abilityBtn.setAttribute("data-url", ability.ability.url);
+                        abilityBtn.setAttribute("data-name", abilitieNamesData.name);
                         console.log(abilitiesData.flavor_text_entries);
                         abilityBtn.textContent = abilitieNamesData.name;
                     }
@@ -1772,15 +1795,15 @@ const createPokeData = async (data) => {
                 const abilityBtns = document.querySelectorAll(".ability_btn");
                 abilityBtns.forEach((btn) => {
                     btn.addEventListener("click", async () => {
+                        titleModalAbility.textContent = btn.getAttribute("data-name");
                         console.log(btn.getAttribute("data-url"));
                         const abilityData = await fetchFunc(btn.getAttribute("data-url"));
                         console.log(abilityData);
 
-                        let currentAbilityFlavors = [];
                         const abilityFlavorsEn = [];
                         const abilityFlavorsEs = [];
                         abilityData.flavor_text_entries.forEach((abilityFlavor) => {
-                            console.log(abilityFlavor);
+                            /* console.log(abilityFlavor); */
                             if (abilityFlavor.language.name === en) {
                                 abilityFlavorsEn.push({
                                     version: abilityFlavor.version_group.name,
@@ -1813,22 +1836,14 @@ const createPokeData = async (data) => {
 
                                 fragmentOptionListAbilityBtns.appendChild(abilityOptionListBtn);
                             });
-                            optionListAbility.appendChild(fragmentOptionListAbilityBtns);
+                            optionListBtnsContainerAbility.appendChild(fragmentOptionListAbilityBtns);
                             setTimeout(() => {
                                 const abilityOptionListBtns = document.querySelectorAll(".option_list_ability_btn");
                                 abilityOptionListBtns.forEach((btn) => {
-                                    btn.addEventListener("click", () => {
-                                        console.log(btn.getAttribute("data-name"));
-                                        titleAbilityFlavorsModal.textContent = properCase(btn.getAttribute("data-name"));
-                                        currentAbilityFlavors.forEach((abilityFlavor) => {
-                                            if (btn.getAttribute("data-name") === abilityFlavor.version) {
-                                                textAbilityFlavorsModal.textContent = properCase(abilityFlavor.flavor);
-                                            }
-                                        });
-                                    });
+                                    btn.addEventListener("click", () => optionListAbilitiesActions(btn.getAttribute("data-name")));
                                 });
-                                animationIn(modal, flex, 500);
-                                abilityModalStatus = open;
+                                animationIn(modal, block, 500);
+                                abilit = open;
                                 setTimeout(() => animationIn(abilityModal, block, 500), 1500);
                             }, 500);
                         }, 500);
@@ -2159,7 +2174,7 @@ const searchFunction = () => {
         } else if (currentLang === en) {
             textAlertModal.textContent = enEmpty;
         }
-        animationIn(modal, flex, 1000);
+        animationIn(modal, block, 1000);
         setTimeout(() => animationIn(alertModal, block, 1000), 1500);
     } else if (myNumber === "" || myNumber === null || myNumber === NaN) {
         currentPokemon = myName;
@@ -2404,7 +2419,7 @@ const favMenuActions = () => {
     deleteChildElements(favCardsContainer);
     if (favModalStatus === close) {
         favModalStatus = open;
-        animationIn(modal, flex, 1000);
+        animationIn(modal, block, 1000);
         setTimeout(() => animationIn(favModal, block, 500), 1500);
         updatePokedex();
         setTimeout(() => {
@@ -2452,7 +2467,7 @@ const themeMenuActions = () => {
     if (themeModalStatus === close) {
         oldTheme = BODY.className;
         themeModalStatus = open;
-        animationIn(modal, flex, 500);
+        animationIn(modal, block, 500);
         setTimeout(() => animationIn(themesModal, block, 500), 1500);
     } else if (themeModalStatus === open) {
         themeModalStatus = close;
@@ -2580,7 +2595,7 @@ const checkStorageAnswer = () => {
         savePokedex();
         changeBasicTheme();
         console.log("local storage item is created");
-        animationIn(modal, flex, 500);
+        animationIn(modal, block, 500);
         setTimeout(() => animationIn(startModal, block, 500), 1500);
     } else if (storageContent && storageContent[storageAlert] === open) {
         updatePokedex();
@@ -2588,7 +2603,7 @@ const checkStorageAnswer = () => {
         savePokedex();
         console.log(`local storage item answer= ${storagePokedex[storageAlert]}, page views= ${storagePokedex[storageView]}`);
 
-        animationIn(modal, flex, 500);
+        animationIn(modal, block, 500);
         setTimeout(() => animationIn(startModal, block, 500), 1500);
     } else if (storageContent && storageContent[storageAlert] === close) {
         updatePokedex();
@@ -2897,9 +2912,13 @@ const closeModal = (action) => {
             break;
         case "close_ability_modal":
             console.log(action);
+
             animationOut(abilityModal);
             setTimeout(() => animationOut(modal), 500);
             abilityModalStatus = close;
+            if (optionListAbilityStatus === open) {
+                closeOptionList("option_list_ability");
+            }
             break;
         case "close_theme":
             console.log(action);
