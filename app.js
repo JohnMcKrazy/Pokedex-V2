@@ -95,7 +95,7 @@ const pokeDescriptionHabitat = document.querySelector("#poke_data_info_descripti
 
 const pokeDescriptionNameWeight = document.querySelector("#poke_data_info_name_weight");
 const pokeDescriptionNameHeight = document.querySelector("#poke_data_info_name_height");
-const pokeDescriptionNameHabilities = document.querySelector("#poke_data_info_name_habilities");
+const pokeDescriptionNameAbilities = document.querySelector("#poke_data_info_name_abilities");
 const pokeDescriptionNameGender = document.querySelector("#poke_data_info_name_gender");
 
 const pokeDescriptionWeight = document.querySelector("#poke_data_info_description_weight");
@@ -275,6 +275,9 @@ const enEmpty = "You need to fill some data to search";
 const esNameNoSearch = "Busca tus pokemon favoritos por nombre o por numero ID";
 const enNameNoSearch = "Search your favorite pokemon by name or ID number";
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+let lastSearched = "";
+
 let optionListVarients;
 let optionListVarientsArrow;
 let optionListVarientsBtns;
@@ -919,9 +922,6 @@ const next = () => {
         closeOptionList("option_list_descriptions");
     }
 
-    if (optionListAbilityStatus === open) {
-        closeOptionList("option_list_ability");
-    }
     if (itsFirstPokemonSearch === true) {
         itsFirstPokemonSearch = false;
         currentPokemon = 1;
@@ -963,9 +963,6 @@ const previous = () => {
 
     if (optionListDescriptionsStatus === open) {
         closeOptionList("option_list_descriptions");
-    }
-    if (optionListAbilityStatus === open) {
-        closeOptionList("option_list_ability");
     }
     if (itsFirstPokemonSearch === true) {
         itsFirstPokemonSearch = false;
@@ -1044,6 +1041,10 @@ const changeLang = (lang) => {
 
         optionListDescriptionsFirstBtnText.textContent = "Versión";
         pokeDescriptionVersionTitle.textContent = "Descripción:";
+        pokeDescriptionNameWeight.textContent = "Peso";
+        pokeDescriptionNameHeight.textContent = "Altura";
+        pokeDescriptionNameHabitat.textContent = "Habitad";
+        pokeDescriptionNameAbilities.textContent = "Habilidades";
         evoSubtitle.textContent = "Cadena De Evolución";
         titlefavModal.textContent = "Favoritos";
         favListFirstBtnText.textContent = "Ordenar";
@@ -1156,6 +1157,10 @@ const changeLang = (lang) => {
         textStartModal.textContent = "You'r enter in a fan made page, the only intention is entertainment, all stored informatio is in the browser's memory, no information is collected or sold";
         optionListDescriptionsFirstBtnText.textContent = "Version";
         pokeDescriptionVersionTitle.textContent = "Flavor:";
+        pokeDescriptionNameWeight.textContent = "Weight";
+        pokeDescriptionNameHeight.textContent = "Height";
+        pokeDescriptionNameHabitat.textContent = "Habitat";
+        pokeDescriptionNameAbilities.textContent = "Abilities";
         evoSubtitle.textContent = "Evolution Chain";
         titlefavModal.textContent = "Favorite";
         favListFirstBtnText.textContent = "Sort";
@@ -1693,6 +1698,63 @@ const optionListDescriptionsActions = (status) => {
         closeOptionList("option_list_descriptions");
     }
 };
+const abilityBtnsActions = async (name, url) => {
+    deleteChildElements(optionListBtnsContainerAbility);
+    titleModalAbility.textContent = name;
+    console.log(url);
+    const abilityData = await fetchFunc(url);
+    console.log(abilityData);
+
+    const abilityFlavorsEn = [];
+    const abilityFlavorsEs = [];
+    abilityData.flavor_text_entries.forEach((abilityFlavor) => {
+        /* console.log(abilityFlavor); */
+        if (abilityFlavor.language.name === en) {
+            abilityFlavorsEn.push({
+                version: abilityFlavor.version_group.name,
+                flavor: abilityFlavor.flavor_text,
+            });
+        } else if (abilityFlavor.language.name === es) {
+            abilityFlavorsEs.push({
+                version: abilityFlavor.version_group.name,
+                flavor: abilityFlavor.flavor_text,
+            });
+        }
+    });
+    if (currentLang === es) {
+        currentAbilityFlavors = abilityFlavorsEs;
+    } else if (currentLang === en) {
+        currentAbilityFlavors = abilityFlavorsEn;
+    }
+    setTimeout(() => {
+        console.log(abilityFlavorsEn, abilityFlavorsEs, currentAbilityFlavors);
+        console.log(currentAbilityFlavors[0]);
+
+        titleAbilityFlavorsModal.textContent = properCase(currentAbilityFlavors[0].version);
+        textAbilityFlavorsModal.textContent = currentAbilityFlavors[0].flavor;
+        currentAbilityFlavors.forEach((abilityFlavor) => {
+            const newCloneOptionListBtn = optionListAbilityBtnTemplate.cloneNode(true);
+            const abilityOptionListBtn = newCloneOptionListBtn.querySelector(".option_list_ability_btn");
+            abilityOptionListBtn.textContent = properCase(abilityFlavor.version);
+            abilityOptionListBtn.setAttribute("data-name", abilityFlavor.version);
+            console.log(abilityFlavor);
+
+            fragmentOptionListAbilityBtns.appendChild(abilityOptionListBtn);
+        });
+        optionListBtnsContainerAbility.appendChild(fragmentOptionListAbilityBtns);
+        if (optionListAbilityStatus === open) {
+            closeOptionList("option_list_ability");
+        }
+        setTimeout(() => {
+            const abilityOptionListBtns = document.querySelectorAll(".option_list_ability_btn");
+            abilityOptionListBtns.forEach((btn) => {
+                btn.addEventListener("click", () => optionListAbilitiesActions(btn.getAttribute("data-name")));
+            });
+            animationIn(modal, block, 500);
+            setTimeout(() => animationIn(abilityModal, block, 500), 1500);
+        }, 500);
+    }, 500);
+};
 const createPokeData = async (data) => {
     if (data) {
         if (optionListDescriptionsStatus === open) {
@@ -1795,58 +1857,7 @@ const createPokeData = async (data) => {
                 const abilityBtns = document.querySelectorAll(".ability_btn");
                 abilityBtns.forEach((btn) => {
                     btn.addEventListener("click", async () => {
-                        titleModalAbility.textContent = btn.getAttribute("data-name");
-                        console.log(btn.getAttribute("data-url"));
-                        const abilityData = await fetchFunc(btn.getAttribute("data-url"));
-                        console.log(abilityData);
-
-                        const abilityFlavorsEn = [];
-                        const abilityFlavorsEs = [];
-                        abilityData.flavor_text_entries.forEach((abilityFlavor) => {
-                            /* console.log(abilityFlavor); */
-                            if (abilityFlavor.language.name === en) {
-                                abilityFlavorsEn.push({
-                                    version: abilityFlavor.version_group.name,
-                                    flavor: abilityFlavor.flavor_text,
-                                });
-                            } else if (abilityFlavor.language.name === es) {
-                                abilityFlavorsEs.push({
-                                    version: abilityFlavor.version_group.name,
-                                    flavor: abilityFlavor.flavor_text,
-                                });
-                            }
-                        });
-                        if (currentLang === es) {
-                            currentAbilityFlavors = abilityFlavorsEs;
-                        } else if (currentLang === en) {
-                            currentAbilityFlavors = abilityFlavorsEn;
-                        }
-                        setTimeout(() => {
-                            console.log(abilityFlavorsEn, abilityFlavorsEs, currentAbilityFlavors);
-                            console.log(currentAbilityFlavors[0]);
-
-                            titleAbilityFlavorsModal.textContent = currentAbilityFlavors[0].version;
-                            textAbilityFlavorsModal.textContent = currentAbilityFlavors[0].flavor;
-                            currentAbilityFlavors.forEach((abilityFlavor) => {
-                                const newCloneOptionListBtn = optionListAbilityBtnTemplate.cloneNode(true);
-                                const abilityOptionListBtn = newCloneOptionListBtn.querySelector(".option_list_ability_btn");
-                                abilityOptionListBtn.textContent = properCase(abilityFlavor.version);
-                                abilityOptionListBtn.setAttribute("data-name", abilityFlavor.version);
-                                console.log(abilityFlavor);
-
-                                fragmentOptionListAbilityBtns.appendChild(abilityOptionListBtn);
-                            });
-                            optionListBtnsContainerAbility.appendChild(fragmentOptionListAbilityBtns);
-                            setTimeout(() => {
-                                const abilityOptionListBtns = document.querySelectorAll(".option_list_ability_btn");
-                                abilityOptionListBtns.forEach((btn) => {
-                                    btn.addEventListener("click", () => optionListAbilitiesActions(btn.getAttribute("data-name")));
-                                });
-                                animationIn(modal, block, 500);
-                                abilit = open;
-                                setTimeout(() => animationIn(abilityModal, block, 500), 1500);
-                            }, 500);
-                        }, 500);
+                        abilityBtnsActions(btn.getAttribute("data-name"), btn.getAttribute("data-url"));
                     });
                 });
             }, 250);
@@ -2142,24 +2153,49 @@ const createPokeData = async (data) => {
                     en: pokemonTypesEn,
                 },
             };
+            lastSearched = dataId;
+
+            searchInputName.value = "";
             console.log(itemToSave);
         }, 250);
         //! CREACION DE ITEM PARA OBJETO POR SALVAR //
     }
 };
 const catchEmAll = async (id) => {
-    if (itsFirstPokemonSearch === true) {
-        itsFirstPokemonSearch = false;
-    }
-    try {
-        const data = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${id}`);
+    switch (itsFirstPokemonSearch) {
+        case true:
+            itsFirstPokemonSearch = false;
+            try {
+                const data = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${id}`);
 
-        toThetop();
-        console.log("Primera fetch data", data);
-        createPokeData(data);
-    } catch (error) {
-        lunchAlert("name");
-        console.log(error);
+                toThetop();
+                console.log("Primera fetch data", data);
+                createPokeData(data);
+                break;
+            } catch (error) {
+                lunchAlert("name");
+                currentPokemon = 1;
+                console.log(error);
+                searchInputName.value = "";
+                searchInputNumber.value = "";
+                break;
+            }
+        case false:
+            try {
+                const data = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${id}`);
+
+                toThetop();
+                console.log("Primera fetch data", data);
+                createPokeData(data);
+                break;
+            } catch (error) {
+                lunchAlert("name");
+                currentPokemon = lastSearched;
+                console.log(error);
+                searchInputName.value = "";
+                searchInputNumber.value = "";
+                break;
+            }
     }
 };
 const searchFunction = () => {
@@ -2911,14 +2947,13 @@ const closeModal = (action) => {
             favModalStatus = close;
             break;
         case "close_ability_modal":
-            console.log(action);
-
-            animationOut(abilityModal);
-            setTimeout(() => animationOut(modal), 500);
-            abilityModalStatus = close;
             if (optionListAbilityStatus === open) {
                 closeOptionList("option_list_ability");
             }
+            console.log(action);
+            animationOut(abilityModal);
+            setTimeout(() => animationOut(modal), 500);
+            abilityModalStatus = close;
             break;
         case "close_theme":
             console.log(action);
