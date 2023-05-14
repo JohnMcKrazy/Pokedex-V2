@@ -352,7 +352,8 @@ A:active {
     color: unset;
 }
 UL {
-    list-style: none;
+    margin-top: 1rem;
+    margin-left: 2rem;
 }
 BUTTON {
     padding: 0;
@@ -963,6 +964,10 @@ MAIN {
     padding-bottom: 4rem;
 }
 /*! PARTS */
+.poke_icon {
+    width: 2rem;
+    height: 2rem;
+}
 .poke_icon .cls-1 {
     fill: rgb(244, 243, 243);
 }

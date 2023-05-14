@@ -213,6 +213,18 @@ const alertModalFavBtns = document.querySelectorAll(".alert_modal_fav_alert_btn"
 const nameAlertModalFav = document.querySelector("#name_modal_fav_alert");
 const idAlertModalFav = document.querySelector("#id_modal_fav_alert");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const modalDeleteDataAlert = document.querySelector("#modal_delete_data_alert");
+const alertModalDeleteDataAlert = document.querySelector("#alert_modal_delete_data_alert");
+
+const langMenuModalDeleteDataAlert = document.querySelector("#lang_menu_modal_delete_data_alert");
+const titleModalDeleteDataAlert = document.querySelector("#title_modal_delete_data_alert");
+const textModalDeleteDataAlert = document.querySelector("#text_modal_delete_data_alert");
+const deleteDataListItems = document.querySelectorAll(".delete_data_list_item");
+const alertModalDeleteDataAlertBtns = document.querySelectorAll(".alert_modal_delete_data_alert_btn");
+
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 const abilityModal = document.querySelector("#ability_modal");
 const langMenuModalAbility = document.querySelector("#lang_menu_modal_ability");
 
@@ -309,6 +321,8 @@ let langMenuModalThemesStatus = close;
 let langMenuModalEditPersonalizedThemesStatus = close;
 let langMenuModalEditPersonalizedThemeStatus = close;
 let langMenuModalPersonalizedThemeStatus = close;
+let langMenuModalDeleteDataAlertStatus = close;
+let langMenuModalEditThemesAlertStatus = close;
 let langMenuModalfavStatus = close;
 let langMenuModalfavAlertStatus = close;
 let optionListDescriptionsStatus = close;
@@ -1128,6 +1142,21 @@ const changeLang = (lang) => {
         titleEditPersonalizedThemeModal.textContent = "Edita Tu Tema";
 
         titleEditPersonalizedThemesModal.textContent = "Editar Temas Personalizados";
+        titleModalDeleteDataAlert.textContent = "Alerta";
+        textModalDeleteDataAlert.textContent = "¿Estas seguro que deseas eliminar la información guardada?";
+        deleteDataListItems.forEach((item) => {
+            switch (item.getAttribute("data-name")) {
+                case "saved_pokemon":
+                    item.textContent = "Pokemon Guardados";
+                    break;
+                case "created_themes":
+                    item.textContent = "Temas Creados";
+                    break;
+                case "saved_theme":
+                    item.textContent = "Tema Salvado";
+                    break;
+            }
+        });
         if (editPersonalizedThemesModalStatus === open) {
             const cardsBgColorTexts = document.querySelectorAll(".name_data_bg");
             const cardsTextColorTexts = document.querySelectorAll(".name_data_text");
@@ -1244,6 +1273,23 @@ const changeLang = (lang) => {
         titleEditPersonalizedThemeModal.textContent = "Edit Your Theme";
 
         titleEditPersonalizedThemesModal.textContent = "Edit Personalized Themes";
+
+        titleModalDeleteDataAlert.textContent = "Alert";
+        textModalDeleteDataAlert.textContent = "Are you sure you want to delete the saved information?";
+        deleteDataListItems.forEach((item) => {
+            switch (item.getAttribute("data-name")) {
+                case "saved_pokemon":
+                    item.textContent = "Saved Pokemon";
+                    break;
+                case "created_themes":
+                    item.textContent = "Created Themes";
+                    break;
+                case "saved_theme":
+                    item.textContent = "Saved Theme";
+                    break;
+            }
+        });
+
         if (editPersonalizedThemesModalStatus === open) {
             const cardsBgColorTexts = document.querySelectorAll(".name_data_bg");
             const cardsTextColorTexts = document.querySelectorAll(".name_data_text");
@@ -1273,6 +1319,7 @@ const changeLang = (lang) => {
     if (itsFirstPokemonSearch === false) {
         catchEmAll(currentPokemon);
     }
+
     document.documentElement.setAttribute("lang", currentLang);
 };
 //^^ ************************************************************************** *//
@@ -2317,6 +2364,25 @@ const langMenuModalActions = (action) => {
                 closeMenu(langMenuModalFavAlert);
             }
             break;
+        case "lang_modal_delete_data_alert":
+            if (langMenuModalDeleteDataAlertStatus === close) {
+                langMenuModalDeleteDataAlertStatus = open;
+                openMenu(langMenuModalDeleteDataAlert);
+            } else if (langMenuModalDeleteDataAlertStatus === open) {
+                langMenuModalDeleteDataAlertStatus = close;
+                closeMenu(langMenuModalDeleteDataAlert);
+            }
+            break;
+        case "lang_modal_edit_themes_alert":
+            if (langMenuModalEditThemesAlertStatus === close) {
+                langMenuModalEditThemesAlertStatus = open;
+                openMenu(langMenuModalEditThemesAlert);
+            } else if (langMenuModalEditThemesAlertStatus === open) {
+                langMenuModalEditThemesAlertStatus = close;
+                closeMenu(langMenuModalEditThemesAlert);
+            }
+
+            break;
     }
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2366,6 +2432,10 @@ const configMenuOptions = (option) => {
         configMenuActions();
     } else if (option === "fav") {
         favMenuActions();
+        configMenuActions();
+    } else if (option === "delete") {
+        animationIn(modalDeleteDataAlert, block, 1000);
+        setTimeout(() => animationIn(alertModalDeleteDataAlert, block, 500), 1500);
         configMenuActions();
     } else {
         configMenuActions();
@@ -3173,6 +3243,22 @@ optionListFavBtns.forEach((btn) => {
 //^ ||||||||||||||||||||||||||||||||||||||||||||||||||||||//
 //^ SOLUCIONAR LOS ACOMODOS EN LAS TARJETAS DE FAVORITOS  //
 //^ ||||||||||||||||||||||||||||||||||||||||||||||||||||||//
+const alertModalDeleteDataActions = (action) => {
+    console.log(action);
+    switch (action) {
+        case "accept":
+            localStorage.removeItem(DB_NAME);
+            console.log("Borrando localStorage");
+            animationOut(alertModalDeleteDataAlert);
+            setTimeout(() => animationOut(modalDeleteDataAlert), 2000);
+            break;
+        case "cancel":
+            console.log("Cancelado Borrado de local Storage");
+            animationOut(alertModalDeleteDataAlert);
+            setTimeout(() => animationOut(modalDeleteDataAlert), 2000);
+            break;
+    }
+};
 sortBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
         if (optionListFavStatus === open) {
@@ -3188,6 +3274,9 @@ sortBtns.forEach((btn) => {
             console.log("ordenar por tiempo");
         }
     });
+});
+alertModalDeleteDataAlertBtns.forEach((btn) => {
+    btn.addEventListener("click", () => alertModalDeleteDataActions(btn.getAttribute("data-name")));
 });
 //! |||||||||||||||||||||//
 //!  ADD EVENT LISTENERS //
@@ -3228,12 +3317,3 @@ btnPrevious.addEventListener("click", previous);
 optionListDescriptionsSearchBtn.addEventListener("click", () => optionListDescriptionsActions(optionListDescriptionsStatus));
 deletePersonalizedThemeBtn.addEventListener("click", deletePersonalizedTheme);
 document.querySelector("#top_btn").addEventListener("click", toThetop);
-//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//! |||||||||||||||||||||||||//
-//!  DELETE WHEN YOUR FINISH //
-//! |||||||||||||||||||||||||//
-//* DELETE
-delateDBBtn.addEventListener("click", () => {
-    localStorage.removeItem(DB_NAME);
-    console.log("Borrando localStorage");
-});
