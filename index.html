@@ -147,8 +147,8 @@
 
                         <div class="data_info_card">
                             <h2 class="section_subtitle_data" id="poke_data_info_name_gender">Genero</h2>
-                            <div class="btns_row_center">
-                                <div class="icon_container gender_icon male_icon">
+                            <div class="btns_row_center gender_icons_container">
+                                <div class="icon_container gender_icon male_icon" id="male_icon">
                                     <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path
                                             class="cls-1"
@@ -156,11 +156,19 @@
                                         ></path>
                                     </svg>
                                 </div>
-                                <div class="icon_container gender_icon female_icon">
+                                <div class="icon_container gender_icon female_icon" id="female_icon">
                                     <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path
                                             class="cls-1"
                                             d="M11 15.9339C7.33064 15.445 4.5 12.3031 4.5 8.5C4.5 4.35786 7.85786 1 12 1C16.1421 1 19.5 4.35786 19.5 8.5C19.5 12.3031 16.6694 15.445 13 15.9339V18H18V20H13V24H11V20H6V18H11V15.9339ZM12 14C15.0376 14 17.5 11.5376 17.5 8.5C17.5 5.46243 15.0376 3 12 3C8.96243 3 6.5 5.46243 6.5 8.5C6.5 11.5376 8.96243 14 12 14Z"
+                                        ></path>
+                                    </svg>
+                                </div>
+
+                                <div class="icon_container gender_icon genderless_icon" id="genderless_icon">
+                                    <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
+                                            d="M13 7.06609C16.6694 7.55498 19.5 10.6969 19.5 14.5C19.5 18.6421 16.1421 22 12 22C7.85786 22 4.5 18.6421 4.5 14.5C4.5 10.6969 7.33064 7.55498 11 7.06609V1H13V7.06609ZM12 20C15.0376 20 17.5 17.5376 17.5 14.5C17.5 11.4624 15.0376 9 12 9C8.96243 9 6.5 11.4624 6.5 14.5C6.5 17.5376 8.96243 20 12 20Z"
                                         ></path>
                                     </svg>
                                 </div>

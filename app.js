@@ -101,6 +101,9 @@ const pokeDescriptionNameGender = document.querySelector("#poke_data_info_name_g
 const pokeDescriptionWeight = document.querySelector("#poke_data_info_description_weight");
 const pokeDescriptionHeight = document.querySelector("#poke_data_info_description_height");
 
+const maleIcon = document.querySelector("#male_icon");
+const femaleIcon = document.querySelector("#female_icon");
+const genderlessIcon = document.querySelector("#genderless_icon");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentAbilityBtns = document.createDocumentFragment();
 const abilityBtnTemplate = document.querySelector("#ability_btn_template").content;
@@ -243,7 +246,6 @@ const textAbilityFlavorsModal = document.querySelector("#text_modal_ability");
 //! |||||||||||||||||||||||||||||||//
 //!  BASIC VARIABLES AND CONSTANTS //
 //! |||||||||||||||||||||||||||||||//
-//& SALVAR TEMAS Y QUE EL TEMA CAMBIE  */
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const close = "close";
 const open = "open";
@@ -372,9 +374,9 @@ let itemToSave = {
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const pokeThemes = {};
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//! ||||||||||||||//
+//! ||||||||||||||!!!!!//
 //!  DATA OBJECT ARRAY //
-//! ||||||||||||||//
+//! ||||||||||||||!!!!!//
 const daysOfTheWeek = [
     {
         es: "Domingo",
@@ -888,7 +890,7 @@ const deleteArrElements = (parentElement) => {
 const properCase = (string) => {
     return `${string[0].toUpperCase()}${string.slice(1).toLowerCase()}`;
 };
-//! CREATE CHARTS TRY //
+//! CREATE CHARTS TRY --- START //
 /* const ctx = document.getElementById("myChart").getContext("2d");
 const chart = new Chart(ctx, {
     type: "radar",
@@ -914,7 +916,7 @@ const chart = new Chart(ctx, {
     options: {}, 
 });
 */
-//! CREATE CHARTS TRY //
+//! CREATE CHARTS TRY --- OVER //
 //^^ ************************************************************************** *//
 const next = () => {
     if (configMenuStatus === open) {
@@ -1017,6 +1019,42 @@ const animationOut = (item, delay = 250) => {
     setTimeout(() => {
         item.style.display = `none`;
     }, timer);
+};
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+const maleIconActions = (status) => {
+    switch (status) {
+        case open:
+            console.log("accion open de icono male");
+            animationIn(maleIcon, flex);
+            break;
+        case close:
+            console.log("accion close de icono male");
+            animationOut(maleIcon, 250);
+            break;
+    }
+};
+
+const femaleIconActions = (status) => {
+    switch (status) {
+        case open:
+            animationIn(femaleIcon, flex);
+            break;
+        case close:
+            animationOut(femaleIcon, 250);
+            break;
+    }
+};
+
+const genderlessIconActions = (status) => {
+    switch (status) {
+        case open:
+            animationIn(genderlessIcon, flex);
+            break;
+        case close:
+            animationOut(genderlessIcon, 250);
+            break;
+    }
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const openMenu = (menu, delay = 250) => {
@@ -1183,7 +1221,7 @@ const changeLang = (lang) => {
         }
         searchInputName.setAttribute("placeholder", "Name");
         titleStartModal.textContent = "Welcome";
-        textStartModal.textContent = "You'r enter in a fan made page, the only intention is entertainment, all stored informatio is in the browser's memory, no information is collected or sold";
+        textStartModal.textContent = "You enter in a fan made page, the only intention is entertainment, all information stored is in the browser's memory, no information is collected or sold";
         optionListDescriptionsFirstBtnText.textContent = "Version";
         pokeDescriptionVersionTitle.textContent = "Flavor:";
         pokeDescriptionNameWeight.textContent = "Weight";
@@ -1789,9 +1827,7 @@ const abilityBtnsActions = async (name, url) => {
             fragmentOptionListAbilityBtns.appendChild(abilityOptionListBtn);
         });
         optionListBtnsContainerAbility.appendChild(fragmentOptionListAbilityBtns);
-        if (optionListAbilityStatus === open) {
-            closeOptionList("option_list_ability");
-        }
+
         setTimeout(() => {
             const abilityOptionListBtns = document.querySelectorAll(".option_list_ability_btn");
             abilityOptionListBtns.forEach((btn) => {
@@ -1803,10 +1839,12 @@ const abilityBtnsActions = async (name, url) => {
     }, 500);
 };
 const createPokeData = async (data) => {
+    //^  DATA FIRST CHECK -- START//
     if (data) {
         if (optionListDescriptionsStatus === open) {
             closeOptionList("option_list_descriptions");
         }
+        //¬ DELETE ALL POKEDATA -- START //
         deleteArrElements(pokemonTypesEn);
         deleteArrElements(pokemonTypesEs);
         deleteChildElements(optionListVarientsBtnsContainer);
@@ -1818,11 +1856,34 @@ const createPokeData = async (data) => {
 
         searchInputNumber.value = "";
         searchInputNumber.value = "";
+        //¬ DELETE ALL POKEDATA -- OVER //
+
         pokeImg.classList.remove("animation_spin");
+
+        //¬ BASIC POKE DATA -- START //
+        const { name: dataName, id: dataId, height: pokemonHeight, weight: pokemonWeight, abilities, base_experience: pokemonExperience, held_items: pokemonHeldItems, stats } = data;
+        const artworkImg = data.sprites.other["official-artwork"]["front_default"];
         speciesLink = data.species.url;
+        //¬ BASIC POKE DATA -- OVER //
+
+        // ! ARREGLAR NOMBRE FEMENINO Y MASCULINO -- START //
+        const nameSplite = [];
+        let nameErrorIndex = "";
+
+        for (let x = 0; x < dataName.length; x++) {
+            console.log(dataName[x]);
+            if (dataName[x] === "-") {
+                nameErrorIndex = x;
+                nameSplite.push(" ");
+            } else {
+                nameSplite.push(dataName[x]);
+            }
+        }
+
+        // ! ARREGLAR NOMBRE FEMENINO Y MASCULINO -- OVER //
+
         const speciesData = await fetchFunc(speciesLink);
         console.log(speciesData);
-        const { height: pokemonHeight, weight: pokemonWeight, abilities, base_experience: pokemonExperience, held_items: pokemonHeldItems, stats } = data;
         const {
             base_happiness,
             shape,
@@ -1840,17 +1901,15 @@ const createPokeData = async (data) => {
             pokedex_numbers: pokedexNumbers,
             varieties,
         } = speciesData;
+
+        // ¬ GENERATION DATA - START //
         if (generation) {
             const generationData = await fetchFunc(generation.url);
             const { id: generationID, main_region: generationRegion, version_groups: generationVersiones } = generationData;
         }
+        // ¬ GENERATION DATA - OVER //
 
-        //!  REVISION DE DATA DE GENEROS, HACERLA COHERENTE//
-        /*  const pokeGengers = await fetchFunc(`https://pokeapi.co/api/v2/gender/${currentPokemon}`);
-        console.log(pokeGengers); */
-        //!  REVISION DE DATA DE GENEROS, HACERLA COHERENTE//
-
-        //! agregar nueva data de personaje //
+        // ¬ HABITAT  DATA - START //
         if (habitat) {
             const habitatData = await fetchFunc(habitat.url);
             /*  console.log(habitatData); */
@@ -1865,6 +1924,74 @@ const createPokeData = async (data) => {
             habitatNameEs = "Desconocida";
             habitatNameEn = "Unknown";
         }
+        // ¬ HABITAT  DATA - OVER //
+
+        // ¬ GENDER DATA - START //
+        const pokeFemales = await fetchFunc(`https://pokeapi.co/api/v2/gender/1`);
+        const pokeMales = await fetchFunc(`https://pokeapi.co/api/v2/gender/2`);
+        const pokeGenderless = await fetchFunc(`https://pokeapi.co/api/v2/gender/3`);
+        const pokeFemalesDetails = pokeFemales[`pokemon_species_details`];
+        const pokeMalesDetails = pokeMales[`pokemon_species_details`];
+        const pokeGenderlessDetails = pokeGenderless[`pokemon_species_details`];
+        let whatGenders = [];
+        pokeMalesDetails.forEach((list) => {
+            switch (list[`pokemon_species`][`name`] === data.name) {
+                case true:
+                    console.log("este pokemon tiene genero masculino");
+                    whatGenders.push("male");
+                    break;
+                case false:
+                    break;
+            }
+        });
+        pokeFemalesDetails.forEach((list) => {
+            switch (list[`pokemon_species`][`name`] === data.name) {
+                case true:
+                    console.log("este pokemon tiene genero femenino");
+                    whatGenders.push("female");
+                    break;
+                case false:
+                    break;
+            }
+        });
+        pokeGenderlessDetails.forEach((list) => {
+            switch (list[`pokemon_species`][`name`] === data.name) {
+                case true:
+                    console.log("este pokemon no tiene genero");
+                    whatGenders.push("genderless");
+                    break;
+                case false:
+                    break;
+            }
+        });
+        console.log(whatGenders, whatGenders.length);
+
+        if (whatGenders.length === 2) {
+            maleIconActions(open);
+            femaleIconActions(open);
+            genderlessIconActions(close);
+        } else if (whatGenders.length === 1) {
+            switch (whatGenders[0]) {
+                case "male":
+                    maleIconActions(open);
+                    femaleIconActions(close);
+                    genderlessIconActions(close);
+                    break;
+
+                case "female":
+                    maleIconActions(close);
+                    femaleIconActions(open);
+                    genderlessIconActions(close);
+                    break;
+
+                case "genderless":
+                    maleIconActions(close);
+                    femaleIconActions(close);
+                    genderlessIconActions(open);
+                    break;
+            }
+        }
+        // ¬ GENDER DATA - OVER //
 
         if (currentLang === es) {
             pokeDescriptionHabitat.textContent = habitatNameEs;
@@ -2039,9 +2166,6 @@ const createPokeData = async (data) => {
         pokeDescriptionNameVersion.textContent = properCase(flavorBtnsData[0].version.name);
         pokeDescriptionVersion.innerHTML = flavorBtnsData[0].flavor_text.split("\n");
 
-        const artworkImg = data.sprites.other["official-artwork"]["front_default"];
-        const dataName = properCase(data.name);
-        const dataId = data.id;
         /* console.log(dataId); */
         currentPokemon = dataId;
         updatePokedex();
@@ -2183,7 +2307,7 @@ const createPokeData = async (data) => {
         pokeBg.style.background = `url(${newBackground})`;
         pokeImg.setAttribute("src", artworkImg);
         pokeImg.setAttribute("alt", dataName);
-        pokeName.textContent = dataName;
+        pokeName.textContent = properCase(dataName);
         pokeId.textContent = dataId;
         //! CREACION DE ITEM PARA OBJETO POR SALVAR //
         setTimeout(() => {
@@ -2207,6 +2331,7 @@ const createPokeData = async (data) => {
         }, 250);
         //! CREACION DE ITEM PARA OBJETO POR SALVAR //
     }
+    //^  DATA FIRST CHECK -- OVER//
 };
 const catchEmAll = async (id) => {
     switch (itsFirstPokemonSearch) {
