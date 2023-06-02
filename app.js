@@ -57,6 +57,14 @@ const imgContainer = document.querySelector("#img_container");
 const btnPrevious = document.querySelector(".previous_btn");
 const btnNext = document.querySelector(".next_btn");
 
+const optionListMeasurmentsBtns = document.querySelectorAll(".option_list_measurements_btn");
+const optionListMeasurmentsArrow = document.querySelector("#arrow_btn_option_list_measurements_svg");
+const optionListMeasurments = document.querySelector("#option_list_measurements");
+
+const measurmentOptionListFistText = document.querySelector("#option_list_measurements_first_text");
+const measurmentOptionListMetricBtn = document.querySelector("#option_list_measurements_metric");
+const measurmentOptionListImperialBtn = document.querySelector("#option_list_measurements_imperial");
+
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentFavCards = document.createDocumentFragment();
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -247,6 +255,13 @@ const textAbilityFlavorsModal = document.querySelector("#text_modal_ability");
 //!  BASIC VARIABLES AND CONSTANTS //
 //! |||||||||||||||||||||||||||||||//
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+const feetsInMeter = 3.281;
+const lbsInKg = 2.2046;
+
+let currentPokemonHeight = 0;
+let currentPokemonWeight = 0;
+
 const close = "close";
 const open = "open";
 const accepted = "accepted";
@@ -257,7 +272,6 @@ const cancel = "cancel";
 const es = "es";
 const en = "en";
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 const block = "block";
 const flex = "flex";
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -275,6 +289,12 @@ const storageThemeSaved = "theme_saved";
 const storageSaved = "saved_pokemon";
 const storageBackgrounds = "background_colors";
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const openClose = "open-close";
+const metricSystem = "metric-system";
+const imperialSystem = "imperial-system";
+let currentMeasurmentSystem = metricSystem;
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let itsFirstPokemonSearch = true;
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const errorText = "Error";
@@ -327,6 +347,7 @@ let langMenuModalDeleteDataAlertStatus = close;
 let langMenuModalEditThemesAlertStatus = close;
 let langMenuModalfavStatus = close;
 let langMenuModalfavAlertStatus = close;
+let optionListMeasurmentsStatus = close;
 let optionListDescriptionsStatus = close;
 let optionListVarientsStatus = close;
 let optionListFavStatus = close;
@@ -491,211 +512,7 @@ let storagePokedex = {
     ],
     theme_saved: {},
     page_view_count: 0,
-    saved_pokemon: [
-        {
-            id: 2,
-            name: "Ivysaur",
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Febrero",
-                    en: "February",
-                },
-                month_number: 2,
-                date: "02",
-                time: "18:13",
-                short_date_text: {
-                    es: "02-Febrero-2023",
-                    en: "02-February-2023",
-                },
-                short_date_number: "02-02-2023",
-                complete_date_es: "Viernes 02 Febrero 2023, 18:13",
-                complete_date_en: "Friday 02 February 2023, 18:13",
-            },
-            types: {
-                es: ["Planta", "Veneno"],
-                en: ["Grass", "Poison"],
-            },
-        },
-        {
-            id: 10195,
-            name: "Venusaur-gmax",
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10195.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10195.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Febrero",
-                    en: "February",
-                },
-                month_number: 2,
-                date: "02",
-                time: "18:13",
-                short_date_text: {
-                    es: "02-Febrero-2023",
-                    en: "02-February-2023",
-                },
-                short_date_number: "02-02-2023",
-                complete_date_es: "Viernes 02 Febrero 2023, 18:13",
-                complete_date_en: "Friday 02 February 2023, 18:13",
-            },
-            types: {
-                es: ["Planta", "Veneno"],
-                en: ["Grass", "Poison"],
-            },
-        },
-        {
-            id: 10196,
-            name: "Charizard-gmax",
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10196.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10196.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Febrero",
-                    en: "February",
-                },
-                month_number: 2,
-                date: "02",
-                time: "18:14",
-                short_date_text: {
-                    es: "02-Febrero-2023",
-                    en: "02-February-2023",
-                },
-                short_date_number: "02-02-2023",
-                complete_date_es: "Viernes 02 Febrero 2023, 18:14",
-                complete_date_en: "Friday 02 February 2023, 18:14",
-            },
-            types: {
-                es: ["Fuego", "Volador"],
-                en: ["Fire", "Flying"],
-            },
-        },
-        {
-            id: 6,
-            name: "Charizard",
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Febrero",
-                    en: "February",
-                },
-                month_number: 2,
-                date: "02",
-                time: "18:14",
-                short_date_text: {
-                    es: "02-Febrero-2023",
-                    en: "02-February-2023",
-                },
-                short_date_number: "02-02-2023",
-                complete_date_es: "Viernes 02 Febrero 2023, 18:14",
-                complete_date_en: "Friday 02 February 2023, 18:14",
-            },
-            types: {
-                es: ["Fuego", "Volador"],
-                en: ["Fire", "Flying"],
-            },
-        },
-        {
-            id: 10194,
-            name: "Calyrex-shadow",
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10194.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10194.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Febrero",
-                    en: "February",
-                },
-                month_number: 2,
-                date: "02",
-                time: "18:14",
-                short_date_text: {
-                    es: "02-Febrero-2023",
-                    en: "02-February-2023",
-                },
-                short_date_number: "02-02-2023",
-                complete_date_es: "Viernes 02 Febrero 2023, 18:14",
-                complete_date_en: "Friday 02 February 2023, 18:14",
-            },
-            types: {
-                es: ["Psíquico", "Fantasma"],
-                en: ["Psychic", "Ghost"],
-            },
-        },
-        {
-            id: 897,
-            name: "Spectrier",
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/897.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/897.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Febrero",
-                    en: "February",
-                },
-                month_number: 2,
-                date: "02",
-                time: "18:14",
-                short_date_text: {
-                    es: "02-Febrero-2023",
-                    en: "02-February-2023",
-                },
-                short_date_number: "02-02-2023",
-                complete_date_es: "Viernes 02 Febrero 2023, 18:14",
-                complete_date_en: "Friday 02 February 2023, 18:14",
-            },
-            types: {
-                es: ["Fantasma"],
-                en: ["Ghost"],
-            },
-        },
-        {
-            id: 10227,
-            name: "Urshifu-rapid-strike-gmax",
-            sprites: {
-                default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10227.png",
-                art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10227.png",
-            },
-            date: {
-                year: 2023,
-                month_text: {
-                    es: "Febrero",
-                    en: "February",
-                },
-                month_number: 2,
-                date: "02",
-                time: "18:15",
-                short_date_text: {
-                    es: "02-Febrero-2023",
-                    en: "02-February-2023",
-                },
-                short_date_number: "02-02-2023",
-                complete_date_es: "Viernes 02 Febrero 2023, 18:15",
-                complete_date_en: "Friday 02 February 2023, 18:15",
-            },
-            types: {
-                es: ["Lucha", "Agua"],
-                en: ["Fighting", "Water"],
-            },
-        },
-    ],
+    saved_pokemon: [],
     background_colors: {
         ghost: {
             img: "url(./assets/images/ghost.jpg)",
@@ -812,6 +629,11 @@ let storagePokedex = {
 //!  BASIC FUNCTIONS //
 //! |||||||||||||||||//
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+const ConvertDecimals = (convNum) => {
+    return Math.round(convNum * 1e12) / 1e12;
+};
+
 const changeToHexa = (valueToCheck) => {
     let firstLeter = valueToCheck.trim().split("")[0];
     if (firstLeter === "r") {
@@ -1093,8 +915,13 @@ const changeLang = (lang) => {
 
         optionListDescriptionsFirstBtnText.textContent = "Versión";
         pokeDescriptionVersionTitle.textContent = "Descripción:";
+
+        measurmentOptionListFistText.textContent = "Sistema de Medida";
+        measurmentOptionListMetricBtn.textContent = "Metrico Decimal";
+        measurmentOptionListImperialBtn.textContent = "Metrico Ingles";
         pokeDescriptionNameWeight.textContent = "Peso";
         pokeDescriptionNameHeight.textContent = "Altura";
+        pokeDescriptionNameGender.textContent = "Generos";
         pokeDescriptionNameHabitat.textContent = "Habitad";
         pokeDescriptionNameAbilities.textContent = "Habilidades";
         evoSubtitle.textContent = "Cadena De Evolución";
@@ -1224,8 +1051,13 @@ const changeLang = (lang) => {
         textStartModal.textContent = "You enter in a fan made page, the only intention is entertainment, all information stored is in the browser's memory, no information is collected or sold";
         optionListDescriptionsFirstBtnText.textContent = "Version";
         pokeDescriptionVersionTitle.textContent = "Flavor:";
+
+        measurmentOptionListFistText.textContent = "Measurment System";
+        measurmentOptionListMetricBtn.textContent = "Metric System";
+        measurmentOptionListImperialBtn.textContent = "Imperial System";
         pokeDescriptionNameWeight.textContent = "Weight";
         pokeDescriptionNameHeight.textContent = "Height";
+        pokeDescriptionNameGender.textContent = "Genders";
         pokeDescriptionNameHabitat.textContent = "Habitat";
         pokeDescriptionNameAbilities.textContent = "Abilities";
         evoSubtitle.textContent = "Evolution Chain";
@@ -1435,6 +1267,10 @@ const closeOptionList = (list) => {
             optionListAbilityArrow.style.transform = "rotate(0)";
             optionListAbility.style.height = "3rem";
             break;
+        case "option_list_measurments":
+            optionListMeasurmentsStatus = close;
+            optionListMeasurmentsArrow.style.transform = "rotate(0)";
+            optionListMeasurments.style.height = "3rem";
     }
 };
 const optionListVarientsActions = (status) => {
@@ -1455,13 +1291,55 @@ const optionListFavActions = (status) => {
         closeOptionList("option_list_fav");
     }
 };
+
+const optionListMeasurmentsActions = (action) => {
+    let currentMetricHeight = 0;
+    let currentMetricWeight = 0;
+    console.log(action);
+    switch (action) {
+        case openClose:
+            console.log(action);
+            if (optionListMeasurmentsStatus === close) {
+                optionListMeasurmentsStatus = open;
+                optionListMeasurmentsArrow.style.transform = "rotate(180deg)";
+                optionListMeasurments.style.height = "fit-content";
+            } else if (optionListMeasurmentsStatus === open) {
+                closeOptionList("option_list_measurments");
+            }
+            break;
+
+        case metricSystem:
+            console.log(action);
+            closeOptionList("option_list_measurments");
+            currentMeasurmentSystem = metricSystem;
+            currentMetricHeight = ConvertDecimals(currentPokemonHeight * 0.1);
+            currentMetricWeight = ConvertDecimals(currentPokemonWeight * 0.1);
+            pokeDescriptionHeight.textContent = `${currentMetricHeight}m`;
+            pokeDescriptionWeight.textContent = `${currentMetricWeight}Kg`;
+            break;
+
+        case imperialSystem:
+            console.log(action);
+            closeOptionList("option_list_measurments");
+            currentMeasurmentSystem = imperialSystem;
+            let howManyFeetsInPokemon = ConvertDecimals(currentPokemonHeight * 0.1) * ConvertDecimals(feetsInMeter);
+            console.log();
+            let howManyInchesInPokemon = 0;
+            currentMetricHeight = `${parseInt(howManyFeetsInPokemon)}'00"`;
+            currentMetricWeight = ConvertDecimals(currentPokemonHeight * lbsInKg);
+            pokeDescriptionHeight.textContent = currentMetricHeight;
+            pokeDescriptionWeight.textContent = `${currentMetricWeight}Lbs`;
+
+            break;
+    }
+};
 const optionListFavOptionActions = (action) => {
     let sortedByName = [];
     let sortedById = [];
     if (langMenuModalfavStatus === open) {
         langMenuModalActions("lang_fav");
     }
-    if (action === "open-close") {
+    if (action === openClose) {
         console.log(action);
         optionListFavActions(optionListFavStatus);
     } else {
@@ -1469,6 +1347,9 @@ const optionListFavOptionActions = (action) => {
         deleteChildElements(favCardsContainer);
         updatePokedex();
         optionListFavActions(optionListFavStatus);
+        storagePokedex[storageSaved].forEach((item) => {
+            console.log(item.name, item.id);
+        });
         switch (action) {
             case "option_fav_name":
                 console.log(action);
@@ -1523,11 +1404,14 @@ const optionListFavOptionActions = (action) => {
                 break;
         }
 
-        createCurrentSortPokemonFav(currentSortedObject);
+        setTimeout(() => {
+            console.log(currentSortedObject);
+            createCurrentSortPokemonFav(currentSortedObject);
+        }, 250);
     }
 };
 const optionListAbilitiesActions = (action) => {
-    if (action === "open-close") {
+    if (action === openClose) {
         if (optionListAbilityStatus === close) {
             optionListAbilityStatus = open;
             optionListAbilityArrow.style.transform = "rotate(180deg)";
@@ -1999,8 +1883,25 @@ const createPokeData = async (data) => {
             pokeDescriptionHabitat.textContent = habitatNameEn;
         }
         //^^ REVISAR CONFIGURACION DE SISTEMA DE MEDICION  //
-        pokeDescriptionHeight.textContent = pokemonHeight;
-        pokeDescriptionWeight.textContent = pokemonWeight;
+        currentPokemonHeight = pokemonHeight;
+        currentPokemonWeight = pokemonWeight;
+        // ! //
+        if (currentMeasurmentSystem === metricSystem) {
+            currentMetricHeight = ConvertDecimals(pokemonHeight * 0.1);
+            currentMetricWeight = ConvertDecimals(pokemonWeight * 0.1);
+            pokeDescriptionHeight.textContent = `${currentMetricHeight}m`;
+            pokeDescriptionWeight.textContent = `${currentMetricWeight}Kg`;
+        } else if (currentMeasurmentSystem === imperialSystem) {
+            let howManyFeetsInPokemon = ConvertDecimals(pokemonHeight * 0.1) * ConvertDecimals(feetsInMeter);
+            let howManyInchesInPokemon = 0;
+            currentMetricHeight = `${howManyFeetsInPokemon}'00"`;
+            currentMetricWeight = ConvertDecimals(pokemonHeight * 0.1) * ConvertDecimals(lbsInKg);
+            pokeDescriptionHeight.textContent = currentMetricHeight;
+            pokeDescriptionWeight.textContent = `${currentMetricWeight}Lbs`;
+        }
+
+        // ! //
+
         //!  //
         /* console.log(abilities.length); */
         let timeOutFuncTime = 250;
@@ -2073,7 +1974,7 @@ const createPokeData = async (data) => {
             optionListVarientsBtns.forEach((btn) => {
                 btn.addEventListener("click", async () => {
                     const actionName = btn.getAttribute("data-name");
-                    if (actionName === "open-close") {
+                    if (actionName === openClose) {
                         optionListVarientsActions(optionListVarientsStatus);
                     } else if (actionName === "item") {
                         optionListVarientsActions(optionListVarientsStatus);
@@ -2543,7 +2444,7 @@ const configMenuActions = () => {
 };
 const configMenuOptions = (option) => {
     console.log(option);
-    if (option === "open-close") {
+    if (option === openClose) {
         if (langMenuNavStatus === open) {
             langMenuNavStatus = close;
             console.log("closing config menu lang menu");
@@ -3362,6 +3263,10 @@ pikerEditPersonalizedThemeModalBtns.forEach((btn) => {
         editPikerThemeActions(btn.getAttribute("data-name"));
     });
 });
+optionListMeasurmentsBtns.forEach((btn) => {
+    btn.addEventListener("click", () => optionListMeasurmentsActions(btn.getAttribute("data-name")));
+});
+
 optionListFavBtns.forEach((btn) => {
     btn.addEventListener("click", () => optionListFavOptionActions(btn.getAttribute("data-name")));
 });

@@ -1239,6 +1239,16 @@ MAIN {
 #poke_data_info_description_abilities_container {
     margin-top: 1rem;
 }
+#option_list_measurements_container {
+    height: 5rem;
+    width: 100%;
+}
+#option_list_btns_container_measurements {
+    width: 100%;
+}
+#option_list_measurements {
+    margin-bottom: 1rem;
+}
 #ability_options_container {
     height: 3rem;
     padding-top: 0;
