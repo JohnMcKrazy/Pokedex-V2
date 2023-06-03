@@ -257,6 +257,7 @@ const textAbilityFlavorsModal = document.querySelector("#text_modal_ability");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 const feetsInMeter = 3.281;
+const inchesInMeters = 39.37007874;
 const lbsInKg = 2.2046;
 
 let currentPokemonHeight = 0;
@@ -1293,9 +1294,8 @@ const optionListFavActions = (status) => {
 };
 
 const optionListMeasurmentsActions = (action) => {
-    let currentMetricHeight = 0;
-    let currentMetricWeight = 0;
-    console.log(action);
+    let currentMetricHeight = ConvertDecimals(currentPokemonHeight * 0.1);
+    let currentMetricWeight = ConvertDecimals(currentPokemonWeight * 0.1);
     switch (action) {
         case openClose:
             console.log(action);
@@ -1312,8 +1312,6 @@ const optionListMeasurmentsActions = (action) => {
             console.log(action);
             closeOptionList("option_list_measurments");
             currentMeasurmentSystem = metricSystem;
-            currentMetricHeight = ConvertDecimals(currentPokemonHeight * 0.1);
-            currentMetricWeight = ConvertDecimals(currentPokemonWeight * 0.1);
             pokeDescriptionHeight.textContent = `${currentMetricHeight}m`;
             pokeDescriptionWeight.textContent = `${currentMetricWeight}Kg`;
             break;
@@ -1322,13 +1320,24 @@ const optionListMeasurmentsActions = (action) => {
             console.log(action);
             closeOptionList("option_list_measurments");
             currentMeasurmentSystem = imperialSystem;
-            let howManyFeetsInPokemon = ConvertDecimals(currentPokemonHeight * 0.1) * ConvertDecimals(feetsInMeter);
-            console.log();
-            let howManyInchesInPokemon = 0;
-            currentMetricHeight = `${parseInt(howManyFeetsInPokemon)}'00"`;
-            currentMetricWeight = ConvertDecimals(currentPokemonHeight * lbsInKg);
+
+            let howManyFeetsInPokemon = currentMetricHeight * feetsInMeter;
+            // ! //
+
+            console.log(currentMetricHeight + " Height");
+            let decimals = `.${howManyFeetsInPokemon.toString().split(".")[1]}`;
+            let howManyInchesInPokemon = Math.round((decimals / feetsInMeter) * inchesInMeters).toString();
+
+            if (howManyInchesInPokemon.length >= 2) {
+                currentMetricHeight = `${parseInt(howManyFeetsInPokemon)}'${howManyInchesInPokemon}"`;
+            } else if (howManyInchesInPokemon.length === 1) {
+                currentMetricHeight = `${parseInt(howManyFeetsInPokemon)}'0${howManyInchesInPokemon}"`;
+            }
+
+            // ! //
+            currentMetricWeight = `${ConvertDecimals(currentPokemonHeight * lbsInKg)}Lbs`;
             pokeDescriptionHeight.textContent = currentMetricHeight;
-            pokeDescriptionWeight.textContent = `${currentMetricWeight}Lbs`;
+            pokeDescriptionWeight.textContent = currentMetricWeight;
 
             break;
     }
@@ -1885,19 +1894,31 @@ const createPokeData = async (data) => {
         //^^ REVISAR CONFIGURACION DE SISTEMA DE MEDICION  //
         currentPokemonHeight = pokemonHeight;
         currentPokemonWeight = pokemonWeight;
+
+        currentMetricHeight = ConvertDecimals(pokemonHeight * 0.1);
+        currentMetricWeight = ConvertDecimals(pokemonWeight * 0.1);
         // ! //
         if (currentMeasurmentSystem === metricSystem) {
-            currentMetricHeight = ConvertDecimals(pokemonHeight * 0.1);
-            currentMetricWeight = ConvertDecimals(pokemonWeight * 0.1);
             pokeDescriptionHeight.textContent = `${currentMetricHeight}m`;
             pokeDescriptionWeight.textContent = `${currentMetricWeight}Kg`;
         } else if (currentMeasurmentSystem === imperialSystem) {
-            let howManyFeetsInPokemon = ConvertDecimals(pokemonHeight * 0.1) * ConvertDecimals(feetsInMeter);
-            let howManyInchesInPokemon = 0;
-            currentMetricHeight = `${howManyFeetsInPokemon}'00"`;
-            currentMetricWeight = ConvertDecimals(pokemonHeight * 0.1) * ConvertDecimals(lbsInKg);
+            let howManyFeetsInPokemon = currentMetricHeight * feetsInMeter;
+            // ! //
+
+            console.log(currentMetricHeight + " Height");
+            let decimals = `.${howManyFeetsInPokemon.toString().split(".")[1]}`;
+            let howManyInchesInPokemon = Math.round((decimals / feetsInMeter) * inchesInMeters).toString();
+
+            if (howManyInchesInPokemon.length >= 2) {
+                currentMetricHeight = `${parseInt(howManyFeetsInPokemon)}'${howManyInchesInPokemon}"`;
+            } else if (howManyInchesInPokemon.length === 1) {
+                currentMetricHeight = `${parseInt(howManyFeetsInPokemon)}'0${howManyInchesInPokemon}"`;
+            }
+
+            // ! //
+            currentMetricWeight = `${ConvertDecimals(currentPokemonHeight * lbsInKg)}Lbs`;
             pokeDescriptionHeight.textContent = currentMetricHeight;
-            pokeDescriptionWeight.textContent = `${currentMetricWeight}Lbs`;
+            pokeDescriptionWeight.textContent = currentMetricWeight;
         }
 
         // ! //
