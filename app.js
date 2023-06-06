@@ -112,6 +112,20 @@ const pokeDescriptionHeight = document.querySelector("#poke_data_info_descriptio
 const maleIcon = document.querySelector("#male_icon");
 const femaleIcon = document.querySelector("#female_icon");
 const genderlessIcon = document.querySelector("#genderless_icon");
+
+const maleIconText=document.querySelector("#male_icon_text");
+const femaleIconText=document.querySelector("#female_icon_text");
+const genderlessIconText=document.querySelector("#genderless_icon_text");
+
+
+
+const babyIcon = document.querySelector("#baby_icon");
+const legendaryIcon = document.querySelector("#legendary_icon");
+const mythicalIcon = document.querySelector("#mythical_icon");
+
+const babyIconText=document.querySelector("#baby_icon_text");
+const legendaryIconText=document.querySelector("#legendary_icon_text");
+const mythicalIconText=document.querySelector("#mythical_icon_text");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentAbilityBtns = document.createDocumentFragment();
 const abilityBtnTemplate = document.querySelector("#ability_btn_template").content;

@@ -150,7 +150,7 @@
                         </div>
                     </div>
                     <!-- ~ BASIC DATA CARDS - START -->
-                    <div class="data_grid margin_b">
+                    <div class="cards_row_container margin_b" id="pokedata_row_center_container">
                         <div class="data_info_card">
                             <h2 class="section_subtitle_data" id="poke_data_info_name_weight">Peso</h2>
                             <p class="section_subtitle_name" id="poke_data_info_description_weight"></p>
@@ -161,32 +161,78 @@
                             <p class="section_subtitle_name" id="poke_data_info_description_height"></p>
                         </div>
 
-                        <div class="data_info_card">
+                        <div class="data_info_card" id="gender_data_info_card">
                             <h2 class="section_subtitle_data" id="poke_data_info_name_gender">Generos</h2>
                             <div class="btns_row_center gender_icons_container">
-                                <div class="icon_container gender_icon male_icon" id="male_icon">
-                                    <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <div class="icon_container icon_item_container gender_icon male_icon" id="male_icon">
+                                    <svg class="icon_svg icon_with_text_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path
                                             class="cls-1"
                                             d="M15.0491 8.53666L18.5858 5H14V3H22V11H20V6.41421L16.4633 9.95088C17.4274 11.2127 18 12.7895 18 14.5C18 18.6421 14.6421 22 10.5 22C6.35786 22 3 18.6421 3 14.5C3 10.3579 6.35786 7 10.5 7C12.2105 7 13.7873 7.57264 15.0491 8.53666ZM10.5 20C13.5376 20 16 17.5376 16 14.5C16 11.4624 13.5376 9 10.5 9C7.46243 9 5 11.4624 5 14.5C5 17.5376 7.46243 20 10.5 20Z"
                                         ></path>
                                     </svg>
+                                    <span class="icon_text" id="male_icon_text">Male</span>
                                 </div>
-                                <div class="icon_container gender_icon female_icon" id="female_icon">
-                                    <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <div class="icon_container icon_item_container gender_icon female_icon" id="female_icon">
+                                    <svg class="icon_svg icon_with_text_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path
                                             class="cls-1"
                                             d="M11 15.9339C7.33064 15.445 4.5 12.3031 4.5 8.5C4.5 4.35786 7.85786 1 12 1C16.1421 1 19.5 4.35786 19.5 8.5C19.5 12.3031 16.6694 15.445 13 15.9339V18H18V20H13V24H11V20H6V18H11V15.9339ZM12 14C15.0376 14 17.5 11.5376 17.5 8.5C17.5 5.46243 15.0376 3 12 3C8.96243 3 6.5 5.46243 6.5 8.5C6.5 11.5376 8.96243 14 12 14Z"
                                         ></path>
                                     </svg>
+
+                                    <span class="icon_text" id="female_icon_text">Female</span>
                                 </div>
 
-                                <div class="icon_container gender_icon genderless_icon" id="genderless_icon">
-                                    <svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <div class="icon_container icon_item_container gender_icon genderless_icon" id="genderless_icon">
+                                    <svg class="icon_svg icon_with_text_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path
                                             d="M13 7.06609C16.6694 7.55498 19.5 10.6969 19.5 14.5C19.5 18.6421 16.1421 22 12 22C7.85786 22 4.5 18.6421 4.5 14.5C4.5 10.6969 7.33064 7.55498 11 7.06609V1H13V7.06609ZM12 20C15.0376 20 17.5 17.5376 17.5 14.5C17.5 11.4624 15.0376 9 12 9C8.96243 9 6.5 11.4624 6.5 14.5C6.5 17.5376 8.96243 20 12 20Z"
                                         ></path>
                                     </svg>
+
+                                    <span class="icon_text" id="genderless_icon_text">Genderless</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="data_info_card" id="extras_data_info_card">
+                            <h2 class="section_subtitle_data" id="poke_data_info_name_extras">Extra</h2>
+                            <div class="btns_row_center extras_icons_container">
+                                <div class="icon_container icon_item_container extras_icon none_icon" id="none_icon">
+                                    <svg class="icon_svg icon_with_text_svg" id="none_icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
+                                            d="M12.865 3.00017L22.3912 19.5002C22.6674 19.9785 22.5035 20.5901 22.0252 20.8662C21.8732 20.954 21.7008 21.0002 21.5252 21.0002H2.47266C1.92037 21.0002 1.47266 20.5525 1.47266 20.0002C1.47266 19.8246 1.51886 19.6522 1.60663 19.5002L11.1329 3.00017C11.4091 2.52187 12.0206 2.358 12.4989 2.63414C12.651 2.72191 12.7772 2.84815 12.865 3.00017ZM4.20471 19.0002H19.7932L11.9989 5.50017L4.20471 19.0002ZM10.9989 16.0002H12.9989V18.0002H10.9989V16.0002ZM10.9989 9.00017H12.9989V14.0002H10.9989V9.00017Z"
+                                        ></path>
+                                    </svg>
+                                    <span class="icon_text" id="none_icon_text">None</span>
+                                </div>
+
+                                <div class="icon_container icon_item_container extras_icon baby_icon" id="baby_icon">
+                                    <svg class="icon_svg icon_with_text_svg" id="baby_icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
+                                            d="M21.666 12.277a7.72 7.72 0 0 0 .171-.665c.003-.017.004-.033.008-.05.02-.098.029-.199.045-.298.025-.157.055-.313.07-.471a7.979 7.979 0 0 0-2.303-6.45A7.979 7.979 0 0 0 14 2v8H6.517l-.858-2H2v2h2.341l1.828 4.266A3.504 3.504 0 0 0 4 17.5C4 19.43 5.57 21 7.5 21c1.759 0 3.204-1.309 3.449-3h2.102c.245 1.691 1.69 3 3.449 3 1.93 0 3.5-1.57 3.5-3.5 0-.63-.181-1.213-.473-1.725.042-.041.089-.077.131-.119.36-.361.688-.759.977-1.184.288-.43.536-.886.736-1.359.016-.037.026-.076.041-.113h.001l.015-.042c.088-.22.168-.441.235-.668l.003-.013zM7.5 19c-.827 0-1.5-.673-1.5-1.5S6.673 16 7.5 16s1.5.673 1.5 1.5S8.327 19 7.5 19zm9 0c-.827 0-1.5-.673-1.5-1.5s.673-1.5 1.5-1.5 1.5.673 1.5 1.5-.673 1.5-1.5 1.5z"
+                                        ></path>
+                                    </svg>
+
+                                    <span class="icon_text" id="baby_icon_text">Baby</span>
+                                </div>
+                                <div class="icon_container icon_item_container extras_icon legendary_icon" id="legendary_icon">
+                                    <svg class="icon_svg icon_with_text_svg" id="legendary_icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
+                                            d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26ZM12.0006 15.968L16.2473 18.3451L15.2988 13.5717L18.8719 10.2674L14.039 9.69434L12.0006 5.27502L9.96214 9.69434L5.12921 10.2674L8.70231 13.5717L7.75383 18.3451L12.0006 15.968Z"
+                                        ></path>
+                                    </svg>
+                                    <span class="icon_text" id="legendary_icon_text">Legendary</span>
+                                </div>
+
+                                <div class="icon_container icon_item_container extras_icon mythical_icon" id="mythical_icon">
+                                    <svg class="icon_svg icon_with_text_svg" id="mythical_icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
+                                            d="M14 4.4375C15.3462 4.4375 16.4375 3.34619 16.4375 2H17.5625C17.5625 3.34619 18.6538 4.4375 20 4.4375V5.5625C18.6538 5.5625 17.5625 6.65381 17.5625 8H16.4375C16.4375 6.65381 15.3462 5.5625 14 5.5625V4.4375ZM1 11C4.31371 11 7 8.31371 7 5H9C9 8.31371 11.6863 11 15 11V13C11.6863 13 9 15.6863 9 19H7C7 15.6863 4.31371 13 1 13V11ZM4.87601 12C6.18717 12.7276 7.27243 13.8128 8 15.124 8.72757 13.8128 9.81283 12.7276 11.124 12 9.81283 11.2724 8.72757 10.1872 8 8.87601 7.27243 10.1872 6.18717 11.2724 4.87601 12ZM17.25 14C17.25 15.7949 15.7949 17.25 14 17.25V18.75C15.7949 18.75 17.25 20.2051 17.25 22H18.75C18.75 20.2051 20.2051 18.75 22 18.75V17.25C20.2051 17.25 18.75 15.7949 18.75 14H17.25Z"
+                                        ></path>
+                                    </svg>
+                                    <span class="icon_text" id="male_icon_text">Mythical</span>
                                 </div>
                             </div>
                         </div>
