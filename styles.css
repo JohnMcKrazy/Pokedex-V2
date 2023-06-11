@@ -456,29 +456,29 @@ NAV {
     display: flex;
 }
 .male_icon .icon_svg {
-    fill: skyblue;
+    fill: rgb(131, 245, 229);
 }
 .female_icon .icon_svg {
-    fill: pink;
+    fill: rgb(231, 97, 189);
 }
 
 .genderless_icon .icon_svg {
-    fill: rgb(70, 3, 114);
+    fill: url("#genderlessIconGradient");
 }
 
 .none_icon .icon_svg {
-    fill: rgb(178, 196, 20);
+    fill: rgb(218, 236, 51);
 }
 
 .baby_icon .icon_svg {
-    fill: rgba(110, 0, 253, 0.904);
+    fill: var(--midGray);
 }
 .legendary_icon .icon_svg {
-    fill: rgb(178, 196, 20);
+    fill: url("#legendaryIconGradient");
 }
 
 .mythical_icon .icon_svg {
-    fill: rgb(178, 196, 20);
+    fill: url("#mythicalIconGradient");
 }
 .btn {
     display: flex;

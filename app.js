@@ -113,19 +113,23 @@ const maleIcon = document.querySelector("#male_icon");
 const femaleIcon = document.querySelector("#female_icon");
 const genderlessIcon = document.querySelector("#genderless_icon");
 
-const maleIconText=document.querySelector("#male_icon_text");
-const femaleIconText=document.querySelector("#female_icon_text");
-const genderlessIconText=document.querySelector("#genderless_icon_text");
+const maleIconText = document.querySelector("#male_icon_text");
+const femaleIconText = document.querySelector("#female_icon_text");
+const genderlessIconText = document.querySelector("#genderless_icon_text");
 
-
-
+const noneIcon = document.querySelector("#none_icon");
 const babyIcon = document.querySelector("#baby_icon");
 const legendaryIcon = document.querySelector("#legendary_icon");
 const mythicalIcon = document.querySelector("#mythical_icon");
+const mythicalIconSvg = document.querySelector("#mythical_icon_svg");
+const mythicalIconSvgGradient = document.querySelector("#mythic_icon_gradient");
 
-const babyIconText=document.querySelector("#baby_icon_text");
-const legendaryIconText=document.querySelector("#legendary_icon_text");
-const mythicalIconText=document.querySelector("#mythical_icon_text");
+const mythicalIconSvgGradientStop1 = document.querySelector("#mythic_icon_gradient_stop_1");
+const mythicalIconSvgGradientStop2 = document.querySelector("#mythic_icon_gradient_stop_2");
+
+const babyIconText = document.querySelector("#baby_icon_text");
+const legendaryIconText = document.querySelector("#legendary_icon_text");
+const mythicalIconText = document.querySelector("#mythical_icon_text");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentAbilityBtns = document.createDocumentFragment();
 const abilityBtnTemplate = document.querySelector("#ability_btn_template").content;
@@ -890,6 +894,48 @@ const genderlessIconActions = (status) => {
             break;
         case close:
             animationOut(genderlessIcon, 250);
+            break;
+    }
+};
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+const noneIconActions = (status) => {
+    switch (status) {
+        case open:
+            animationIn(noneIcon, flex);
+            break;
+        case close:
+            animationOut(noneIcon, 250);
+            break;
+    }
+};
+const babyIconActions = (status) => {
+    switch (status) {
+        case open:
+            animationIn(babyIcon, flex);
+            break;
+        case close:
+            animationOut(babyIcon, 250);
+            break;
+    }
+};
+const legendaryIconActions = (status) => {
+    switch (status) {
+        case open:
+            animationIn(legendaryIcon, flex);
+            break;
+        case close:
+            animationOut(legendaryIcon, 250);
+            break;
+    }
+};
+const mythicalIconActions = (status) => {
+    switch (status) {
+        case open:
+            animationIn(mythicalIcon, flex);
+            break;
+        case close:
+            animationOut(mythicalIcon, 250);
             break;
     }
 };
@@ -1764,9 +1810,10 @@ const createPokeData = async (data) => {
         searchInputNumber.value = "";
         searchInputNumber.value = "";
         //¬ DELETE ALL POKEDATA -- OVER //
-
-        pokeImg.classList.remove("animation_spin");
-
+        if (pokeImg.classList.contains("animation_spin")) {
+            console.log("quitando clase de animacion de portal por primera vez");
+            pokeImg.classList.remove("animation_spin");
+        }
         //¬ BASIC POKE DATA -- START //
         const { name: dataName, id: dataId, height: pokemonHeight, weight: pokemonWeight, abilities, base_experience: pokemonExperience, held_items: pokemonHeldItems, stats } = data;
         const artworkImg = data.sprites.other["official-artwork"]["front_default"];
@@ -1899,6 +1946,37 @@ const createPokeData = async (data) => {
             }
         }
         // ¬ GENDER DATA - OVER //
+        console.log(isBaby, isLegendary, isMythical);
+        if (isBaby === false && isLegendary === false && isMythical === false) {
+            noneIconActions(open);
+        }
+        switch (isBaby) {
+            case true:
+                babyIconActions(open);
+                noneIconActions(close);
+                break;
+            case false:
+                babyIconActions(close);
+                break;
+        }
+        switch (isLegendary) {
+            case true:
+                legendaryIconActions(open);
+                noneIconActions(close);
+                break;
+            case false:
+                legendaryIconActions(close);
+                break;
+        }
+        switch (isMythical) {
+            case true:
+                mythicalIconActions(open);
+                noneIconActions(close);
+                break;
+            case false:
+                mythicalIconActions(close);
+                break;
+        }
 
         if (currentLang === es) {
             pokeDescriptionHabitat.textContent = habitatNameEs;
