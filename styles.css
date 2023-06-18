@@ -555,10 +555,6 @@ NAV {
     width: 4rem;
     height: 4rem;
     padding: 0.25rem;
-    background: var(--whiteOff);
-}
-.top_btn .icon_svg {
-    fill: var(--firstColor);
 }
 .delete_DB_btn {
     top: 0;
@@ -703,7 +699,7 @@ NAV {
     align-items: flex-start;
     gap: 0.5rem;
     height: fit-content;
-    padding: 2rem;
+    /* padding: 2rem; */
     max-height: calc(100vh - 16rem);
     overflow-y: auto;
 }
@@ -1080,11 +1076,11 @@ MAIN {
 .save_btn #icon_save_error .cls-1 {
     fill: crimson;
 }
-.save_pokemon_btn {
+.display_btn {
     background: var(--white);
     border: none;
 }
-.save_pokemon_btn .icon_svg {
+.display_btn .icon_svg {
     fill: var(--firstColor);
 }
 .option_list_btns_container {
@@ -1238,10 +1234,11 @@ MAIN {
     height: 100%;
     fill: var(--firstColor);
 }
+/* 
 #config_menu_btn {
     fill: var(--textColor);
     border: solid 2px var(--textColor);
-}
+} */
 
 #option_list_btns_container_varients {
     max-height: 15rem;

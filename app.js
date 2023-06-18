@@ -70,6 +70,7 @@ const fragmentFavCards = document.createDocumentFragment();
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const favCardsContainer = document.querySelector("#fav_cards_container");
 const nameOptioListFavBtn = document.querySelector("#name_option_list_fav_btn");
+const dateOptioListFavBtn = document.querySelector("#date_option_list_fav_btn");
 const idOptioListFavBtn = document.querySelector("#id_option_list_fav_btn");
 const typeOptioListFavBtn = document.querySelector("#type_option_list_fav_btn");
 
@@ -380,6 +381,11 @@ let sortedById = [];
 let sortedByType = [];
 let sortedByDate = [];
 let currentSortedObject = [];
+let currentSortedObjectType = "";
+const sortedObjetTypeId = "sort_id";
+const sortedObjetTypeName = "sort_name";
+const sortedObjetTypeType = "sort_type";
+const sortedObjetTypeDate = "sort_date";
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const pokemonSearch = [];
 const pokemonTypesEn = [];
@@ -979,13 +985,19 @@ const changeLang = (lang) => {
         measurmentOptionListImperialBtn.textContent = "Metrico Ingles";
         pokeDescriptionNameWeight.textContent = "Peso";
         pokeDescriptionNameHeight.textContent = "Altura";
+
         pokeDescriptionNameGender.textContent = "Generos";
+        maleIconText.textContent = "Macho";
+        femaleIconText.textContent = "Hembra";
+        genderlessIconText.textContent = "Sin Genero";
+
         pokeDescriptionNameHabitat.textContent = "Habitad";
         pokeDescriptionNameAbilities.textContent = "Habilidades";
         evoSubtitle.textContent = "Cadena De Evolución";
         titlefavModal.textContent = "Favoritos";
         favListFirstBtnText.textContent = "Ordenar";
         nameOptioListFavBtn.textContent = "Nombre";
+        dateOptioListFavBtn.textContent = "Fecha";
         typeOptioListFavBtn.textContent = "Tipo";
         acceptBtnStartModal.textContent = "Aceptar";
         deniedBtnStartModal.textContent = "Rechazar";
@@ -1115,13 +1127,20 @@ const changeLang = (lang) => {
         measurmentOptionListImperialBtn.textContent = "Imperial System";
         pokeDescriptionNameWeight.textContent = "Weight";
         pokeDescriptionNameHeight.textContent = "Height";
+
         pokeDescriptionNameGender.textContent = "Genders";
+
+        maleIconText.textContent = "Male";
+        femaleIconText.textContent = "Female";
+        genderlessIconText.textContent = "Genderless";
+
         pokeDescriptionNameHabitat.textContent = "Habitat";
         pokeDescriptionNameAbilities.textContent = "Abilities";
         evoSubtitle.textContent = "Evolution Chain";
         titlefavModal.textContent = "Favorite";
         favListFirstBtnText.textContent = "Sort";
         nameOptioListFavBtn.textContent = "Name";
+        dateOptioListFavBtn.textContent = "Date";
         typeOptioListFavBtn.textContent = "Type";
         acceptBtnStartModal.textContent = "Accept";
         deniedBtnStartModal.textContent = "Denied";
@@ -2378,8 +2397,6 @@ const catchEmAll = async (id) => {
             itsFirstPokemonSearch = false;
             try {
                 const data = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${id}`);
-
-                toThetop();
                 console.log("Primera fetch data", data);
                 createPokeData(data);
                 break;
@@ -2395,9 +2412,11 @@ const catchEmAll = async (id) => {
             try {
                 const data = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${id}`);
 
-                toThetop();
                 console.log("Primera fetch data", data);
                 createPokeData(data);
+                setTimeout(() => {
+                    toThetop();
+                }, 500);
                 break;
             } catch (error) {
                 lunchAlert("name");
