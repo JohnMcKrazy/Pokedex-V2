@@ -232,6 +232,7 @@ const favModal = document.querySelector("#fav_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const favCardTemplate = document.querySelector("#fav_card_template").content;
 const titlefavModal = document.querySelector("#title_fav_modal");
+const subtitlefavModal = document.querySelector("#subtitle_fav_modal");
 const sortBtns = document.querySelectorAll(".sort_fav_btn");
 const favListFirstBtnText = document.querySelector("#option_list_fav_first_text");
 
@@ -862,7 +863,6 @@ const animationOut = (item, delay = 250) => {
     }, timer);
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 const maleIconActions = (status) => {
     switch (status) {
         case open:
@@ -875,7 +875,6 @@ const maleIconActions = (status) => {
             break;
     }
 };
-
 const femaleIconActions = (status) => {
     switch (status) {
         case open:
@@ -886,7 +885,6 @@ const femaleIconActions = (status) => {
             break;
     }
 };
-
 const genderlessIconActions = (status) => {
     switch (status) {
         case open:
@@ -898,7 +896,6 @@ const genderlessIconActions = (status) => {
     }
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 const noneIconActions = (status) => {
     switch (status) {
         case open:
@@ -955,7 +952,7 @@ const closeMenu = (menu, delay = 250) => {
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const changeLang = (lang) => {
     const varietiesListFirstBtnText = document.querySelector("#option_list_varients_first_text");
-
+    //! AGREGAR CAMBIO DE NOMBRE A CAMBIO DE LISTAS DE FAVORITOS  //
     if (lang === es) {
         currentLang = es;
         console.log("cambiando idioma a español");
@@ -1352,7 +1349,6 @@ const optionListFavActions = (status) => {
         closeOptionList("option_list_fav");
     }
 };
-
 const optionListMeasurmentsActions = (action) => {
     let currentMetricHeight = ConvertDecimals(currentPokemonHeight * 0.1);
     let currentMetricWeight = ConvertDecimals(currentPokemonWeight * 0.1);
@@ -1423,6 +1419,10 @@ const optionListFavOptionActions = (action) => {
             case "option_fav_name":
                 console.log(action);
                 sortedByName = storagePokedex[storageSaved].sort((a, b) => {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+
                     if (a.name < b.name) {
                         return -1;
                     }
@@ -1433,6 +1433,10 @@ const optionListFavOptionActions = (action) => {
             case "option_fav_id":
                 console.log(action);
                 sortedById = storagePokedex[storageSaved].sort((a, b) => {
+                    if (a.id > b.id) {
+                        return 1;
+                    }
+
                     if (a.id < b.id) {
                         return -1;
                     }
@@ -1444,12 +1448,19 @@ const optionListFavOptionActions = (action) => {
                 console.log(action);
                 if (currentLang === es) {
                     sortedByType = storagePokedex[storageSaved].sort((a, b) => {
+                        if (a.types.es[0] > b.types.es[0]) {
+                            return 1;
+                        }
                         if (a.types.es[0] < b.types.es[0]) {
                             return -1;
                         }
                     });
                 } else if (currentLang === en) {
                     sortedByType = storagePokedex[storageSaved].sort((a, b) => {
+                        if (a.types.en[0] > b.types.en[0]) {
+                            return 1;
+                        }
+
                         if (a.types.en[0] < b.types.en[0]) {
                             return -1;
                         }
@@ -1462,6 +1473,9 @@ const optionListFavOptionActions = (action) => {
                 console.log(action);
                 sortedByDate = storagePokedex[storageSaved].sort((a, b) => {
                     if (a.date["short_date_number"] < b.date["short_date_number"]) {
+                        if (a.date.time > b.date.time) {
+                            return 1;
+                        }
                         if (a.date.time < b.date.time) {
                             return -1;
                         }
@@ -1479,23 +1493,23 @@ const optionListFavOptionActions = (action) => {
         }, 250);
     }
 };
-const optionListAbilitiesActions = (action) => {
+const optionListAbilitiesActions = (action, status) => {
     if (action === openClose) {
-        if (optionListAbilityStatus === close) {
+        if (status === close) {
             optionListAbilityStatus = open;
             optionListAbilityArrow.style.transform = "rotate(180deg)";
             optionListAbility.style.height = "fit-content";
-        } else if (optionListAbilityStatus === open) {
+        } else if (status === open) {
             closeOptionList("option_list_ability");
         }
     } else {
+        closeOptionList("option_list_ability");
         titleAbilityFlavorsModal.textContent = properCase(action);
         currentAbilityFlavors.forEach((abilityFlavor) => {
             if (action === abilityFlavor.version) {
                 textAbilityFlavorsModal.textContent = properCase(abilityFlavor.flavor);
             }
         });
-        closeOptionList("option_list_ability");
     }
 };
 const createEvoCard = async (id, name, types, img) => {
@@ -1779,12 +1793,13 @@ const abilityBtnsActions = async (name, url) => {
 
             fragmentOptionListAbilityBtns.appendChild(abilityOptionListBtn);
         });
+        optionListAbilityStatus = close;
         optionListBtnsContainerAbility.appendChild(fragmentOptionListAbilityBtns);
 
         setTimeout(() => {
             const abilityOptionListBtns = document.querySelectorAll(".option_list_ability_btn");
             abilityOptionListBtns.forEach((btn) => {
-                btn.addEventListener("click", () => optionListAbilitiesActions(btn.getAttribute("data-name")));
+                btn.addEventListener("click", () => optionListAbilitiesActions(btn.getAttribute("data-name"), optionListAbilityStatus));
             });
             animationIn(modal, block, 500);
             setTimeout(() => animationIn(abilityModal, block, 500), 1500);
@@ -1888,6 +1903,7 @@ const createPokeData = async (data) => {
         const pokeMalesDetails = pokeMales[`pokemon_species_details`];
         const pokeGenderlessDetails = pokeGenderless[`pokemon_species_details`];
         let whatGenders = [];
+        console.log(genderDifferences + " Gender differences");
         pokeMalesDetails.forEach((list) => {
             switch (list[`pokemon_species`][`name`] === data.name) {
                 case true:
@@ -1983,6 +1999,7 @@ const createPokeData = async (data) => {
         } else if (currentLang === en) {
             pokeDescriptionHabitat.textContent = habitatNameEn;
         }
+
         //^^ REVISAR CONFIGURACION DE SISTEMA DE MEDICION  //
         currentPokemonHeight = pokemonHeight;
         currentPokemonWeight = pokemonWeight;
@@ -3164,35 +3181,41 @@ const closeModal = (action) => {
             favModalStatus = close;
             break;
         case "close_ability_modal":
-            if (optionListAbilityStatus === open) {
-                closeOptionList("option_list_ability");
+            switch (optionListAbilityStatus) {
+                case open:
+                    console.log("la lista de opciones de abilidades esta abierta, se procede a cerrarla");
+                    closeOptionList("option_list_ability");
+                    break;
+                case close:
+                    console.log("la lista de opciones de abilidades esta cerrada");
+                    break;
             }
             console.log(action);
+            abilityModalStatus = close;
             animationOut(abilityModal);
             setTimeout(() => animationOut(modal), 500);
-            abilityModalStatus = close;
             break;
         case "close_theme":
             console.log(action);
+            themeModalStatus = close;
             animationOut(themesModal);
             setTimeout(() => animationOut(modal), 500);
-            themeModalStatus = close;
             break;
         case "close_personalized_theme":
             console.log(action);
             deletePersonalizedTheme();
+            personalizedThemeModalStatus = close;
+            themeModalStatus = close;
             BODY.className = oldTheme;
             animationOut(personalizedThemeModal);
             setTimeout(() => animationOut(modal), 500);
-            personalizedThemeModalStatus = close;
-            themeModalStatus = close;
             break;
         case "close_edit_personalized_themes":
             console.log(action);
-            animationOut(editPersonalizedThemesModal);
-            setTimeout(() => animationOut(modal), 500);
             editPersonalizedThemesModalStatus = close;
             themeModalStatus = close;
+            animationOut(editPersonalizedThemesModal);
+            setTimeout(() => animationOut(modal), 500);
             break;
     }
 };

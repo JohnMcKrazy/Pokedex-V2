@@ -1283,6 +1283,9 @@ MAIN {
 #extras_data_info_card .btns_row_center {
     gap: 1rem;
 }
+#ability_modal {
+    min-height: 80vh;
+}
 #ability_options_container {
     height: 3rem;
     padding-top: 0;
@@ -1291,7 +1294,8 @@ MAIN {
     margin: 0 0;
 }
 #ability_options_container .option_list_btns_container {
-    max-height: 6rem;
+    min-height: 6rem;
+    max-height: 30vh;
 }
 #themes_btns_container {
     max-height: 35vh;
