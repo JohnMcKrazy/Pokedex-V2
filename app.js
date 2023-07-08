@@ -15,7 +15,7 @@ const evoChainBtn = document.querySelector("#evo_chain_btn");
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentPersonalizedThemeBtns = document.createDocumentFragment();
-const themeBtnTemplate = document.querySelector("#theme_btn_template").content;
+const personalizedThemeBtnTemplate = document.querySelector("#personalized_theme_btn_template").content;
 const personalizedBtnsContainer = document.querySelector("#personalized_themes_btns_container");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -65,6 +65,7 @@ const measurmentOptionListFistText = document.querySelector("#option_list_measur
 const measurmentOptionListMetricBtn = document.querySelector("#option_list_measurements_metric");
 const measurmentOptionListImperialBtn = document.querySelector("#option_list_measurements_imperial");
 
+const evoChainContainer = document.querySelector("#evo_chain_container");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentFavCards = document.createDocumentFragment();
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -122,12 +123,14 @@ const noneIcon = document.querySelector("#none_icon");
 const babyIcon = document.querySelector("#baby_icon");
 const legendaryIcon = document.querySelector("#legendary_icon");
 const mythicalIcon = document.querySelector("#mythical_icon");
+
 const mythicalIconSvg = document.querySelector("#mythical_icon_svg");
 const mythicalIconSvgGradient = document.querySelector("#mythic_icon_gradient");
 
 const mythicalIconSvgGradientStop1 = document.querySelector("#mythic_icon_gradient_stop_1");
 const mythicalIconSvgGradientStop2 = document.querySelector("#mythic_icon_gradient_stop_2");
 
+const noneIconText = document.querySelector("#none_icon_text");
 const babyIconText = document.querySelector("#baby_icon_text");
 const legendaryIconText = document.querySelector("#legendary_icon_text");
 const mythicalIconText = document.querySelector("#mythical_icon_text");
@@ -510,32 +513,7 @@ const monthsOfTheYear = [
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 let storagePokedex = {
     page_alert_status: open,
-    page_themes: [
-        {
-            tag: "personalized_theme",
-            name: "Entropia",
-            bgColor: "#5f9ea0",
-            firstColor: "#f5abef",
-            textColor: "#000000",
-            bgAccent: "#ffffff",
-        },
-        {
-            tag: "personalized_theme",
-            name: "Infierno",
-            bgColor: "#E5E5E5",
-            firstColor: "#CCA43B",
-            textColor: "#363636",
-            bgAccent: "#242F40",
-        },
-        {
-            tag: "personalized_theme",
-            name: "Durazno Dulce",
-            bgColor: "#D57A66",
-            firstColor: "#CA6680",
-            textColor: "#000000",
-            bgAccent: "#EDC79B",
-        },
-    ],
+    page_themes: [],
     theme_saved: {},
     page_view_count: 0,
     saved_pokemon: [],
@@ -991,6 +969,11 @@ const changeLang = (lang) => {
         femaleIconText.textContent = "Hembra";
         genderlessIconText.textContent = "Sin Genero";
 
+        noneIconText.textContent = "Ninguno";
+        babyIconText.textContent = "Bebe";
+        legendaryIconText.textContent = "Legendario";
+        mythicalIconText.textContent = "Mitico";
+
         pokeDescriptionNameHabitat.textContent = "Habitad";
         pokeDescriptionNameAbilities.textContent = "Habilidades";
         evoSubtitle.textContent = "Cadena De Evolución";
@@ -1133,6 +1116,11 @@ const changeLang = (lang) => {
         maleIconText.textContent = "Male";
         femaleIconText.textContent = "Female";
         genderlessIconText.textContent = "Genderless";
+
+        noneIconText.textContent = "None";
+        babyIconText.textContent = "Baby";
+        legendaryIconText.textContent = "Legendary";
+        mythicalIconText.textContent = "Mythical";
 
         pokeDescriptionNameHabitat.textContent = "Habitat";
         pokeDescriptionNameAbilities.textContent = "Abilities";
@@ -1531,6 +1519,17 @@ const optionListAbilitiesActions = (action, status) => {
         });
     }
 };
+const evoChainData = [];
+let evoChainItem = {
+    id: "",
+    name: "",
+    types: {
+        es: "" || [],
+        en: "" || [],
+    },
+    img: "",
+};
+
 const createEvoCard = async (id, name, types, img) => {
     const cardClone = evoCardTemplate.cloneNode(true);
     const cardImg = cardClone.querySelector(".card_img");
@@ -1601,6 +1600,83 @@ const createFavCard = async (id, name, types, date, img) => {
         cardHour.textContent = date["time"];
         fragmentFavCards.appendChild(cardClone);
     }, 100);
+};
+const createEvoChainBtns2 = async (speciesLink) => {
+    console.log("Prueba Evo Btns List " + speciesLink);
+
+    /*! EXTRA DATA */
+    const pokeExtraData2 = await fetchFunc(speciesLink);
+    const dataEvoChainLink2 = pokeExtraData2.evolution_chain.url;
+    /* console.log(dataEvoChainLink); */
+    const dataEvoChain2 = await fetchFunc(dataEvoChainLink2);
+    /* console.log(dataEvoChain); */
+    /* console.log(dataEvoChain.chain.species.name); */
+
+    const evoFromPokeTypesEs2 = [];
+    const evoFromPokeTypesEn2 = [];
+    const evoFromPokeTypes2 = {
+        es: [],
+        en: [],
+    };
+
+    const fetchEvolvesFromDataPokemonId2 = await fetchFunc(dataEvoChain2.chain.species.url);
+    const fetchEvolvesFromData2 = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${fetchEvolvesFromDataPokemonId2.id}`);
+    /* console.log(fetchEvolvesFromData2);
+    const evoFromPokeTypesData = fetchEvolvesFromData2.types;
+    if (evoFromPokeTypesData.length > 1) {
+        evoFromPokeTypesData.forEach(async (type) => {
+            const typeData2 = await fetchFunc(type.type.url);
+            typeData2.names.forEach(async (lang) => {
+                const langName = lang.language.name;
+                switch (langName) {
+                    case es:
+                        evoFromPokeTypesEs2.push(properCase(lang.name));
+                        break;
+                    case en:
+                        evoFromPokeTypesEn2.push(properCase(lang.name));
+                        break;
+                }
+            });
+            evoFromPokeTypes2.es = evoFromPokeTypesEs2;
+            evoFromPokeTypes2.en = evoFromPokeTypesEn2;
+        });
+    } else if (evoFromPokeTypesData.length === 1) {
+        const typeData2 = await fetchFunc(evoFromPokeTypesData.types[0].type.url);
+
+        typeData2.names.forEach(async (lang) => {
+            const langName = lang.language.name;
+            switch (langName) {
+                case es:
+                    evoFromPokeTypesEs2.push(properCase(lang.name));
+                    break;
+                case en:
+                    evoFromPokeTypesEn2.push(properCase(lang.name));
+                    break;
+            }
+        });
+    }
+    const evoTypeId2 = fetchEvolvesFromData2.id;
+    const evoTypeName2 = fetchEvolvesFromData2.name;
+    const evoTypeImg2 = fetchEvolvesFromData2.sprites.front_default;
+
+    evoChainItem.types = evoFromPokeTypes2;
+
+    evoChainItem.id = evoTypeId2;
+    evoChainItem.name = evoTypeName2;
+    evoChainItem.img = evoTypeImg2;
+    evoChainData.push(evoChainItem);
+    console.log(evoChainData); */
+
+    const pokeSpecieData = await fetchFunc(fetchEvolvesFromData2.species.url);
+    console.log(pokeSpecieData);
+
+    const evoChainSpeciesData = await fetchFunc(pokeSpecieData.evolution_chain.url);
+    console.log(evoChainSpeciesData);
+    const evoChainTypes = evoChainSpeciesData.chain.evolves_to;
+    evoChainTypes.forEach((evoType) => {
+        console.log(evoType);
+    });
+    console.log();
 };
 const createEvoChainBtns = async (speciesLink) => {
     deleteChildElements(evoCardsContainer);
@@ -1908,7 +1984,7 @@ const createPokeData = async (data) => {
                     habitatNameEn = properCase(item.name);
                 }
             });
-        } else if (habitat === null || habitat === {} || habitat === none) {
+        } else if (habitat === null || habitat === none) {
             habitatNameEs = "Desconocida";
             habitatNameEn = "Unknown";
         }
@@ -2096,6 +2172,8 @@ const createPokeData = async (data) => {
         }, timeOutFuncTime * abilitieBtnsCount + 500);
         //!  //
         createEvoChainBtns(speciesLink);
+
+        createEvoChainBtns2(speciesLink);
         /* console.log(varieties.length); */
         if (varieties.length > 1) {
             /* console.log("este pokemon tiene variantes"); */
@@ -2416,7 +2494,7 @@ const catchEmAll = async (id) => {
                 createPokeData(data);
                 setTimeout(() => {
                     toThetop();
-                }, 500);
+                }, 250);
                 break;
             } catch (error) {
                 lunchAlert("name");
@@ -2861,7 +2939,7 @@ const createPersonalizedBtns = () => {
     deleteChildElements(fragmentPersonalizedThemeBtns);
     deleteChildElements(personalizedBtnsContainer);
     storagePokedex[storageThemes].forEach((theme) => {
-        let cloneTemplate = themeBtnTemplate.cloneNode(true);
+        let cloneTemplate = personalizedThemeBtnTemplate.cloneNode(true);
         let btn = cloneTemplate.querySelector(".personalized_theme_btn");
         btn.textContent = theme.name;
         btn.setAttribute("data-name", theme.name);
@@ -2906,7 +2984,7 @@ const checkStorageAnswer = () => {
         console.log("tienes temas");
         createPersonalizedBtns();
     }
-    if (storageContent && storageContent[storageThemeSaved] !== {} && storageContent && storageContent[storageThemeSaved]["tag"] === personalizedT) {
+    if (storageContent && storageContent && storageContent[storageThemeSaved]["tag"] === personalizedT) {
         console.log(storageContent[storageThemeSaved]);
         BODY.className = personalizedT;
 
@@ -2923,13 +3001,12 @@ const checkStorageAnswer = () => {
                 personalizedProperty(personalizedT, `--bgAccent`, theme["bgAccent"]);
             }
         });
-    } else if (storageContent && storageContent[storageThemeSaved] !== {} && storageContent && storageContent[storageThemeSaved]["tag"] !== personalizedT) {
+    } else if (storageContent && storageContent && storageContent[storageThemeSaved]["tag"] !== personalizedT) {
         changeBasicTheme(storageContent[storageThemeSaved]["tag"]);
     }
 };
 checkStorageAnswer();
 
-catchEmAll(currentPokemon);
 //^^ ************************************************************************** *//
 const themeCardBtnActions = () => {
     const actionBtns = document.querySelectorAll(".personalized_theme_card_action");
@@ -3114,12 +3191,12 @@ const editPikerThemeActions = (action) => {
             editPersonalizedThemeModalStatus = close;
             deletePersonalizedTheme();
             console.log(storageContent[storageThemeSaved]);
-            if (storageContent[storageThemeSaved] !== {}) {
+            /*   if (storageContent[storageThemeSaved] !== {}) {
                 storageContent[storageThemeSaved].name;
                 console.log(storageContent[storageThemeSaved]);
                 const temaSalvadoPrueba = storageContent[storageThemes].filter((theme) => (theme.name === storageContent[storageThemeSaved].name ? theme : console.log("error en checar tema anterior despues de salvar personalizado")));
                 console.log(temaSalvadoPrueba);
-            }
+            } */
             setTimeout(() => {
                 BODY.className = oldTheme;
                 themeCardsContainer.appendChild(fragmentThemeCards);
@@ -3333,7 +3410,7 @@ colorPikersPersonalizedTheme.forEach((btn) => {
     btn.addEventListener("input", () => {
         let target = btn.getAttribute("data-name");
         let value = btn.value;
-        console.log(target);
+        /* console.log(target); */
         switch (target) {
             case "bgColor":
                 currentBgColor = value;

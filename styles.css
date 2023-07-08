@@ -1133,7 +1133,7 @@ MAIN {
     text-align: center;
     padding: 0.5rem 1rem;
     color: var(--blackOff);
-    background: var(--whiteOffT);
+    background: var(--white);
     min-height: 3rem;
     width: 100%;
     /* z-index: 10; */
@@ -1153,7 +1153,7 @@ MAIN {
 }
 .option_list_btn:hover {
     background: var(--firstColor);
-    color: var(--textContrastColor);
+    color: var(--whiteOff);
 }
 .option_list_btn_search:hover .icon_svg {
     fill: var(--textContrastColor);
