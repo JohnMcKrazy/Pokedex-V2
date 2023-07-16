@@ -1782,6 +1782,164 @@ const createEvoChainBtns = async (speciesLink) => {
         }, 250);
     }, 250);
 };
+const createEvoChainBtns2 = async (speciesLink) => {
+    deleteChildElements(evoCardsContainer);
+    deleteChildElements(fragmentEvoCards);
+    /* ! INTERNAL FUNCTIONS */
+
+    const createEvoData = async (speciesList) => {
+        speciesList.forEach(async (specie) => {
+            const evoTypeData = await fetchFunc(specie.species.url);
+            const evoTypeId = evoTypeData.id;
+            const fetchEvoType = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${evoTypeId}`);
+            const evoTypeImg = fetchEvoType.sprites.front_default;
+            const evoTypeName = fetchEvoType.name;
+            /* console.log(fetchEvoType); */
+            /* console.log(evoTypeId, evoTypeName); */
+            /* console.log(evoTypeImg); */
+            const evoTypeTypes = {
+                es: "",
+                en: "",
+            };
+            const evoTypeTypesEs = [];
+            const evoTypeTypesEn = [];
+            let evoTypesCount = 0;
+            if (fetchEvoType.types.length > 1) {
+                fetchEvoType.types.forEach(async (type) => {
+                    const typeData = await fetchFunc(type.type.url);
+                    typeData.names.forEach(async (lang) => {
+                        const langName = lang.language.name;
+                        switch (langName) {
+                            case es:
+                                evoTypeTypesEs.push(properCase(lang.name));
+                                break;
+                            case en:
+                                evoTypeTypesEn.push(properCase(lang.name));
+                                break;
+                        }
+                    });
+                });
+            } else if (fetchEvoType.types.length === 1) {
+                const typeData = await fetchFunc(fetchEvoType.types[0].type.url);
+                typeData.names.forEach(async (lang) => {
+                    const langName = lang.language.name;
+                    switch (langName) {
+                        case es:
+                            evoTypeTypesEs.push(properCase(lang.name));
+                            break;
+                        case en:
+                            evoTypeTypesEn.push(properCase(lang.name));
+                            break;
+                    }
+                });
+            }
+            setTimeout(() => {
+                evoTypeTypes.es = evoTypeTypesEs;
+                evoTypeTypes.en = evoTypeTypesEn;
+                createEvoCard(evoTypeId, evoTypeName, evoTypeTypes, evoTypeImg);
+                setTimeout(() => {
+                    evoCardsContainer.appendChild(fragmentEvoCards);
+                }, 500);
+                const nextEvoData = specie.evolves_to;
+                evoTypesCount++;
+                if (nextEvoData) {
+                    /* console.log(nextEvoData); */
+                    createEvoData(nextEvoData);
+                    if (evoTypesCount === 1) {
+                        /* console.log(`Tienes 1na evolucion`); */
+                    } else {
+                        /* console.log(`Tienes ${evoTypesCount} evoluciones`); */
+                    }
+                } else {
+                    /* console.log(`No tienes ${evoTypesCount + 1} evoluciones`); */
+                }
+            }, 200);
+        });
+    };
+    /*! EXTRA DATA */
+    const pokeExtraData = await fetchFunc(speciesLink);
+    /* console.log(pokeExtraData); */
+
+    const dataColor = pokeExtraData.color.name;
+    const dataEvoChainLink = pokeExtraData.evolution_chain.url;
+    /* console.log(dataEvoChainLink); */
+    const dataEvoChain = await fetchFunc(dataEvoChainLink);
+    /* console.log(dataEvoChain); */
+    /* console.log(dataEvoChain.chain.species.name); */
+
+    const fetchEvolvesFromDataPokemonId = await fetchFunc(dataEvoChain.chain.species.url);
+    const fetchEvolvesFromData = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${fetchEvolvesFromDataPokemonId.id}`);
+    /* console.log(fetchEvolvesFromData); */
+    /* console.log(fetchEvolvesFromData.id, fetchEvolvesFromData.name); */
+    /*  console.log(fetchEvolvesFromData.sprites.front_default); */
+    const evoFromPokeTypesEs = [];
+    const evoFromPokeTypesEn = [];
+    const evoFromPokeTypes = {
+        es: "",
+        en: "",
+    };
+    if (fetchEvolvesFromData.types.length > 1) {
+        fetchEvolvesFromData.types.forEach(async (type) => {
+            const typeData = await fetchFunc(type.type.url);
+            typeData.names.forEach(async (lang) => {
+                const langName = lang.language.name;
+                switch (langName) {
+                    case es:
+                        evoFromPokeTypesEs.push(properCase(lang.name));
+                        break;
+                    case en:
+                        evoFromPokeTypesEn.push(properCase(lang.name));
+                        break;
+                }
+            });
+        });
+    } else if (fetchEvolvesFromData.types.length === 1) {
+        const typeData = await fetchFunc(fetchEvolvesFromData.types[0].type.url);
+        typeData.names.forEach(async (lang) => {
+            const langName = lang.language.name;
+            switch (langName) {
+                case es:
+                    evoFromPokeTypesEs.push(properCase(lang.name));
+                    break;
+                case en:
+                    evoFromPokeTypesEn.push(properCase(lang.name));
+                    break;
+            }
+        });
+    }
+    const evoFromPokeId = fetchEvolvesFromData.id;
+    const evoFromPokeName = fetchEvolvesFromData.name;
+    const evoFromPokeImg = fetchEvolvesFromData.sprites.front_default;
+    setTimeout(() => {
+        if (evoFromPokeTypes.length > 1) {
+            evoFromPokeTypes.es = evoFromPokeTypesEs.join("/");
+            evoFromPokeTypes.en = evoFromPokeTypesEn.join("/");
+        } else {
+            evoFromPokeTypes.es = evoFromPokeTypesEs[0];
+            evoFromPokeTypes.en = evoFromPokeTypesEn[0];
+        }
+        createEvoCard(evoFromPokeId, evoFromPokeName, evoFromPokeTypes, evoFromPokeImg);
+        const firstEvoData = dataEvoChain.chain.evolves_to;
+        const hasEvoTypes = firstEvoData.length > 0;
+
+        switch (hasEvoTypes) {
+            case false:
+                console.log("No tiene evolucion");
+                break;
+            case true:
+                createEvoData(firstEvoData);
+                break;
+        }
+        setTimeout(() => {
+            const cardBtns = document.querySelectorAll(".card_btn");
+            for (let i = 0; i < cardBtns.length; i++) {
+                cardBtns[i].addEventListener("click", async () => {
+                    catchEmAll(cardBtns[i].getAttribute("data-name"));
+                });
+            }
+        }, 1000);
+    }, 250);
+};
 
 const optionListDescriptionsActions = (status) => {
     if (status === close) {
@@ -2125,8 +2283,8 @@ const createPokeData = async (data) => {
             }, 250);
         }, timeOutFuncTime * abilitieBtnsCount + 250);
         //!  //
-        /*  createEvoChainBtns(speciesLink); */
-
+        createEvoChainBtns(speciesLink);
+        createEvoChainBtns2(speciesLink);
         /* console.log(varieties.length); */
         if (varieties.length > 1) {
             /* console.log("este pokemon tiene variantes"); */
@@ -2726,39 +2884,52 @@ const sortOrderBtnsConfiguration = (status) => {
     switch (status) {
         case "reset":
         case "sort_decendent":
+            console.log("ordenar por decendente");
             sortBtns.forEach((btn) => {
-                if (btn.getAttribute("data-name") === "sort_decendent") {
-                    console.log("ordenar por decendente");
-                    btn.className = "config_btn sort_fav_btn active_config_btn";
-                } else if (btn.getAttribute("data-name") !== "sort_decendent") {
-                    console.log("ordenar por acendente");
-                    btn.className = "config_btn sort_fav_btn";
+                switch (btn.getAttribute("data-name")) {
+                    case "sort_decendent":
+                        btn.className = "config_btn sort_fav_btn active_config_btn";
+                        break;
+                    case "sort_acendent":
+                    case "sort_time":
+                        btn.className = "config_btn sort_fav_btn";
+                        break;
                 }
             });
             break;
         case "sort_acendent":
+            console.log("ordenar por acendente");
             sortBtns.forEach((btn) => {
-                if (btn.getAttribute("data-name") === "sort_acendent") {
-                    console.log("ordenar por decendente");
-                    btn.className = "config_btn sort_fav_btn active_config_btn";
-                } else if (btn.getAttribute("data-name") !== "sort_acendent") {
-                    console.log("ordenar por acendente");
-                    btn.className = "config_btn sort_fav_btn";
+                switch (btn.getAttribute("data-name")) {
+                    case "sort_acendent":
+                        btn.className = "config_btn sort_fav_btn active_config_btn";
+                        break;
+                    case "sort_decendent":
+                    case "sort_time":
+                        btn.className = "config_btn sort_fav_btn";
+                        break;
                 }
             });
+
             break;
         case "sort_time":
+            console.log("ordenar por creacion");
             sortBtns.forEach((btn) => {
-                if (btn.getAttribute("data-name") === "sort_time") {
-                    console.log("ordenar por decendente");
-                    btn.className = "config_btn sort_fav_btn active_config_btn";
-                } else if (btn.getAttribute("data-name") !== "sort_time") {
-                    console.log("ordenar por acendente");
-                    btn.className = "config_btn sort_fav_btn";
+                switch (btn.getAttribute("data-name")) {
+                    case "sort_time":
+                        btn.className = "config_btn sort_fav_btn active_config_btn";
+                        break;
+                    case "sort_decendent":
+                    case "sort_acendent":
+                        btn.className = "config_btn sort_fav_btn";
+                        break;
                 }
             });
+
             break;
     }
+
+    console.log(currentSortedObject);
 };
 const createCurrentSortPokemonFav = (list) => {
     sortOrderBtnsConfiguration("sort_decendent");
