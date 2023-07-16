@@ -1301,7 +1301,7 @@ const createFavCardBtns = () => {
                 currentDeletingPokemonName = dataName;
                 nameAlertModalFav.textContent = dataName;
                 idAlertModalFav.textContent = dataId;
-                animationIn(modalFav, flex, 500);
+                animationIn(modalFav, block, 500);
                 setTimeout(() => {
                     animationIn(alertModalFav, block, 500);
                     alertModalFavStatus = open;
@@ -3036,7 +3036,7 @@ const themeCardBtnActions = () => {
 
                 currentDeletingTheme = btn.getAttribute("data-id");
                 nameAlertModalEditThemes.textContent = btn.getAttribute("data-id");
-                animationIn(modalEditThemes, flex, 500);
+                animationIn(modalEditThemes, block, 500);
                 setTimeout(() => {
                     animationIn(alertModalEditThemes, block, 500);
                     alertModalEditThemesStatus = open;
