@@ -1197,6 +1197,14 @@ MAIN {
 .config_btn:hover {
     background: var(--midGray);
 }
+
+.active_config_btn {
+    background: var(--firstColor);
+    color: var(--whiteOff);
+}
+.active_config_btn .icon_svg {
+    fill: var(--whiteOff);
+}
 .input_container {
     display: flex;
     flex-direction: row;

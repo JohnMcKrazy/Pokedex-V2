@@ -1557,7 +1557,7 @@ const createEvoCard = async (id, name, types, img) => {
         cardName.textContent = properCase(name);
         cardId.textContent = id;
         fragmentEvoCards.appendChild(cardClone);
-    }, 100);
+    }, 200);
 };
 const createFavCard = async (id, name, types, date, img) => {
     const cardClone = favCardTemplate.cloneNode(true);
@@ -1601,89 +1601,9 @@ const createFavCard = async (id, name, types, date, img) => {
         fragmentFavCards.appendChild(cardClone);
     }, 100);
 };
-const createEvoChainBtns2 = async (speciesLink) => {
-    console.log("Prueba Evo Btns List " + speciesLink);
-
-    /*! EXTRA DATA */
-    const pokeExtraData2 = await fetchFunc(speciesLink);
-    const dataEvoChainLink2 = pokeExtraData2.evolution_chain.url;
-    /* console.log(dataEvoChainLink); */
-    const dataEvoChain2 = await fetchFunc(dataEvoChainLink2);
-    /* console.log(dataEvoChain); */
-    /* console.log(dataEvoChain.chain.species.name); */
-
-    const evoFromPokeTypesEs2 = [];
-    const evoFromPokeTypesEn2 = [];
-    const evoFromPokeTypes2 = {
-        es: [],
-        en: [],
-    };
-
-    const fetchEvolvesFromDataPokemonId2 = await fetchFunc(dataEvoChain2.chain.species.url);
-    const fetchEvolvesFromData2 = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${fetchEvolvesFromDataPokemonId2.id}`);
-    /* console.log(fetchEvolvesFromData2);
-    const evoFromPokeTypesData = fetchEvolvesFromData2.types;
-    if (evoFromPokeTypesData.length > 1) {
-        evoFromPokeTypesData.forEach(async (type) => {
-            const typeData2 = await fetchFunc(type.type.url);
-            typeData2.names.forEach(async (lang) => {
-                const langName = lang.language.name;
-                switch (langName) {
-                    case es:
-                        evoFromPokeTypesEs2.push(properCase(lang.name));
-                        break;
-                    case en:
-                        evoFromPokeTypesEn2.push(properCase(lang.name));
-                        break;
-                }
-            });
-            evoFromPokeTypes2.es = evoFromPokeTypesEs2;
-            evoFromPokeTypes2.en = evoFromPokeTypesEn2;
-        });
-    } else if (evoFromPokeTypesData.length === 1) {
-        const typeData2 = await fetchFunc(evoFromPokeTypesData.types[0].type.url);
-
-        typeData2.names.forEach(async (lang) => {
-            const langName = lang.language.name;
-            switch (langName) {
-                case es:
-                    evoFromPokeTypesEs2.push(properCase(lang.name));
-                    break;
-                case en:
-                    evoFromPokeTypesEn2.push(properCase(lang.name));
-                    break;
-            }
-        });
-    }
-    const evoTypeId2 = fetchEvolvesFromData2.id;
-    const evoTypeName2 = fetchEvolvesFromData2.name;
-    const evoTypeImg2 = fetchEvolvesFromData2.sprites.front_default;
-
-    evoChainItem.types = evoFromPokeTypes2;
-
-    evoChainItem.id = evoTypeId2;
-    evoChainItem.name = evoTypeName2;
-    evoChainItem.img = evoTypeImg2;
-    evoChainData.push(evoChainItem);
-    console.log(evoChainData); */
-
-    const pokeSpecieData = await fetchFunc(fetchEvolvesFromData2.species.url);
-    console.log(pokeSpecieData);
-
-    const evoChainSpeciesData = await fetchFunc(pokeSpecieData.evolution_chain.url);
-    console.log(evoChainSpeciesData);
-    const evoChainTypes = evoChainSpeciesData.chain.evolves_to;
-    evoChainTypes.forEach((evoType) => {
-        console.log(evoType);
-    });
-    console.log();
-};
 const createEvoChainBtns = async (speciesLink) => {
-    deleteChildElements(evoCardsContainer);
-    deleteChildElements(fragmentEvoCards);
-    /* ! INTERNAL FUNCTIONS */
-
-    const createEvoData = async (speciesList) => {
+    const evoNextData = async (speciesList) => {
+        console.log(speciesList);
         speciesList.forEach(async (specie) => {
             const evoTypeData = await fetchFunc(specie.species.url);
             const evoTypeId = evoTypeData.id;
@@ -1732,50 +1652,57 @@ const createEvoChainBtns = async (speciesLink) => {
             setTimeout(() => {
                 evoTypeTypes.es = evoTypeTypesEs;
                 evoTypeTypes.en = evoTypeTypesEn;
-                createEvoCard(evoTypeId, evoTypeName, evoTypeTypes, evoTypeImg);
                 setTimeout(() => {
-                    evoCardsContainer.appendChild(fragmentEvoCards);
-                }, 500);
-                const nextEvoData = specie.evolves_to;
-                evoTypesCount++;
-                if (nextEvoData) {
-                    /* console.log(nextEvoData); */
-                    createEvoData(nextEvoData);
-                    if (evoTypesCount === 1) {
-                        /* console.log(`Tienes 1na evolucion`); */
+                    evoChainData.push({
+                        id: evoTypeId,
+                        name: evoTypeName,
+                        img: evoTypeImg,
+                        types: evoTypeTypes,
+                    });
+                    const nextEvoData = specie.evolves_to;
+                    evoTypesCount++;
+                    if (nextEvoData.length >= 1) {
+                        /* console.log(nextEvoData); */
+                        evoNextData(nextEvoData);
+                        if (evoTypesCount === 1) {
+                            /* console.log(`Tienes 1na evolucion`); */
+                        } else {
+                            /* console.log(`Tienes ${evoTypesCount} evoluciones`); */
+                        }
                     } else {
-                        /* console.log(`Tienes ${evoTypesCount} evoluciones`); */
+                        /* console.log(`No tienes ${evoTypesCount + 1} evoluciones`); */
                     }
-                } else {
-                    /* console.log(`No tienes ${evoTypesCount + 1} evoluciones`); */
-                }
+                }, 500);
             }, 200);
         });
     };
+
+    console.log("Prueba Evo Btns List " + speciesLink);
+
     /*! EXTRA DATA */
     const pokeExtraData = await fetchFunc(speciesLink);
-    /* console.log(pokeExtraData); */
-
-    const dataColor = pokeExtraData.color.name;
+    console.log(pokeExtraData);
     const dataEvoChainLink = pokeExtraData.evolution_chain.url;
     /* console.log(dataEvoChainLink); */
     const dataEvoChain = await fetchFunc(dataEvoChainLink);
-    /* console.log(dataEvoChain); */
-    /* console.log(dataEvoChain.chain.species.name); */
+    console.log(dataEvoChain);
+    console.log(dataEvoChain.chain.species.name);
 
-    const fetchEvolvesFromDataPokemonId = await fetchFunc(dataEvoChain.chain.species.url);
-    const fetchEvolvesFromData = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${fetchEvolvesFromDataPokemonId.id}`);
-    /* console.log(fetchEvolvesFromData); */
-    /* console.log(fetchEvolvesFromData.id, fetchEvolvesFromData.name); */
-    /*  console.log(fetchEvolvesFromData.sprites.front_default); */
     const evoFromPokeTypesEs = [];
     const evoFromPokeTypesEn = [];
     const evoFromPokeTypes = {
-        es: "",
-        en: "",
+        es: [],
+        en: [],
     };
-    if (fetchEvolvesFromData.types.length > 1) {
-        fetchEvolvesFromData.types.forEach(async (type) => {
+
+    const fetchEvolvesFromDataPokemonId2 = await fetchFunc(dataEvoChain.chain.species.url);
+    const fetchEvolvesFromData = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${fetchEvolvesFromDataPokemonId2.id}`);
+    console.log(fetchEvolvesFromData);
+    const evoFromPokeTypesData = fetchEvolvesFromData.types;
+    console.log(evoFromPokeTypesData);
+    console.log(evoFromPokeTypesData.length);
+    if (evoFromPokeTypesData.length > 1) {
+        evoFromPokeTypesData.forEach(async (type) => {
             const typeData = await fetchFunc(type.type.url);
             typeData.names.forEach(async (lang) => {
                 const langName = lang.language.name;
@@ -1788,9 +1715,12 @@ const createEvoChainBtns = async (speciesLink) => {
                         break;
                 }
             });
+            evoFromPokeTypes.es = evoFromPokeTypesEs;
+            evoFromPokeTypes.en = evoFromPokeTypesEn;
         });
-    } else if (fetchEvolvesFromData.types.length === 1) {
-        const typeData = await fetchFunc(fetchEvolvesFromData.types[0].type.url);
+    } else if (evoFromPokeTypesData.length === 1) {
+        const typeData = await fetchFunc(evoFromPokeTypesData[0].type.url);
+
         typeData.names.forEach(async (lang) => {
             const langName = lang.language.name;
             switch (langName) {
@@ -1803,9 +1733,9 @@ const createEvoChainBtns = async (speciesLink) => {
             }
         });
     }
-    const evoFromPokeId = fetchEvolvesFromData.id;
-    const evoFromPokeName = fetchEvolvesFromData.name;
-    const evoFromPokeImg = fetchEvolvesFromData.sprites.front_default;
+    const evoTypeId = fetchEvolvesFromData.id;
+    const evoTypeName = fetchEvolvesFromData.name;
+    const evoTypeImg = fetchEvolvesFromData.sprites.front_default;
     setTimeout(() => {
         if (evoFromPokeTypes.length > 1) {
             evoFromPokeTypes.es = evoFromPokeTypesEs.join("/");
@@ -1814,28 +1744,45 @@ const createEvoChainBtns = async (speciesLink) => {
             evoFromPokeTypes.es = evoFromPokeTypesEs[0];
             evoFromPokeTypes.en = evoFromPokeTypesEn[0];
         }
-        createEvoCard(evoFromPokeId, evoFromPokeName, evoFromPokeTypes, evoFromPokeImg);
-        const firstEvoData = dataEvoChain.chain.evolves_to;
-        const hasEvoTypes = firstEvoData.length > 0;
+        evoChainItem.types = evoFromPokeTypes;
 
-        switch (hasEvoTypes) {
+        evoChainItem.id = evoTypeId;
+        evoChainItem.name = evoTypeName;
+        evoChainItem.img = evoTypeImg;
+        evoChainData.push(evoChainItem);
+
+        //! CHECAR EVOLUCIONES //
+        const evoFromPokeEvolvesToData = dataEvoChain.chain.evolves_to;
+        const hasEvoData = evoFromPokeEvolvesToData.length > 0;
+
+        switch (hasEvoData) {
             case false:
                 console.log("No tiene evolucion");
+                console.table(evoChainData);
+                evoChainData.forEach((item) => {
+                    console.log(item);
+                });
                 break;
             case true:
-                createEvoData(firstEvoData);
+                evoNextData(evoFromPokeEvolvesToData);
+                console.table(evoChainData);
+                evoChainData.forEach((item) => {
+                    console.table(item);
+                });
                 break;
         }
+
         setTimeout(() => {
-            const cardBtns = document.querySelectorAll(".card_btn");
-            for (let i = 0; i < cardBtns.length; i++) {
-                cardBtns[i].addEventListener("click", async () => {
-                    catchEmAll(cardBtns[i].getAttribute("data-name"));
-                });
-            }
-        }, 1000);
+            /* const cardBtns = document.querySelectorAll(".card_btn");
+        for (let i = 0; i < cardBtns.length; i++) {
+            cardBtns[i].addEventListener("click", async () => {
+                catchEmAll(cardBtns[i].getAttribute("data-name"));
+            });
+        } */
+        }, 250);
     }, 250);
 };
+
 const optionListDescriptionsActions = (status) => {
     if (status === close) {
         optionListDescriptionsStatus = open;
@@ -1846,6 +1793,7 @@ const optionListDescriptionsActions = (status) => {
     }
 };
 const abilityBtnsActions = async (name, url) => {
+    optionListAbilityStatus = close;
     deleteChildElements(optionListBtnsContainerAbility);
     titleModalAbility.textContent = name;
     console.log(url);
@@ -1873,6 +1821,13 @@ const abilityBtnsActions = async (name, url) => {
     } else if (currentLang === en) {
         currentAbilityFlavors = abilityFlavorsEn;
     }
+
+    const activeBtns = () => {
+        const abilityOptionListBtns = document.querySelectorAll(".option_list_ability_btn");
+        abilityOptionListBtns.forEach((btn) => {
+            btn.addEventListener("click", () => optionListAbilitiesActions(btn.getAttribute("data-name"), optionListAbilityStatus));
+        });
+    };
     setTimeout(() => {
         console.log(abilityFlavorsEn, abilityFlavorsEs, currentAbilityFlavors);
         console.log(currentAbilityFlavors[0]);
@@ -1888,18 +1843,22 @@ const abilityBtnsActions = async (name, url) => {
 
             fragmentOptionListAbilityBtns.appendChild(abilityOptionListBtn);
         });
-        optionListAbilityStatus = close;
         optionListBtnsContainerAbility.appendChild(fragmentOptionListAbilityBtns);
 
         setTimeout(() => {
-            const abilityOptionListBtns = document.querySelectorAll(".option_list_ability_btn");
-            abilityOptionListBtns.forEach((btn) => {
-                btn.addEventListener("click", () => optionListAbilitiesActions(btn.getAttribute("data-name"), optionListAbilityStatus));
-            });
+            activeBtns();
             animationIn(modal, block, 500);
             setTimeout(() => animationIn(abilityModal, block, 500), 1500);
         }, 500);
     }, 500);
+};
+const activeAbilityBtns = () => {
+    const abilityBtns = document.querySelectorAll(".ability_btn");
+    abilityBtns.forEach((btn) => {
+        btn.addEventListener("click", async () => {
+            abilityBtnsActions(btn.getAttribute("data-name"), btn.getAttribute("data-url"));
+        });
+    });
 };
 const createPokeData = async (data) => {
     //^  DATA FIRST CHECK -- START//
@@ -2162,18 +2121,12 @@ const createPokeData = async (data) => {
         setTimeout(() => {
             pokeDescriptionAbilitiesContainer.appendChild(fragmentAbilityBtns);
             setTimeout(() => {
-                const abilityBtns = document.querySelectorAll(".ability_btn");
-                abilityBtns.forEach((btn) => {
-                    btn.addEventListener("click", async () => {
-                        abilityBtnsActions(btn.getAttribute("data-name"), btn.getAttribute("data-url"));
-                    });
-                });
+                activeAbilityBtns();
             }, 250);
-        }, timeOutFuncTime * abilitieBtnsCount + 500);
+        }, timeOutFuncTime * abilitieBtnsCount + 250);
         //!  //
-        createEvoChainBtns(speciesLink);
+        /*  createEvoChainBtns(speciesLink); */
 
-        createEvoChainBtns2(speciesLink);
         /* console.log(varieties.length); */
         if (varieties.length > 1) {
             /* console.log("este pokemon tiene variantes"); */
@@ -2769,8 +2722,47 @@ const favCardBtnsActions = (btn) => {
     console.log(btn.getAttribute("data-id"));
 };
 //! BOTONES DE ACENDENTE Y DECENDENTE SORT LIST - HACER FUNCION - OVER  */
-
+const sortOrderBtnsConfiguration = (status) => {
+    switch (status) {
+        case "reset":
+        case "sort_decendent":
+            sortBtns.forEach((btn) => {
+                if (btn.getAttribute("data-name") === "sort_decendent") {
+                    console.log("ordenar por decendente");
+                    btn.className = "config_btn sort_fav_btn active_config_btn";
+                } else if (btn.getAttribute("data-name") !== "sort_decendent") {
+                    console.log("ordenar por acendente");
+                    btn.className = "config_btn sort_fav_btn";
+                }
+            });
+            break;
+        case "sort_acendent":
+            sortBtns.forEach((btn) => {
+                if (btn.getAttribute("data-name") === "sort_acendent") {
+                    console.log("ordenar por decendente");
+                    btn.className = "config_btn sort_fav_btn active_config_btn";
+                } else if (btn.getAttribute("data-name") !== "sort_acendent") {
+                    console.log("ordenar por acendente");
+                    btn.className = "config_btn sort_fav_btn";
+                }
+            });
+            break;
+        case "sort_time":
+            sortBtns.forEach((btn) => {
+                if (btn.getAttribute("data-name") === "sort_time") {
+                    console.log("ordenar por decendente");
+                    btn.className = "config_btn sort_fav_btn active_config_btn";
+                } else if (btn.getAttribute("data-name") !== "sort_time") {
+                    console.log("ordenar por acendente");
+                    btn.className = "config_btn sort_fav_btn";
+                }
+            });
+            break;
+    }
+};
 const createCurrentSortPokemonFav = (list) => {
+    sortOrderBtnsConfiguration("sort_decendent");
+
     list.forEach((item) => {
         createFavCard(item.id, item.name, item.types, item.date, item.sprites);
     });
@@ -3520,12 +3512,16 @@ const alertModalDeleteDataActions = (action) => {
             localStorage.removeItem(DB_NAME);
             console.log("Borrando localStorage");
             animationOut(alertModalDeleteDataAlert);
-            setTimeout(() => animationOut(modalDeleteDataAlert), 2000);
+            setTimeout(() => {
+                animationOut(modalDeleteDataAlert);
+                setTimeout(() => window.location.reload(), 500);
+            }, 1000);
+
             break;
         case "cancel":
             console.log("Cancelado Borrado de local Storage");
             animationOut(alertModalDeleteDataAlert);
-            setTimeout(() => animationOut(modalDeleteDataAlert), 2000);
+            setTimeout(() => animationOut(modalDeleteDataAlert), 1000);
             break;
     }
 };
@@ -3536,13 +3532,8 @@ sortBtns.forEach((btn) => {
             optionListFavArrow.style.transform = "rotate(0)";
             optionListFav.style.height = "3rem";
         }
-        if (btn.getAttribute("data-name") === "sort_decendent") {
-            console.log("ordenar por decendente");
-        } else if (btn.getAttribute("data-name") === "sort_acendent") {
-            console.log("ordenar por acendente");
-        } else if (btn.getAttribute("data-name") === "sort_time") {
-            console.log("ordenar por tiempo");
-        }
+
+        sortOrderBtnsConfiguration(btn.getAttribute("data-name"));
     });
 });
 alertModalDeleteDataAlertBtns.forEach((btn) => {
