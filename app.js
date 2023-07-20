@@ -385,10 +385,10 @@ let sortedByType = [];
 let sortedByDate = [];
 let currentSortedObject = [];
 let currentSortedObjectType = "";
-const sortedObjetTypeId = "sort_id";
-const sortedObjetTypeName = "sort_name";
-const sortedObjetTypeType = "sort_type";
-const sortedObjetTypeDate = "sort_date";
+const sortedObjectTypeId = "sort_id";
+const sortedObjectTypeName = "sort_name";
+const sortedObjectTypeType = "sort_type";
+const sortedObjectTypeDate = "sort_date";
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const pokemonSearch = [];
 const pokemonTypesEn = [];
@@ -1048,7 +1048,7 @@ const changeLang = (lang) => {
                 case "bug_theme":
                     btn.querySelector(".label_btn").textContent = "Insecto";
                     break;
-                case "ultrarare_theme":
+                case "ultra_rare_theme":
                     btn.querySelector(".label_btn").textContent = "Ultra Raro";
                     break;
                 case "legendary_theme":
@@ -1196,7 +1196,7 @@ const changeLang = (lang) => {
                 case "bug_theme":
                     btn.querySelector(".label_btn").textContent = "Bug";
                     break;
-                case "ultrarare_theme":
+                case "ultra_rare_theme":
                     btn.querySelector(".label_btn").textContent = "Ultra Rare";
                     break;
                 case "legendary_theme":
@@ -1406,8 +1406,6 @@ const optionListMeasurmentsActions = (action) => {
     }
 };
 const optionListFavOptionActions = (action) => {
-    let sortedByName = [];
-    let sortedById = [];
     if (langMenuModalfavStatus === open) {
         langMenuModalActions("lang_fav");
     }
@@ -1435,6 +1433,7 @@ const optionListFavOptionActions = (action) => {
                     }
                 });
                 currentSortedObject = sortedByName;
+                currentSortedObjectType = sortedObjectTypeName;
                 console.log(sortedByName);
                 break;
             case "option_fav_id":
@@ -1449,6 +1448,7 @@ const optionListFavOptionActions = (action) => {
                     }
                 });
                 currentSortedObject = sortedById;
+                currentSortedObjectType = sortedObjectTypeId;
                 console.log(sortedById);
                 break;
             case "option_fav_type":
@@ -1474,6 +1474,7 @@ const optionListFavOptionActions = (action) => {
                     });
                 }
                 currentSortedObject = sortedByType;
+                currentSortedObjectType = sortedObjectTypeType;
                 console.log(sortedByType);
                 break;
             case "option_fav_date":
@@ -1490,6 +1491,7 @@ const optionListFavOptionActions = (action) => {
                 });
                 console.log(sortedByDate);
                 currentSortedObject = sortedByDate;
+                currentSortedObjectType = sortedObjectTypeDate;
                 console.log(currentSortedObject);
                 break;
         }
@@ -2881,6 +2883,7 @@ const favCardBtnsActions = (btn) => {
 };
 //! BOTONES DE ACENDENTE Y DECENDENTE SORT LIST - HACER FUNCION - OVER  */
 const sortOrderBtnsConfiguration = (status) => {
+    let newSortedObject = [];
     switch (status) {
         case "reset":
         case "sort_decendent":
@@ -2891,11 +2894,67 @@ const sortOrderBtnsConfiguration = (status) => {
                         btn.className = "config_btn sort_fav_btn active_config_btn";
                         break;
                     case "sort_acendent":
-                    case "sort_time":
-                        btn.className = "config_btn sort_fav_btn";
-                        break;
                 }
             });
+            switch (currentSortedObjectType) {
+                case sortedObjectTypeName:
+                    newSortedObject = currentSortedObject.sort((a, b) => {
+                        if (a.name > b.name) {
+                            return 1;
+                        }
+
+                        if (a.name < b.name) {
+                            return -1;
+                        }
+                    });
+                    break;
+
+                case sortedObjectTypeId:
+                    newSortedObject = currentSortedObject.sort((a, b) => {
+                        if (a.id > b.id) {
+                            return 1;
+                        }
+
+                        if (a.id < b.id) {
+                            return -1;
+                        }
+                    });
+                    break;
+
+                case sortedObjectTypeType:
+                    if (currentLang === es) {
+                        newSortedObject = currentSortedObject.sort((a, b) => {
+                            if (a.types.es[0] > b.types.es[0]) {
+                                return 1;
+                            }
+                            if (a.types.es[0] < b.types.es[0]) {
+                                return -1;
+                            }
+                        });
+                    } else if (currentLang === en) {
+                        newSortedObject = currentSortedObject.sort((a, b) => {
+                            if (a.types.en[0] > b.types.en[0]) {
+                                return 1;
+                            }
+
+                            if (a.types.en[0] < b.types.en[0]) {
+                                return -1;
+                            }
+                        });
+                    }
+                    break;
+                case sortedObjectTypeDate:
+                    newSortedObject = currentSortedObject.sort((a, b) => {
+                        if (a.date > b.date) {
+                            return 1;
+                        }
+
+                        if (a.date < b.date) {
+                            return -1;
+                        }
+                    });
+                    break;
+            }
             break;
         case "sort_acendent":
             console.log("ordenar por acendente");
@@ -2905,34 +2964,74 @@ const sortOrderBtnsConfiguration = (status) => {
                         btn.className = "config_btn sort_fav_btn active_config_btn";
                         break;
                     case "sort_decendent":
-                    case "sort_time":
-                        btn.className = "config_btn sort_fav_btn";
-                        break;
                 }
             });
+            switch (currentSortedObjectType) {
+                case sortedObjectTypeName:
+                    newSortedObject = currentSortedObject.sort((a, b) => {
+                        if (b.name > a.name) {
+                            return 1;
+                        }
 
-            break;
-        case "sort_time":
-            console.log("ordenar por creacion");
-            sortBtns.forEach((btn) => {
-                switch (btn.getAttribute("data-name")) {
-                    case "sort_time":
-                        btn.className = "config_btn sort_fav_btn active_config_btn";
-                        break;
-                    case "sort_decendent":
-                    case "sort_acendent":
-                        btn.className = "config_btn sort_fav_btn";
-                        break;
-                }
-            });
+                        if (b.name < a.name) {
+                            return -1;
+                        }
+                    });
+                    break;
 
+                case sortedObjectTypeId:
+                    newSortedObject = currentSortedObject.sort((a, b) => {
+                        if (b.id > a.id) {
+                            return 1;
+                        }
+
+                        if (b.id < a.id) {
+                            return -1;
+                        }
+                    });
+                    break;
+
+                case sortedObjectTypeType:
+                    if (currentLang === es) {
+                        newSortedObject = currentSortedObject.sort((a, b) => {
+                            if (b.types.es[0] > a.types.es[0]) {
+                                return 1;
+                            }
+                            if (b.types.es[0] < a.types.es[0]) {
+                                return -1;
+                            }
+                        });
+                    } else if (currentLang === en) {
+                        newSortedObject = currentSortedObject.sort((a, b) => {
+                            if (b.types.en[0] > a.types.en[0]) {
+                                return 1;
+                            }
+
+                            if (b.types.en[0] < a.types.en[0]) {
+                                return -1;
+                            }
+                        });
+                    }
+                    break;
+                case sortedObjectTypeDate:
+                    newSortedObject = currentSortedObject.sort((a, b) => {
+                        if (b.date > a.date) {
+                            return 1;
+                        }
+
+                        if (b.date < a.date) {
+                            return -1;
+                        }
+                    });
+                    break;
+            }
             break;
     }
 
-    console.log(currentSortedObject);
+    console.log(currentSortedObject, newSortedObject, currentSortedObjectType);
 };
 const createCurrentSortPokemonFav = (list) => {
-    sortOrderBtnsConfiguration("sort_decendent");
+    sortOrderBtnsConfiguration("reset");
 
     list.forEach((item) => {
         createFavCard(item.id, item.name, item.types, item.date, item.sprites);
@@ -2972,6 +3071,7 @@ const favMenuActions = () => {
                         });
                         console.log(sortedByDate);
                         currentSortedObject = sortedByDate;
+                        currentSortedObjectType = sortedObjectTypeDate;
                         console.log(currentSortedObject);
                         setTimeout(() => {
                             createCurrentSortPokemonFav(currentSortedObject);
@@ -3543,7 +3643,6 @@ const alertModalFavActions = (option) => {
                 savePokedex();
                 animationOut(alertModalFav);
                 alertModalFavStatus = close;
-
                 createCurrentSortPokemonFav(currentSortedObject);
                 setTimeout(() => {
                     animationOut(modalFav);

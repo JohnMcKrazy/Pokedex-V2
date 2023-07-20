@@ -1,4 +1,4 @@
-const createEvoChainBtns = async (speciesLink) => {
+const createEvoChainBtns2 = async (speciesLink) => {
     deleteChildElements(evoCardsContainer);
     deleteChildElements(fragmentEvoCards);
     /* ! INTERNAL FUNCTIONS */
