@@ -65,6 +65,7 @@ HTML {
     --fontSize: 10px;
     font-size: var(--fontSize);
     font-family: "Lato", sans-serif;
+    font-weight: 200;
     line-break: loose;
     letter-spacing: 0.15rem;
     line-height: 1;
@@ -709,7 +710,7 @@ NAV {
 }
 .section_subtitle_name {
     font-size: var(--fontSizeXL);
-    font-weight: 600;
+    font-weight: 300;
     color: var(--firstColor);
 }
 .fav_card,
