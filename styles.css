@@ -65,7 +65,7 @@ HTML {
     --fontSize: 10px;
     font-size: var(--fontSize);
     font-family: "Lato", sans-serif;
-    font-weight: 200;
+    font-weight: 300;
     line-break: loose;
     letter-spacing: 0.15rem;
     line-height: 1;
@@ -710,7 +710,7 @@ NAV {
 }
 .section_subtitle_name {
     font-size: var(--fontSizeXL);
-    font-weight: 300;
+    font-weight: 400;
     color: var(--firstColor);
 }
 .fav_card,
@@ -760,7 +760,7 @@ NAV {
 .card_btn .accent_color,
 .fav_card .accent_color {
     font-size: var(--fontSizeS);
-    font-weight: 600;
+    font-weight: 700;
 }
 .fav_card .btns_row_container {
     width: calc(100% - 1rem);
@@ -959,7 +959,7 @@ NAV {
 }
 .important_text_modal {
     font-size: var(--fontSizeG);
-    font-weight: 600;
+    font-weight: 700;
     text-align: center;
 }
 /* ^PAGE */

@@ -2406,14 +2406,14 @@ const createPokeData = async (data) => {
                     console.log(flavorBtnsData);
                     console.log(changeFlavorTo);
                     pokeDescriptionNameVersion.textContent = properCase(changeFlavorTo[0].version.name);
-                    pokeDescriptionVersion.innerHTML = changeFlavorTo[0].flavor_text.split("\n");
+                    pokeDescriptionVersion.innerHTML = changeFlavorTo[0].flavor_text.split("\n").join(" ");
                     optionListDescriptionsActions(optionListDescriptionsStatus);
                 });
             });
         }, 100);
         /* console.log(flavorBtnsData); */
         pokeDescriptionNameVersion.textContent = properCase(flavorBtnsData[0].version.name);
-        pokeDescriptionVersion.innerHTML = flavorBtnsData[0].flavor_text.split("\n");
+        pokeDescriptionVersion.innerHTML = flavorBtnsData[0].flavor_text.split("\n").join(" ");
 
         /* console.log(dataId); */
         currentPokemon = dataId;
