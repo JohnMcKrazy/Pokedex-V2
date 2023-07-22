@@ -1163,7 +1163,7 @@ MAIN {
     width: fit-content;
     position: initial;
 }
-.poke_data_info {
+fieldset {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1172,6 +1172,7 @@ MAIN {
     margin-top: 0.5rem;
     padding: 1rem;
     border-radius: 0.5rem;
+    border: none;
     width: 100%;
 }
 #config_menu {

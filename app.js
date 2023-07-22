@@ -2894,6 +2894,8 @@ const sortOrderBtnsConfiguration = (status) => {
                         btn.className = "config_btn sort_fav_btn active_config_btn";
                         break;
                     case "sort_acendent":
+                        btn.className = "config_btn sort_fav_btn";
+                        break;
                 }
             });
             switch (currentSortedObjectType) {
@@ -2964,6 +2966,8 @@ const sortOrderBtnsConfiguration = (status) => {
                         btn.className = "config_btn sort_fav_btn active_config_btn";
                         break;
                     case "sort_decendent":
+                        btn.className = "config_btn sort_fav_btn";
+                        break;
                 }
             });
             switch (currentSortedObjectType) {
