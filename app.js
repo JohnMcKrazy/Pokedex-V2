@@ -2957,7 +2957,23 @@ const sortOrderBtnsConfiguration = (status) => {
                     });
                     break;
             }
+            switch (status) {
+                case "sort_decendent":
+                    deleteChildElements(fragmentFavCards);
+                    deleteChildElements(favCardsContainer);
+                    if (optionListFavStatus === open) {
+                        optionListFavActions(optionListFavStatus);
+                    }
+                    newSortedObject.forEach((item) => {
+                        createFavCard(item.id, item.name, item.types, item.date, item.sprites);
+                    });
+                    setTimeout(() => {
+                        favCardsContainer.appendChild(fragmentFavCards);
+                    }, 100);
+                    break;
+            }
             break;
+
         case "sort_acendent":
             console.log("ordenar por acendente");
             sortBtns.forEach((btn) => {
@@ -2970,66 +2986,19 @@ const sortOrderBtnsConfiguration = (status) => {
                         break;
                 }
             });
-            switch (currentSortedObjectType) {
-                case sortedObjectTypeName:
-                    newSortedObject = currentSortedObject.sort((a, b) => {
-                        if (b.name > a.name) {
-                            return 1;
-                        }
+            newSortedObject = [...currentSortedObject].reverse();
 
-                        if (b.name < a.name) {
-                            return -1;
-                        }
-                    });
-                    break;
-
-                case sortedObjectTypeId:
-                    newSortedObject = currentSortedObject.sort((a, b) => {
-                        if (b.id > a.id) {
-                            return 1;
-                        }
-
-                        if (b.id < a.id) {
-                            return -1;
-                        }
-                    });
-                    break;
-
-                case sortedObjectTypeType:
-                    if (currentLang === es) {
-                        newSortedObject = currentSortedObject.sort((a, b) => {
-                            if (b.types.es[0] > a.types.es[0]) {
-                                return 1;
-                            }
-                            if (b.types.es[0] < a.types.es[0]) {
-                                return -1;
-                            }
-                        });
-                    } else if (currentLang === en) {
-                        newSortedObject = currentSortedObject.sort((a, b) => {
-                            if (b.types.en[0] > a.types.en[0]) {
-                                return 1;
-                            }
-
-                            if (b.types.en[0] < a.types.en[0]) {
-                                return -1;
-                            }
-                        });
-                    }
-                    break;
-                case sortedObjectTypeDate:
-                    newSortedObject = currentSortedObject.sort((a, b) => {
-                        if (b.date > a.date) {
-                            return 1;
-                        }
-
-                        if (b.date < a.date) {
-                            return -1;
-                        }
-                    });
-                    break;
+            deleteChildElements(fragmentFavCards);
+            deleteChildElements(favCardsContainer);
+            if (optionListFavStatus === open) {
+                optionListFavActions(optionListFavStatus);
             }
-            break;
+            newSortedObject.forEach((item) => {
+                createFavCard(item.id, item.name, item.types, item.date, item.sprites);
+            });
+            setTimeout(() => {
+                favCardsContainer.appendChild(fragmentFavCards);
+            }, 100);
     }
 
     console.log(currentSortedObject, newSortedObject, currentSortedObjectType);
