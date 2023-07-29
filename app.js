@@ -2969,6 +2969,9 @@ const sortOrderBtnsConfiguration = (status) => {
                     });
                     setTimeout(() => {
                         favCardsContainer.appendChild(fragmentFavCards);
+                        setTimeout(() => {
+                            createFavCardBtns();
+                        }, 100);
                     }, 100);
                     break;
             }
@@ -2998,6 +3001,9 @@ const sortOrderBtnsConfiguration = (status) => {
             });
             setTimeout(() => {
                 favCardsContainer.appendChild(fragmentFavCards);
+                setTimeout(() => {
+                    createFavCardBtns();
+                }, 100);
             }, 100);
     }
 
