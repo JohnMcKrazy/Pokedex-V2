@@ -13,6 +13,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap" rel="stylesheet" />
         <!-- ! FONTS -->
+
         <link rel="icon" type="image/svg" href="./assets/svg/pokeball.svg" />
         <link rel="stylesheet" href="./styles.css" />
     </head>
@@ -253,7 +254,48 @@
                         </div>
                         <!-- ~ BASIC DATA CARDS - OVER -->
                     </div>
+                    <div class="graph_container">
+                        <h1 class="section_subtitle_data">Stats</h1>
+                        <div class="graph_item">
+                            <span class="graph_item_text">HP</span>
+                            <div class="graph_stat" data-value="hp">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="graph_item">
+                            <span class="graph_item_text">Attack</span>
 
+                            <div class="graph_stat" data-value="attack">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="graph_item">
+                            <span class="graph_item_text">Defense</span>
+
+                            <div class="graph_stat" data-value="defense">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="graph_item">
+                            <span class="graph_item_text">Special-Attack</span>
+                            <div class="graph_stat" data-value="special-attack">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="graph_item">
+                            <span class="graph_item_text">Attack</span>
+
+                            <div class="graph_stat" data-value="special-defense">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="graph_item">
+                            <span class="graph_item_text">Speed</span>
+                            <div class="graph_stat" data-value="speed">
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="data_info flex_column">
                         <h2 class="section_subtitle_data" id="poke_data_info_name_habitat">Habitad</h2>
                         <p class="section_subtitle_name" id="poke_data_info_description_habitat"></p>
@@ -354,7 +396,7 @@
                     <h2 class="section_subtitle_data" id="modal_subtitle_ability">Descripción</h2>
                     <div class="option_list" id="option_list_ability">
                         <!--! add buttons  -->
-                        <button type="button" class="option_list_btn option_list_ability_btn option_list_btn_search" data-name="open-close" aria-label="open-close ability description options list button">
+                        <button type="button" class="option_list_btn option_list_btn_search option_list_ability_btn_search" data-name="open-close" aria-label="open-close ability description options list button">
                             <span id="option_list_ability_first_text">Versión</span>
                             <div class="icon_container">
                                 <svg class="icon_svg" id="arrow_btn_select_list_ability_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

@@ -134,6 +134,9 @@ const noneIconText = document.querySelector("#none_icon_text");
 const babyIconText = document.querySelector("#baby_icon_text");
 const legendaryIconText = document.querySelector("#legendary_icon_text");
 const mythicalIconText = document.querySelector("#mythical_icon_text");
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *//
+const graphBars = document.querySelectorAll(".graph_stat");
+
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentAbilityBtns = document.createDocumentFragment();
 const abilityBtnTemplate = document.querySelector("#ability_btn_template").content;
@@ -850,11 +853,9 @@ const animationOut = (item, delay = 250) => {
 const maleIconActions = (status) => {
     switch (status) {
         case open:
-            console.log("accion open de icono male");
             animationIn(maleIcon, flex);
             break;
         case close:
-            console.log("accion close de icono male");
             animationOut(maleIcon, 250);
             break;
     }
@@ -1502,24 +1503,26 @@ const optionListFavOptionActions = (action) => {
         }, 250);
     }
 };
-const optionListAbilitiesActions = (action, status) => {
-    if (action === openClose) {
-        if (status === close) {
-            optionListAbilityStatus = open;
-            optionListAbilityArrow.style.transform = "rotate(180deg)";
-            optionListAbility.style.height = "fit-content";
-        } else if (status === open) {
-            closeOptionList("option_list_ability");
-        }
-    } else {
+document.querySelector(".option_list_ability_btn_search").addEventListener("click", () => {
+    if (optionListAbilityStatus === close) {
+        optionListAbilityStatus = open;
+        optionListAbilityArrow.style.transform = "rotate(180deg)";
+        optionListAbility.style.height = "fit-content";
+        console.log("abriendo lista de opciones de flavor por version, de abilidades");
+    } else if (optionListAbilityStatus === open) {
         closeOptionList("option_list_ability");
-        titleAbilityFlavorsModal.textContent = properCase(action);
-        currentAbilityFlavors.forEach((abilityFlavor) => {
-            if (action === abilityFlavor.version) {
-                textAbilityFlavorsModal.textContent = properCase(abilityFlavor.flavor);
-            }
-        });
+        console.log("Cerrando lista de opciones de flavor por version, de abilidades");
     }
+});
+const optionListAbilitiesActions = (action) => {
+    titleAbilityFlavorsModal.textContent = properCase(action);
+    currentAbilityFlavors.forEach((abilityFlavor) => {
+        if (action === abilityFlavor.version) {
+            textAbilityFlavorsModal.textContent = properCase(abilityFlavor.flavor);
+        }
+    });
+
+    closeOptionList("option_list_ability");
 };
 const evoChainData = [];
 let evoChainItem = {
@@ -1603,188 +1606,8 @@ const createFavCard = async (id, name, types, date, img) => {
         fragmentFavCards.appendChild(cardClone);
     }, 100);
 };
+
 const createEvoChainBtns = async (speciesLink) => {
-    const evoNextData = async (speciesList) => {
-        console.log(speciesList);
-        speciesList.forEach(async (specie) => {
-            const evoTypeData = await fetchFunc(specie.species.url);
-            const evoTypeId = evoTypeData.id;
-            const fetchEvoType = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${evoTypeId}`);
-            const evoTypeImg = fetchEvoType.sprites.front_default;
-            const evoTypeName = fetchEvoType.name;
-            /* console.log(fetchEvoType); */
-            /* console.log(evoTypeId, evoTypeName); */
-            /* console.log(evoTypeImg); */
-            const evoTypeTypes = {
-                es: "",
-                en: "",
-            };
-            const evoTypeTypesEs = [];
-            const evoTypeTypesEn = [];
-            let evoTypesCount = 0;
-            if (fetchEvoType.types.length > 1) {
-                fetchEvoType.types.forEach(async (type) => {
-                    const typeData = await fetchFunc(type.type.url);
-                    typeData.names.forEach(async (lang) => {
-                        const langName = lang.language.name;
-                        switch (langName) {
-                            case es:
-                                evoTypeTypesEs.push(properCase(lang.name));
-                                break;
-                            case en:
-                                evoTypeTypesEn.push(properCase(lang.name));
-                                break;
-                        }
-                    });
-                });
-            } else if (fetchEvoType.types.length === 1) {
-                const typeData = await fetchFunc(fetchEvoType.types[0].type.url);
-                typeData.names.forEach(async (lang) => {
-                    const langName = lang.language.name;
-                    switch (langName) {
-                        case es:
-                            evoTypeTypesEs.push(properCase(lang.name));
-                            break;
-                        case en:
-                            evoTypeTypesEn.push(properCase(lang.name));
-                            break;
-                    }
-                });
-            }
-            setTimeout(() => {
-                evoTypeTypes.es = evoTypeTypesEs;
-                evoTypeTypes.en = evoTypeTypesEn;
-                setTimeout(() => {
-                    evoChainData.push({
-                        id: evoTypeId,
-                        name: evoTypeName,
-                        img: evoTypeImg,
-                        types: evoTypeTypes,
-                    });
-                    const nextEvoData = specie.evolves_to;
-                    evoTypesCount++;
-                    if (nextEvoData.length >= 1) {
-                        /* console.log(nextEvoData); */
-                        evoNextData(nextEvoData);
-                        if (evoTypesCount === 1) {
-                            /* console.log(`Tienes 1na evolucion`); */
-                        } else {
-                            /* console.log(`Tienes ${evoTypesCount} evoluciones`); */
-                        }
-                    } else {
-                        /* console.log(`No tienes ${evoTypesCount + 1} evoluciones`); */
-                    }
-                }, 500);
-            }, 200);
-        });
-    };
-
-    console.log("Prueba Evo Btns List " + speciesLink);
-
-    /*! EXTRA DATA */
-    const pokeExtraData = await fetchFunc(speciesLink);
-    console.log(pokeExtraData);
-    const dataEvoChainLink = pokeExtraData.evolution_chain.url;
-    /* console.log(dataEvoChainLink); */
-    const dataEvoChain = await fetchFunc(dataEvoChainLink);
-    console.log(dataEvoChain);
-    console.log(dataEvoChain.chain.species.name);
-
-    const evoFromPokeTypesEs = [];
-    const evoFromPokeTypesEn = [];
-    const evoFromPokeTypes = {
-        es: [],
-        en: [],
-    };
-
-    const fetchEvolvesFromDataPokemonId2 = await fetchFunc(dataEvoChain.chain.species.url);
-    const fetchEvolvesFromData = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${fetchEvolvesFromDataPokemonId2.id}`);
-    console.log(fetchEvolvesFromData);
-    const evoFromPokeTypesData = fetchEvolvesFromData.types;
-    console.log(evoFromPokeTypesData);
-    console.log(evoFromPokeTypesData.length);
-    if (evoFromPokeTypesData.length > 1) {
-        evoFromPokeTypesData.forEach(async (type) => {
-            const typeData = await fetchFunc(type.type.url);
-            typeData.names.forEach(async (lang) => {
-                const langName = lang.language.name;
-                switch (langName) {
-                    case es:
-                        evoFromPokeTypesEs.push(properCase(lang.name));
-                        break;
-                    case en:
-                        evoFromPokeTypesEn.push(properCase(lang.name));
-                        break;
-                }
-            });
-            evoFromPokeTypes.es = evoFromPokeTypesEs;
-            evoFromPokeTypes.en = evoFromPokeTypesEn;
-        });
-    } else if (evoFromPokeTypesData.length === 1) {
-        const typeData = await fetchFunc(evoFromPokeTypesData[0].type.url);
-
-        typeData.names.forEach(async (lang) => {
-            const langName = lang.language.name;
-            switch (langName) {
-                case es:
-                    evoFromPokeTypesEs.push(properCase(lang.name));
-                    break;
-                case en:
-                    evoFromPokeTypesEn.push(properCase(lang.name));
-                    break;
-            }
-        });
-    }
-    const evoTypeId = fetchEvolvesFromData.id;
-    const evoTypeName = fetchEvolvesFromData.name;
-    const evoTypeImg = fetchEvolvesFromData.sprites.front_default;
-    setTimeout(() => {
-        if (evoFromPokeTypes.length > 1) {
-            evoFromPokeTypes.es = evoFromPokeTypesEs.join("/");
-            evoFromPokeTypes.en = evoFromPokeTypesEn.join("/");
-        } else {
-            evoFromPokeTypes.es = evoFromPokeTypesEs[0];
-            evoFromPokeTypes.en = evoFromPokeTypesEn[0];
-        }
-        evoChainItem.types = evoFromPokeTypes;
-
-        evoChainItem.id = evoTypeId;
-        evoChainItem.name = evoTypeName;
-        evoChainItem.img = evoTypeImg;
-        evoChainData.push(evoChainItem);
-
-        //! CHECAR EVOLUCIONES //
-        const evoFromPokeEvolvesToData = dataEvoChain.chain.evolves_to;
-        const hasEvoData = evoFromPokeEvolvesToData.length > 0;
-
-        switch (hasEvoData) {
-            case false:
-                console.log("No tiene evolucion");
-                console.table(evoChainData);
-                evoChainData.forEach((item) => {
-                    console.log(item);
-                });
-                break;
-            case true:
-                evoNextData(evoFromPokeEvolvesToData);
-                console.table(evoChainData);
-                evoChainData.forEach((item) => {
-                    console.table(item);
-                });
-                break;
-        }
-
-        setTimeout(() => {
-            /* const cardBtns = document.querySelectorAll(".card_btn");
-        for (let i = 0; i < cardBtns.length; i++) {
-            cardBtns[i].addEventListener("click", async () => {
-                catchEmAll(cardBtns[i].getAttribute("data-name"));
-            });
-        } */
-        }, 250);
-    }, 250);
-};
-const createEvoChainBtns2 = async (speciesLink) => {
     deleteChildElements(evoCardsContainer);
     deleteChildElements(fragmentEvoCards);
     /* ! INTERNAL FUNCTIONS */
@@ -1932,14 +1755,6 @@ const createEvoChainBtns2 = async (speciesLink) => {
                 createEvoData(firstEvoData);
                 break;
         }
-        setTimeout(() => {
-            const cardBtns = document.querySelectorAll(".card_btn");
-            for (let i = 0; i < cardBtns.length; i++) {
-                cardBtns[i].addEventListener("click", async () => {
-                    catchEmAll(cardBtns[i].getAttribute("data-name"));
-                });
-            }
-        }, 1000);
     }, 250);
 };
 
@@ -1952,9 +1767,9 @@ const optionListDescriptionsActions = (status) => {
         closeOptionList("option_list_descriptions");
     }
 };
+
 const abilityBtnsActions = async (name, url) => {
     optionListAbilityStatus = close;
-    deleteChildElements(optionListBtnsContainerAbility);
     titleModalAbility.textContent = name;
     console.log(url);
     const abilityData = await fetchFunc(url);
@@ -1982,43 +1797,42 @@ const abilityBtnsActions = async (name, url) => {
         currentAbilityFlavors = abilityFlavorsEn;
     }
 
-    const activeBtns = () => {
-        const abilityOptionListBtns = document.querySelectorAll(".option_list_ability_btn");
-        abilityOptionListBtns.forEach((btn) => {
-            btn.addEventListener("click", () => optionListAbilitiesActions(btn.getAttribute("data-name"), optionListAbilityStatus));
-        });
-    };
+    animationIn(modal, block, 500);
+    animationIn(abilityModal, block, 500);
+};
+const createOptionListAbilityBtns = () => {
+    deleteArrElements(fragmentOptionListAbilityBtns);
+    deleteChildElements(optionListBtnsContainerAbility);
+    /* console.log(abilityFlavorsEn, abilityFlavorsEs, currentAbilityFlavors); */
+    console.log(currentAbilityFlavors[0]);
+
+    titleAbilityFlavorsModal.textContent = properCase(currentAbilityFlavors[0].version);
+    textAbilityFlavorsModal.textContent = currentAbilityFlavors[0].flavor;
+    currentAbilityFlavors.forEach((abilityFlavor) => {
+        const newCloneOptionListBtn = optionListAbilityBtnTemplate.cloneNode(true);
+        const abilityOptionListBtn = newCloneOptionListBtn.querySelector(".option_list_ability_btn");
+        abilityOptionListBtn.textContent = properCase(abilityFlavor.version);
+        abilityOptionListBtn.setAttribute("data-name", abilityFlavor.version);
+        console.log(abilityFlavor);
+
+        fragmentOptionListAbilityBtns.appendChild(abilityOptionListBtn);
+    });
+
     setTimeout(() => {
-        console.log(abilityFlavorsEn, abilityFlavorsEs, currentAbilityFlavors);
-        console.log(currentAbilityFlavors[0]);
-
-        titleAbilityFlavorsModal.textContent = properCase(currentAbilityFlavors[0].version);
-        textAbilityFlavorsModal.textContent = currentAbilityFlavors[0].flavor;
-        currentAbilityFlavors.forEach((abilityFlavor) => {
-            const newCloneOptionListBtn = optionListAbilityBtnTemplate.cloneNode(true);
-            const abilityOptionListBtn = newCloneOptionListBtn.querySelector(".option_list_ability_btn");
-            abilityOptionListBtn.textContent = properCase(abilityFlavor.version);
-            abilityOptionListBtn.setAttribute("data-name", abilityFlavor.version);
-            console.log(abilityFlavor);
-
-            fragmentOptionListAbilityBtns.appendChild(abilityOptionListBtn);
-        });
         optionListBtnsContainerAbility.appendChild(fragmentOptionListAbilityBtns);
 
         setTimeout(() => {
-            activeBtns();
-            animationIn(modal, block, 500);
-            setTimeout(() => animationIn(abilityModal, block, 500), 1500);
-        }, 500);
-    }, 500);
+            abilityOptionListBtns = document.querySelectorAll(".option_list_ability_btn");
+            abilityOptionListBtns.forEach((btn) => {
+                console.log(btn.getAttribute("data-name"));
+                btn.addEventListener("click", () => optionListAbilitiesActions(btn.getAttribute("data-name"), optionListAbilityStatus));
+            });
+        }, 250);
+    }, 250);
 };
-const activeAbilityBtns = () => {
-    const abilityBtns = document.querySelectorAll(".ability_btn");
-    abilityBtns.forEach((btn) => {
-        btn.addEventListener("click", async () => {
-            abilityBtnsActions(btn.getAttribute("data-name"), btn.getAttribute("data-url"));
-        });
-    });
+const currentStats = {
+    name: "Pokemon Stats",
+    children: [],
 };
 const createPokeData = async (data) => {
     //^  DATA FIRST CHECK -- START//
@@ -2045,6 +1859,33 @@ const createPokeData = async (data) => {
         }
         //¬ BASIC POKE DATA -- START //
         const { name: dataName, id: dataId, height: pokemonHeight, weight: pokemonWeight, abilities, base_experience: pokemonExperience, held_items: pokemonHeldItems, stats } = data;
+
+        // ! ! //
+        console.log(pokemonExperience);
+        console.table(pokemonHeldItems);
+
+        console.table(stats);
+
+        stats.forEach((type) => {
+            console.log(type);
+            currentStats.children.push({ name: type.stat.name, value: type.base_stat });
+        });
+        console.table(currentStats.children);
+
+        currentStats.children.forEach((item) => {
+            console.log(item.name);
+            graphBars.forEach((bar) => {
+                bar.getAttribute("data-value");
+                if (item.name === bar.getAttribute("data-value")) {
+                    console.log(item);
+                    bar.style.width = item.value * 3 + "px";
+                    bar.querySelector("SPAN").textContent = item.value;
+                }
+            });
+        });
+
+        // ! ! //
+
         const artworkImg = data.sprites.other["official-artwork"]["front_default"];
         speciesLink = data.species.url;
         //¬ BASIC POKE DATA -- OVER //
@@ -2054,7 +1895,7 @@ const createPokeData = async (data) => {
         let nameErrorIndex = "";
 
         for (let x = 0; x < dataName.length; x++) {
-            console.log(dataName[x]);
+            /* console.log(dataName[x]); */
             if (dataName[x] === "-") {
                 nameErrorIndex = x;
                 nameSplite.push(" ");
@@ -2084,7 +1925,6 @@ const createPokeData = async (data) => {
             pokedex_numbers: pokedexNumbers,
             varieties,
         } = speciesData;
-
         // ¬ GENERATION DATA - START //
         if (generation) {
             const generationData = await fetchFunc(generation.url);
@@ -2117,11 +1957,11 @@ const createPokeData = async (data) => {
         const pokeMalesDetails = pokeMales[`pokemon_species_details`];
         const pokeGenderlessDetails = pokeGenderless[`pokemon_species_details`];
         let whatGenders = [];
-        console.log(genderDifferences + " Gender differences");
+        /* console.log(genderDifferences + " Gender differences"); */
         pokeMalesDetails.forEach((list) => {
             switch (list[`pokemon_species`][`name`] === data.name) {
                 case true:
-                    console.log("este pokemon tiene genero masculino");
+                    /* console.log("este pokemon tiene genero masculino"); */
                     whatGenders.push("male");
                     break;
                 case false:
@@ -2131,7 +1971,7 @@ const createPokeData = async (data) => {
         pokeFemalesDetails.forEach((list) => {
             switch (list[`pokemon_species`][`name`] === data.name) {
                 case true:
-                    console.log("este pokemon tiene genero femenino");
+                    /* console.log("este pokemon tiene genero femenino"); */
                     whatGenders.push("female");
                     break;
                 case false:
@@ -2141,14 +1981,14 @@ const createPokeData = async (data) => {
         pokeGenderlessDetails.forEach((list) => {
             switch (list[`pokemon_species`][`name`] === data.name) {
                 case true:
-                    console.log("este pokemon no tiene genero");
+                    /* console.log("este pokemon no tiene genero"); */
                     whatGenders.push("genderless");
                     break;
                 case false:
                     break;
             }
         });
-        console.log(whatGenders, whatGenders.length);
+        /* console.log(whatGenders, whatGenders.length); */
 
         if (whatGenders.length === 2) {
             maleIconActions(open);
@@ -2281,12 +2121,19 @@ const createPokeData = async (data) => {
         setTimeout(() => {
             pokeDescriptionAbilitiesContainer.appendChild(fragmentAbilityBtns);
             setTimeout(() => {
-                activeAbilityBtns();
+                const abilityBtns = document.querySelectorAll(".ability_btn");
+                abilityBtns.forEach((btn) => {
+                    btn.addEventListener("click", async () => {
+                        abilityBtnsActions(btn.getAttribute("data-name"), btn.getAttribute("data-url"));
+                        setTimeout(() => {
+                            createOptionListAbilityBtns();
+                        }, 500);
+                    });
+                });
             }, 250);
         }, timeOutFuncTime * abilitieBtnsCount + 250);
         //!  //
         createEvoChainBtns(speciesLink);
-        createEvoChainBtns2(speciesLink);
         /* console.log(varieties.length); */
         if (varieties.length > 1) {
             /* console.log("este pokemon tiene variantes"); */
@@ -2577,8 +2424,15 @@ const createPokeData = async (data) => {
 
             searchInputName.value = "";
             console.log(itemToSave);
+            //^SETING CARD BTN
+            setTimeout(() => {
+                const cardBtns = document.querySelectorAll(".card_btn");
+                cardBtns.forEach((btn) => {
+                    console.log(btn.getAttribute("data-name"));
+                    btn.addEventListener("click", () => catchEmAll(btn.getAttribute("data-name")));
+                });
+            }, 1500);
         }, 250);
-        //! CREACION DE ITEM PARA OBJETO POR SALVAR //
     }
     //^  DATA FIRST CHECK -- OVER//
 };
@@ -3193,8 +3047,9 @@ const createPersonalizedBtns = () => {
 };
 const checkStorageAnswer = () => {
     console.log(window.navigator.language);
-    if (window.navigator.language === "es" || window.navigator.language === "es-ES") {
+    if (window.navigator.language === "es" || (window.navigator.language[0] === "e" && window.navigator.language[1] === "s" && window.navigator.language[2] === "-")) {
         console.log("navegador en idioma español");
+        changeLang(es);
     } else {
         console.log("navegador en otro idioma no español");
         changeLang(en);
@@ -3809,12 +3664,12 @@ cancelEditThemesBtn.addEventListener("click", () => {
     }, 1500);
 });
 searchBtn.addEventListener("click", searchFunction);
-searchInputNumber.addEventListener("keypress", function (e) {
+searchInputNumber.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
         searchFunction();
     }
 });
-searchInputName.addEventListener("keypress", function (e) {
+searchInputName.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
         searchFunction();
     }

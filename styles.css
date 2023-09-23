@@ -37,6 +37,10 @@ HTML {
     --fontSizeS: 1rem;
     --fontSizeXS: 0.8rem;
     /*¿ FONT WEIGHT--START */
+    --fontWeightTine: 100
+    --fontWeightLight: 200;
+    --fontWeightNormal: 400;
+    --fontWeightBold: 700;
     /*¿TRANSITIONS--START */
     --transitionUF: all 250ms ease;
     --transitionF: all 500ms ease;
@@ -725,6 +729,10 @@ NAV {
     height: 16rem;
     width: 10rem;
 }
+.card_btn IMG {
+    user-select: text;
+    pointer-events: none;
+}
 .fav_card {
     position: relative;
     height: fit-content;
@@ -1249,7 +1257,35 @@ fieldset {
     fill: var(--textColor);
     border: solid 2px var(--textColor);
 } */
-
+.graph_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 2rem;
+}
+.graph_stat {
+    width: 10px;
+    height: 20px;
+    background: red;
+}
+.graph_item_text {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+.graph_stat {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+.graph_stat SPAN {
+    display: inline-block;
+    margin-left: 0.75rem;
+    color: var(--textContrastColor);
+    font-weight: var(--fontWeightBold);
+}
 #option_list_btns_container_varients {
     max-height: 15rem;
     overflow-y: auto;
