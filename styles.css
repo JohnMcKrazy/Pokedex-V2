@@ -717,6 +717,11 @@ NAV {
     font-weight: 400;
     color: var(--firstColor);
 }
+.section_subtitle {
+    font-size: var(--fontSizeN);
+    font-weight: 400;
+    color: var(--firstColor);
+}
 .fav_card,
 .card_btn {
     display: flex;
@@ -1261,24 +1266,43 @@ fieldset {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
-    gap: 0.5rem;
-    padding: 2rem;
+    align-items: center;
+    gap: 0.5rem;margin-top:1rem;
+}
+
+
+.graph_container .section_subtitle_data,
+.graph_container .section_subtitle {
+    width:100%;
+    text-align: center;
+}
+.graph_container .section_subtitle{
+    margin-top:-7px;
+}
+.graph_item{
+    width:50%;
 }
 .graph_stat {
-    width: 10px;
+    position:relative;
+    width: 5px;
     height: 20px;
-    background: red;
+    background: var(--firstColor);
 }
 .graph_item_text {
     display: block;
-    margin-bottom: 0.5rem;
+}
+.graph_text_max{
+    position:absolute;
+    right:1rem;
+    top:50%;
+    transform:translate(0,50%)
 }
 .graph_stat {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    transition: all 500ms ease-in-out;;
 }
 .graph_stat SPAN {
     display: inline-block;

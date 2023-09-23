@@ -152,7 +152,8 @@ const pokeDescriptionNameVersion = document.querySelector("#poke_data_info_name_
 const pokeDescriptionVersion = document.querySelector("#poke_data_info_description_version");
 
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+const graphContainer = document.querySelector(".graph_container");
+const optionListAbilitySearchBtn = document.querySelector(".option_list_ability_btn_search");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const evoSubtitle = document.querySelector("#evo_subtitle");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -719,6 +720,7 @@ const deleteArrElements = (parentElement) => {
 const properCase = (string) => {
     return `${string[0].toUpperCase()}${string.slice(1).toLowerCase()}`;
 };
+
 //! CREATE CHARTS TRY --- START //
 /* const ctx = document.getElementById("myChart").getContext("2d");
 const chart = new Chart(ctx, {
@@ -1503,7 +1505,7 @@ const optionListFavOptionActions = (action) => {
         }, 250);
     }
 };
-document.querySelector(".option_list_ability_btn_search").addEventListener("click", () => {
+const optionListAbilitySearchBtnActions = () => {
     if (optionListAbilityStatus === close) {
         optionListAbilityStatus = open;
         optionListAbilityArrow.style.transform = "rotate(180deg)";
@@ -1513,7 +1515,7 @@ document.querySelector(".option_list_ability_btn_search").addEventListener("clic
         closeOptionList("option_list_ability");
         console.log("Cerrando lista de opciones de flavor por version, de abilidades");
     }
-});
+};
 const optionListAbilitiesActions = (action) => {
     titleAbilityFlavorsModal.textContent = properCase(action);
     currentAbilityFlavors.forEach((abilityFlavor) => {
@@ -1884,6 +1886,39 @@ const createPokeData = async (data) => {
             });
         });
 
+        // ! //
+        const watchContainer = () => {
+            const windowWidth = window.innerWidth;
+            const returResut = () => {
+                return window.innerWidth;
+            };
+
+            document.querySelectorAll(".graph_item").forEach((itemGraph) => {
+                currentStats.children.forEach((item) => {
+                    graphBars.forEach((bar) => {
+                        if (item.name === bar.getAttribute("data-value")) {
+                            console.log(windowWidth);
+                            console.log((itemGraph.getBoundingClientRect().width / 250) * item.value);
+                            console.log(item);
+                            bar.style.width = (itemGraph.getBoundingClientRect().width / 250) * item.value + "px";
+                        }
+                    });
+                });
+            });
+
+            /* graphBars.forEach((bar) => {
+        bar.getAttribute("data-value");
+       
+            console.log(item);
+            bar.style.width = item.value * 3 + "px";
+            bar.querySelector("SPAN").textContent = item.value;
+    
+    }); */
+        };
+        const resizeObserve = new ResizeObserver(watchContainer);
+        resizeObserve.observe(graphContainer);
+
+        //!  //
         // ! ! //
 
         const artworkImg = data.sprites.other["official-artwork"]["front_default"];
@@ -3603,6 +3638,7 @@ optionListMeasurmentsBtns.forEach((btn) => {
     btn.addEventListener("click", () => optionListMeasurmentsActions(btn.getAttribute("data-name")));
 });
 
+optionListAbilitySearchBtn.addEventListener("click", optionListAbilitySearchBtnActions);
 optionListFavBtns.forEach((btn) => {
     btn.addEventListener("click", () => optionListFavOptionActions(btn.getAttribute("data-name")));
 });
@@ -3646,6 +3682,7 @@ alertModalDeleteDataAlertBtns.forEach((btn) => {
 //! |||||||||||||||||||||//
 //!  ADD EVENT LISTENERS //
 //! |||||||||||||||||||||//
+
 acceptBtnAlertModal.addEventListener("click", () => {
     console.log("click activo");
     if (langMenuModalAlertStatus === open) {
