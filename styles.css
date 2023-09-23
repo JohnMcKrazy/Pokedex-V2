@@ -1320,23 +1320,15 @@ fieldset {
     display: inline-block;
     color: var(--textContrastColor);
     font-weight: var(--fontWeightBold);
-    z-index: 99;
+    z-index: 5;
 }
 .graph_value {
-    margin-left: 0.75rem;
-}
-@keyframes banner {
-    0% {
-        top: -100%;
-    }
-    100% {
-        top: 100%;
-    }
+    margin-left: 0.5rem;
 }
 .extra_stat {
     opacity: 0;
     transition: opacity 200ms ease-in-out;
-    animation: banner 1800ms ease-in-out infinite;
+    margin-right: 1rem;
 }
 #option_list_btns_container_varients {
     max-height: 15rem;
@@ -1378,8 +1370,10 @@ fieldset {
 #extras_data_info_card .btns_row_center {
     gap: 1rem;
 }
+
 #ability_modal {
-    min-height: 80vh;
+    height: fit-content;
+    overflow: visible;
 }
 #ability_options_container {
     height: 3rem;
