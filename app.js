@@ -135,7 +135,7 @@ const babyIconText = document.querySelector("#baby_icon_text");
 const legendaryIconText = document.querySelector("#legendary_icon_text");
 const mythicalIconText = document.querySelector("#mythical_icon_text");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *//
-const graphBars = document.querySelectorAll(".graph_stat");
+const graphBars = document.querySelectorAll(".graph_bar");
 
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentAbilityBtns = document.createDocumentFragment();
@@ -1877,43 +1877,45 @@ const createPokeData = async (data) => {
         currentStats.children.forEach((item) => {
             console.log(item.name);
             graphBars.forEach((bar) => {
-                bar.getAttribute("data-value");
-                if (item.name === bar.getAttribute("data-value")) {
+                let graphStatValue = bar.querySelector(".graph_stat").getAttribute("data-value");
+                let graphStatBarPorcentage = bar.querySelector(".graph_stat");
+                let graphValue = bar.querySelector(".graph_value");
+                console.log();
+                if (item.name === graphStatValue) {
                     console.log(item);
-                    bar.style.width = item.value * 3 + "px";
-                    bar.querySelector("SPAN").textContent = item.value;
+                    graphStatBarPorcentage.style.width = item.value * 3 + "px";
+                    graphValue.textContent = item.value;
                 }
             });
         });
 
         // ! //
         const watchContainer = () => {
-            const windowWidth = window.innerWidth;
-            const returResut = () => {
-                return window.innerWidth;
-            };
-
             document.querySelectorAll(".graph_item").forEach((itemGraph) => {
                 currentStats.children.forEach((item) => {
                     graphBars.forEach((bar) => {
-                        if (item.name === bar.getAttribute("data-value")) {
-                            console.log(windowWidth);
-                            console.log((itemGraph.getBoundingClientRect().width / 250) * item.value);
-                            console.log(item);
-                            bar.style.width = (itemGraph.getBoundingClientRect().width / 250) * item.value + "px";
+                        let graphStatValue = bar.querySelector(".graph_stat").getAttribute("data-value");
+                        let graphStatBarPorcentage = bar.querySelector(".graph_stat");
+
+                        let thisStat = bar.querySelector(".extra_stat");
+                        if (item.name === graphStatValue) {
+                            /* console.log(windowWidth); */
+                            /* console.log((itemGraph.getBoundingClientRect().width / 250) * item.value); */
+
+                            if (item.value > 250) {
+                                graphStatBarPorcentage.style.width = "100%";
+                                thisStat.style.opacity = 1;
+                                thisStat.textContent = `+${item.value - 250}`;
+                            } else {
+                                graphStatBarPorcentage.style.width = (itemGraph.getBoundingClientRect().width / 250) * item.value + "px";
+                                thisStat.textContent = item.value;
+
+                                thisStat.style.opacity = 0;
+                            }
                         }
                     });
                 });
             });
-
-            /* graphBars.forEach((bar) => {
-        bar.getAttribute("data-value");
-       
-            console.log(item);
-            bar.style.width = item.value * 3 + "px";
-            bar.querySelector("SPAN").textContent = item.value;
-    
-    }); */
         };
         const resizeObserve = new ResizeObserver(watchContainer);
         resizeObserve.observe(graphContainer);
