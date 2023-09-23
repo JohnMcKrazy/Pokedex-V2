@@ -1286,7 +1286,7 @@ fieldset {
     height: 20px;
 }
 .graph_item {
-    width: 100%;
+    width: 80%;
 }
 .graph_stat {
     position: absolute;
