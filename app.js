@@ -241,6 +241,7 @@ const favModal = document.querySelector("#fav_modal");
 const favCardTemplate = document.querySelector("#fav_card_template").content;
 const titlefavModal = document.querySelector("#title_fav_modal");
 const subtitlefavModal = document.querySelector("#subtitle_fav_modal");
+const sortedText = document.querySelector("#fav_modal_sorted_text");
 const sortBtns = document.querySelectorAll(".sort_fav_btn");
 const favListFirstBtnText = document.querySelector("#option_list_fav_first_text");
 
@@ -1253,6 +1254,33 @@ const changeLang = (lang) => {
         setTimeout(() => {
             favCardsContainer.appendChild(fragmentFavCards);
         }, 100);
+        if (currentLang === en) {
+            switch (subtitlefavModal.textContent) {
+                case "Fecha":
+                    subtitlefavModal.textContent = "Date";
+                    break;
+                case "Nombre":
+                    subtitlefavModal.textContent = "Name";
+                    break;
+                case "Tipo":
+                    subtitlefavModal.textContent = "Type";
+                    break;
+            }
+            sortedText.textContent = "Sorted By: ";
+        } else if (currentLang === es) {
+            switch (subtitlefavModal.textContent) {
+                case "Date":
+                    subtitlefavModal.textContent = "Fecha";
+                    break;
+                case "Name":
+                    subtitlefavModal.textContent = "Nombre";
+                    break;
+                case "Type":
+                    subtitlefavModal.textContent = "Tipo";
+                    break;
+            }
+            sortedText.textContent = "Ordenado Por: ";
+        }
     }
     if (itsFirstPokemonSearch === false) {
         catchEmAll(currentPokemon);
@@ -1423,6 +1451,12 @@ const optionListFavOptionActions = (action) => {
         storagePokedex[storageSaved].forEach((item) => {
             console.log(item.name, item.id);
         });
+
+        if (currentLang === en) {
+            sortedText.textContent = "Sort By: ";
+        } else if (currentLang === es) {
+            sortedText.textContent = "Ordenado Por: ";
+        }
         switch (action) {
             case "option_fav_name":
                 console.log(action);
@@ -1438,6 +1472,12 @@ const optionListFavOptionActions = (action) => {
                 currentSortedObject = sortedByName;
                 currentSortedObjectType = sortedObjectTypeName;
                 console.log(sortedByName);
+
+                if (currentLang === en) {
+                    subtitlefavModal.textContent = "Name";
+                } else if (currentLang === es) {
+                    subtitlefavModal.textContent = "Nombre";
+                }
                 break;
             case "option_fav_id":
                 console.log(action);
@@ -1452,6 +1492,9 @@ const optionListFavOptionActions = (action) => {
                 });
                 currentSortedObject = sortedById;
                 currentSortedObjectType = sortedObjectTypeId;
+
+                subtitlefavModal.textContent = "ID";
+
                 console.log(sortedById);
                 break;
             case "option_fav_type":
@@ -1478,6 +1521,11 @@ const optionListFavOptionActions = (action) => {
                 }
                 currentSortedObject = sortedByType;
                 currentSortedObjectType = sortedObjectTypeType;
+                if (currentLang === en) {
+                    subtitlefavModal.textContent = "Type";
+                } else if (currentLang === es) {
+                    subtitlefavModal.textContent = "Tipo";
+                }
                 console.log(sortedByType);
                 break;
             case "option_fav_date":
@@ -1495,6 +1543,12 @@ const optionListFavOptionActions = (action) => {
                 console.log(sortedByDate);
                 currentSortedObject = sortedByDate;
                 currentSortedObjectType = sortedObjectTypeDate;
+
+                if (currentLang === en) {
+                    subtitlefavModal.textContent = "Date";
+                } else if (currentLang === es) {
+                    subtitlefavModal.textContent = "Fecha";
+                }
                 console.log(currentSortedObject);
                 break;
         }
@@ -2468,7 +2522,7 @@ const createPokeData = async (data) => {
                     console.log(btn.getAttribute("data-name"));
                     btn.addEventListener("click", () => catchEmAll(btn.getAttribute("data-name")));
                 });
-            }, 1500);
+            }, 2000);
         }, 250);
     }
     //^  DATA FIRST CHECK -- OVER//
@@ -2696,6 +2750,9 @@ const configMenuOptions = (option) => {
         themeMenuActions();
         configMenuActions();
     } else if (option === "fav") {
+        const fixContentContainerHeight = favModal.clientHeight;
+        console.log(fixContentContainerHeight);
+
         favMenuActions();
         configMenuActions();
     } else if (option === "delete") {
@@ -2918,8 +2975,8 @@ const favMenuActions = () => {
     deleteChildElements(favCardsContainer);
     if (favModalStatus === close) {
         favModalStatus = open;
-        animationIn(modal, block, 1000);
-        setTimeout(() => animationIn(favModal, block, 500), 1500);
+        animationIn(modal, block, 500);
+        setTimeout(() => animationIn(favModal, block, 500), 1000);
         updatePokedex();
         setTimeout(() => {
             if (storagePokedex[storageSaved].length >= 1) {
@@ -2943,8 +3000,30 @@ const favMenuActions = () => {
                         currentSortedObject = sortedByDate;
                         currentSortedObjectType = sortedObjectTypeDate;
                         console.log(currentSortedObject);
+
+                        if (currentLang === en) {
+                            sortedText.textContent = "Sort By: ";
+                            subtitlefavModal.textContent = "Date";
+                        } else if (currentLang === es) {
+                            subtitlefavModal.textContent = "Fecha";
+                            sortedText.textContent = "Ordenado Por: ";
+                        }
                         setTimeout(() => {
                             createCurrentSortPokemonFav(currentSortedObject);
+                            setTimeout(() => {
+                                console.log(favModal.clientHeight);
+                                console.log(BODY.clientWidth);
+                                let convertRemInPix = 0;
+                                if (BODY.clientWidth > 889) {
+                                    convertRemInPix = 12 * 20;
+                                } else if (BODY.clientWidth < 900) {
+                                    convertRemInPix = 10 * 20;
+                                }
+                                console.log(convertRemInPix);
+                                const contentModalHeightFix = favModal.clientHeight - convertRemInPix;
+                                console.log(contentModalHeightFix);
+                                favCardsContainer.style.height = contentModalHeightFix + "px";
+                            }, 500);
                         }, 250);
                         break;
                     default:

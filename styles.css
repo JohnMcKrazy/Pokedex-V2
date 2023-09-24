@@ -30,7 +30,7 @@ HTML {
     --whiteOffT: rgb(217, 217, 217, 0.6);
     /*¿FONTS START  */
     /*¿ FONT SIZES--START */
-    --fontSizeXL: 4rem;
+    --fontSizeXL: 3.2rem;
     --fontSizeL: 2.4rem;
     --fontSizeG: 1.8rem;
     --fontSizeN: 1.2rem;
@@ -678,6 +678,7 @@ NAV {
     justify-content: space-between;
     align-items: flex-start;
     padding-top: 1rem;
+    width: 100%;
 }
 .basic_sb_container .section_subtitle_data {
     height: 3rem;
@@ -731,6 +732,7 @@ NAV {
     font-size: var(--fontSizeXL);
     font-weight: 400;
     color: var(--firstColor);
+    margin-bottom: 0.5rem;
 }
 .section_subtitle {
     font-size: var(--fontSizeN);
@@ -1429,6 +1431,7 @@ fieldset {
 #fav_modal .option_list_btns_container {
     overflow-y: auto;
 }
+
 #alert_modal_fav {
     width: fit-content;
     padding: 1rem 2rem;
