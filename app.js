@@ -1079,17 +1079,6 @@ const changeLang = (lang) => {
                     break;
             }
         });
-        if (editPersonalizedThemesModalStatus === open) {
-            const cardsBgColorTexts = document.querySelectorAll(".name_data_bg");
-            const cardsTextColorTexts = document.querySelectorAll(".name_data_text");
-            const cardsFirstColorColorTexts = document.querySelectorAll(".name_data_firstColor");
-            const cardsBgAccentColorTexts = document.querySelectorAll(".name_data_bgAccent");
-
-            cardsBgColorTexts.forEach((item) => (item.textContent = "Fondo"));
-            cardsTextColorTexts.forEach((item) => (item.textContent = "Texto"));
-            cardsFirstColorColorTexts.forEach((item) => (item.textContent = "Acento"));
-            cardsBgAccentColorTexts.forEach((item) => (item.textContent = "Tarjetas"));
-        }
     } else if (lang === en) {
         currentLang = en;
         console.log("cambiando idioma a ingles");
@@ -1229,7 +1218,20 @@ const changeLang = (lang) => {
             }
         });
 
-        if (editPersonalizedThemesModalStatus === open) {
+        /*  */
+    }
+    if (editPersonalizedThemesModalStatus === open) {
+        if (currentLang === es) {
+            const cardsBgColorTexts = document.querySelectorAll(".name_data_bg");
+            const cardsTextColorTexts = document.querySelectorAll(".name_data_text");
+            const cardsFirstColorColorTexts = document.querySelectorAll(".name_data_firstColor");
+            const cardsBgAccentColorTexts = document.querySelectorAll(".name_data_bgAccent");
+
+            cardsBgColorTexts.forEach((item) => (item.textContent = "Fondo"));
+            cardsTextColorTexts.forEach((item) => (item.textContent = "Texto"));
+            cardsFirstColorColorTexts.forEach((item) => (item.textContent = "Acento"));
+            cardsBgAccentColorTexts.forEach((item) => (item.textContent = "Tarjetas"));
+        } else if (currentLang === en) {
             const cardsBgColorTexts = document.querySelectorAll(".name_data_bg");
             const cardsTextColorTexts = document.querySelectorAll(".name_data_text");
             const cardsFirstColorColorTexts = document.querySelectorAll(".name_data_firstColor");
@@ -1239,7 +1241,6 @@ const changeLang = (lang) => {
             cardsFirstColorColorTexts.forEach((item) => (item.textContent = "Accent"));
             cardsBgAccentColorTexts.forEach((item) => (item.textContent = "Cards"));
         }
-        /*  */
     }
     if (favModalStatus === open) {
         deleteChildElements(fragmentFavCards);
@@ -1254,20 +1255,7 @@ const changeLang = (lang) => {
         setTimeout(() => {
             favCardsContainer.appendChild(fragmentFavCards);
         }, 100);
-        if (currentLang === en) {
-            switch (subtitlefavModal.textContent) {
-                case "Fecha":
-                    subtitlefavModal.textContent = "Date";
-                    break;
-                case "Nombre":
-                    subtitlefavModal.textContent = "Name";
-                    break;
-                case "Tipo":
-                    subtitlefavModal.textContent = "Type";
-                    break;
-            }
-            sortedText.textContent = "Sorted By: ";
-        } else if (currentLang === es) {
+        if (currentLang === es) {
             switch (subtitlefavModal.textContent) {
                 case "Date":
                     subtitlefavModal.textContent = "Fecha";
@@ -1280,6 +1268,30 @@ const changeLang = (lang) => {
                     break;
             }
             sortedText.textContent = "Ordenado Por: ";
+        } else if (currentLang === en) {
+            switch (subtitlefavModal.textContent) {
+                case "Fecha":
+                    subtitlefavModal.textContent = "Date";
+                    break;
+                case "Nombre":
+                    subtitlefavModal.textContent = "Name";
+                    break;
+                case "Tipo":
+                    subtitlefavModal.textContent = "Type";
+                    break;
+            }
+            sortedText.textContent = "Sorted By: ";
+        }
+    }
+
+    // ! ************************************************* ! //
+    //! BUSCAR OBJETO CON TEXTOS FLAVOR DE ABILITIES Y CAMBIARLO SEGUN IDIOMA ASI COMO LOS TEXTOS DE LOS BOTONES ! //
+    // ! ************************************************* ! //
+    if (abilityModalStatus === open) {
+        if (currentLang === es) {
+            subtitleModalAbility.textContent = "Descripción:";
+        } else if (currentLang === en) {
+            subtitleModalAbility.textContent = "Description:";
         }
     }
     if (itsFirstPokemonSearch === false) {
@@ -1826,6 +1838,7 @@ const optionListDescriptionsActions = (status) => {
 
 const abilityBtnsActions = async (name, url) => {
     optionListAbilityStatus = close;
+    abilityModalStatus = open;
     titleModalAbility.textContent = name;
     console.log(url);
     const abilityData = await fetchFunc(url);
@@ -2750,9 +2763,6 @@ const configMenuOptions = (option) => {
         themeMenuActions();
         configMenuActions();
     } else if (option === "fav") {
-        const fixContentContainerHeight = favModal.clientHeight;
-        console.log(fixContentContainerHeight);
-
         favMenuActions();
         configMenuActions();
     } else if (option === "delete") {
@@ -3013,16 +3023,9 @@ const favMenuActions = () => {
                             setTimeout(() => {
                                 console.log(favModal.clientHeight);
                                 console.log(BODY.clientWidth);
-                                let convertRemInPix = 0;
-                                if (BODY.clientWidth > 889) {
-                                    convertRemInPix = 12 * 20;
-                                } else if (BODY.clientWidth < 900) {
-                                    convertRemInPix = 10 * 20;
-                                }
-                                console.log(convertRemInPix);
-                                const contentModalHeightFix = favModal.clientHeight - convertRemInPix;
+                                const contentModalHeightFix = favModal.clientHeight - ConvertDecimals(BODY.clientHeight * 0.1) - 100;
                                 console.log(contentModalHeightFix);
-                                favCardsContainer.style.height = contentModalHeightFix + "px";
+                                favCardsContainer.style.height = ` ${contentModalHeightFix}px`;
                             }, 500);
                         }, 250);
                         break;
