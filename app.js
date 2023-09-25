@@ -1930,27 +1930,23 @@ const createPokeData = async (data) => {
         const { name: dataName, id: dataId, height: pokemonHeight, weight: pokemonWeight, abilities, base_experience: pokemonExperience, held_items: pokemonHeldItems, stats } = data;
 
         // ! ! //
-        console.log(pokemonExperience);
+        /* console.log(pokemonExperience); */
+        /* console.table(stats); */
         console.table(pokemonHeldItems);
 
-        console.table(stats);
-
         stats.forEach((type) => {
-            console.log(type);
-            currentStats.children.push({ name: type.stat.name, value: type.base_stat });
+            /* console.log(type) */ currentStats.children.push({ name: type.stat.name, value: type.base_stat });
         });
-        console.table(currentStats.children);
+        /* console.table(currentStats.children); */
 
         currentStats.children.forEach((item) => {
-            console.log(item.name);
+            /* console.log(item.name); */
             graphBars.forEach((bar) => {
                 let graphStatValue = bar.querySelector(".graph_stat").getAttribute("data-value");
                 let graphStatBarPorcentage = bar.querySelector(".graph_stat");
                 let graphValue = bar.querySelector(".graph_value");
-                console.log();
                 if (item.name === graphStatValue) {
-                    console.log(item);
-                    graphStatBarPorcentage.style.width = item.value * 3 + "px";
+                    /* console.log(item) */ graphStatBarPorcentage.style.width = item.value * 3 + "px";
                     graphValue.textContent = item.value;
                 }
             });
@@ -2305,6 +2301,7 @@ const createPokeData = async (data) => {
         if (pokemonEvoDetails.length >= 1) {
             const typesOfEvolution = pokemonEvoDetails[0].evolution_details;
             console.log("evo data", typesOfEvolution);
+
             typesOfEvolution.forEach((type) => {
                 /* console.log(type); */
                 if (type.trigger.name === "use-item") {
@@ -2316,6 +2313,17 @@ const createPokeData = async (data) => {
                 }
             });
         }
+
+        evoData.chain.evolves_to.forEach((pokemon) => {
+            console.log(pokemon);
+            const pokemonEvoDetails = pokemon.evolution_details;
+            console.log(pokemonEvoDetails);
+
+            pokemonEvoDetails.forEach((evoTrigger) => {
+                console.log(evoTrigger);
+            });
+        });
+
         const pokeFlavors = speciesData.flavor_text_entries;
         pokeFlavors.forEach((flavor) => {
             /* console.log(flavor); */
