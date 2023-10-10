@@ -721,6 +721,8 @@ NAV {
     justify-content: center;
     align-items: flex-start;
     gap: 0.5rem;
+
+    max-height: 70vh;
     height: fit-content;
     overflow-y: auto;
 }
@@ -1398,7 +1400,7 @@ fieldset {
     max-height: 30vh;
 }
 #themes_btns_container {
-    max-height: 35vh;
+    max-height: 45vh;
     height: fit-content;
     overflow-y: auto;
 }

@@ -1,5 +1,7 @@
 const titleEditPersonalizedThemesModal = document.querySelector("#title_edit_personalized_themes_modal");
-
+const pokeApi = (id) => {
+    return `https://pokeapi.co/api/v2/pokemon/${id}`;
+};
 //! ||||||||||||//
 //!  PAGE ITEMS //
 //! ||||||||||||//
@@ -749,6 +751,20 @@ const chart = new Chart(ctx, {
 });
 */
 //! CREATE CHARTS TRY --- OVER //
+const newFirstPokeSearch = async (currentId, status) => {
+    const generalData = await fetchFunc(pokeApi(currentId));
+    console.log(generalData);
+    const speciesData = await fetchFunc(pokeApi(generalData.species.name));
+    console.log(speciesData);
+    switch (status) {
+        case "next":
+            catchEmAll(speciesData.id + 1);
+            break;
+        case "previous":
+            catchEmAll(speciesData.id - 1);
+            break;
+    }
+};
 //^^ ************************************************************************** *//
 const next = () => {
     if (configMenuStatus === open) {
@@ -782,13 +798,17 @@ const next = () => {
             currentPokemon = 1;
             catchEmAll(currentPokemon);
         } else if (currentPokemon >= 10001 && currentPokemon <= 10246) {
-            if (afterPokemon >= 1 && afterPokemon <= 897) {
-                currentPokemon = afterPokemon;
-                currentPokemon++;
-                catchEmAll(currentPokemon);
-            } else if (afterPokemon === 898) {
-                currentPokemon = 1;
-                catchEmAll(currentPokemon);
+            if (afterPokemon === "") {
+                newFirstPokeSearch(currentPokemon, "next");
+            } else {
+                if (afterPokemon >= 1 && afterPokemon <= 897) {
+                    currentPokemon = afterPokemon;
+                    currentPokemon++;
+                    catchEmAll(currentPokemon);
+                } else if (afterPokemon === 898) {
+                    currentPokemon = 1;
+                    catchEmAll(currentPokemon);
+                }
             }
         }
     }
@@ -817,16 +837,20 @@ const previous = () => {
         currentPokemon = 898;
         catchEmAll(currentPokemon);
     } else if (itsFirstPokemonSearch === false) {
-        if (currentPokemon >= 2 && currentPokemon <= 898) {
-            currentPokemon--;
-            catchEmAll(currentPokemon);
-        } else if (currentPokemon === 1) {
-            currentPokemon = 898;
-            catchEmAll(currentPokemon);
-        } else if (currentPokemon >= 10001 && currentPokemon <= 10246) {
-            currentPokemon = afterPokemon;
-            currentPokemon--;
-            catchEmAll(currentPokemon);
+        if (afterPokemon === "") {
+            newFirstPokeSearch(currentPokemon, "previous");
+        } else {
+            if (currentPokemon >= 2 && currentPokemon <= 898) {
+                currentPokemon--;
+                catchEmAll(currentPokemon);
+            } else if (currentPokemon === 1) {
+                currentPokemon = 898;
+                catchEmAll(currentPokemon);
+            } else if (currentPokemon >= 10001 && currentPokemon <= 10246) {
+                currentPokemon = afterPokemon;
+                currentPokemon--;
+                catchEmAll(currentPokemon);
+            }
         }
     }
 };
@@ -1684,7 +1708,7 @@ const createEvoChainBtns = async (speciesLink) => {
         speciesList.forEach(async (specie) => {
             const evoTypeData = await fetchFunc(specie.species.url);
             const evoTypeId = evoTypeData.id;
-            const fetchEvoType = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${evoTypeId}`);
+            const fetchEvoType = await fetchFunc(pokeApi(evoTypeId));
             const evoTypeImg = fetchEvoType.sprites.front_default;
             const evoTypeName = fetchEvoType.name;
             /* console.log(fetchEvoType); */
@@ -1761,7 +1785,7 @@ const createEvoChainBtns = async (speciesLink) => {
     /* console.log(dataEvoChain.chain.species.name); */
 
     const fetchEvolvesFromDataPokemonId = await fetchFunc(dataEvoChain.chain.species.url);
-    const fetchEvolvesFromData = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${fetchEvolvesFromDataPokemonId.id}`);
+    const fetchEvolvesFromData = await fetchFunc(pokeApi(fetchEvolvesFromDataPokemonId.id));
     /* console.log(fetchEvolvesFromData); */
     /* console.log(fetchEvolvesFromData.id, fetchEvolvesFromData.name); */
     /*  console.log(fetchEvolvesFromData.sprites.front_default); */
@@ -2553,7 +2577,7 @@ const catchEmAll = async (id) => {
         case true:
             itsFirstPokemonSearch = false;
             try {
-                const data = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${id}`);
+                const data = await fetchFunc(pokeApi(id));
                 console.log("Primera fetch data", data);
                 createPokeData(data);
                 break;
@@ -2567,7 +2591,7 @@ const catchEmAll = async (id) => {
             }
         case false:
             try {
-                const data = await fetchFunc(`https://pokeapi.co/api/v2/pokemon/${id}`);
+                const data = await fetchFunc(pokeApi(id));
 
                 console.log("Primera fetch data", data);
                 createPokeData(data);
@@ -3028,13 +3052,13 @@ const favMenuActions = () => {
                         }
                         setTimeout(() => {
                             createCurrentSortPokemonFav(currentSortedObject);
-                            setTimeout(() => {
+                            /*  setTimeout(() => {
                                 console.log(favModal.clientHeight);
                                 console.log(BODY.clientWidth);
                                 const contentModalHeightFix = favModal.clientHeight - ConvertDecimals(BODY.clientHeight * 0.1) - 100;
                                 console.log(contentModalHeightFix);
                                 favCardsContainer.style.height = ` ${contentModalHeightFix}px`;
-                            }, 500);
+                            }, 500); */
                         }, 250);
                         break;
                     default:
