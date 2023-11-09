@@ -812,6 +812,8 @@ const next = () => {
             }
         }
     }
+
+    afterPokemon = currentPokemon;
 };
 const previous = () => {
     if (configMenuStatus === open) {
@@ -834,6 +836,7 @@ const previous = () => {
     }
     if (itsFirstPokemonSearch === true) {
         itsFirstPokemonSearch = false;
+
         currentPokemon = 898;
         catchEmAll(currentPokemon);
     } else if (itsFirstPokemonSearch === false) {
@@ -853,6 +856,8 @@ const previous = () => {
             }
         }
     }
+
+    afterPokemon = currentPokemon;
 };
 const toThetop = () => window.scrollTo({ top: 0, behavior: `smooth` });
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
