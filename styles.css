@@ -1173,7 +1173,7 @@ MAIN {
     width: 100%;
     min-height: 100vh;
     background: var(--bgColor);
-    padding-bottom: 4rem;
+    padding-bottom: 1rem;
 }
 
 /*! PARTS */
@@ -1656,6 +1656,15 @@ fieldset {
 #fav_modal,
 #edit_personalized_themes_modal {
     overflow: hidden;
+}
+
+FOOTER P {
+    width: 100%;
+    text-align: center;
+    padding: 2rem 0;
+    font-size: var(--fontSizeS);
+    background: var(--whiteOff);
+    color: var(--blackOff);
 }
 
 @media screen and (min-width: 440px) {

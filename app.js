@@ -967,13 +967,13 @@ const closeMenu = (menu, delay = 250) => {
     }, delay);
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const footerText = document.querySelector("FOOTER").querySelector("P");
 const changeLang = (lang) => {
     const varietiesListFirstBtnText = document.querySelector("#option_list_varients_first_text");
     //! AGREGAR CAMBIO DE NOMBRE A CAMBIO DE LISTAS DE FAVORITOS  //
     if (lang === es) {
         currentLang = es;
         console.log("cambiando idioma a español");
-
         if (pokemonTypesEs.length === 1) {
             pokeTypes.textContent = pokemonTypesEs[0];
         } else if (pokemonTypesEs.length > 1) {
@@ -984,6 +984,7 @@ const changeLang = (lang) => {
         if (varietiesListFirstBtnText) {
             varietiesListFirstBtnText.textContent = "Variantes";
         }
+        footerText.textContent = "Pokémon y Los Nombres De Personajes Pokémon Son Una Marca Registrada De Nintendo.";
         searchInputName.setAttribute("placeholder", "Nombre");
         titleStartModal.textContent = "Bienvenido";
         textStartModal.textContent = "Estás entrando a una página fan made, la única intención es entretenimiento, toda la información es almacenada en la memoria del navegador, ninguna información es recolectada o vendida";
@@ -1121,6 +1122,8 @@ const changeLang = (lang) => {
         if (varietiesListFirstBtnText) {
             varietiesListFirstBtnText.textContent = "Varieties";
         }
+        footerText.textContent = "Pokémon And Pokémon Character Names Are Trademarks Of Nintendo.";
+
         searchInputName.setAttribute("placeholder", "Name");
         titleStartModal.textContent = "Welcome";
         textStartModal.textContent = "You enter in a fan made page, the only intention is entertainment, all information stored is in the browser's memory, no information is collected or sold";
