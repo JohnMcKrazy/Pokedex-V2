@@ -1,284 +1,288 @@
-const titleEditPersonalizedThemesModal = document.querySelector("#title_edit_personalized_themes_modal");
+const $d = document;
+const selector = (tag) => $d.querySelector(`${tag}`);
+const selectorAll = (tag) => $d.querySelectorAll(`${tag}`);
+
+const titleEditPersonalizedThemesModal = selector("#title_edit_personalized_themes_modal");
 const pokeApi = (id) => {
     return `https://pokeapi.co/api/v2/pokemon/${id}`;
 };
 //! ||||||||||||//
 //!  PAGE ITEMS //
 //! ||||||||||||//
-const delateDBBtn = document.querySelector("#delate_DB_Btn");
+const delateDBBtn = selector("#delate_DB_Btn");
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const BODY = document.querySelector("body");
+const BODY = selector("body");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const closeBtns = document.querySelectorAll(".close_modal_btn");
+const closeBtns = selectorAll(".close_modal_btn");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const basicDataBtn = document.querySelector("#basic_data_btn");
-const evoChainBtn = document.querySelector("#evo_chain_btn");
+const basicDataBtn = selector("#basic_data_btn");
+const evoChainBtn = selector("#evo_chain_btn");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentPersonalizedThemeBtns = document.createDocumentFragment();
-const personalizedThemeBtnTemplate = document.querySelector("#personalized_theme_btn_template").content;
-const personalizedBtnsContainer = document.querySelector("#personalized_themes_btns_container");
+const personalizedThemeBtnTemplate = selector("#personalized_theme_btn_template").content;
+const personalizedBtnsContainer = selector("#personalized_themes_btns_container");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-const themeCardTemplate = document.querySelector("#theme_card_template").content;
+const themeCardTemplate = selector("#theme_card_template").content;
 const fragmentThemeCards = document.createDocumentFragment();
 
-const themeCardsContainer = document.querySelector("#personalized_theme_cards_container");
-const cancelEditThemesBtn = document.querySelector("#cancel_edit_themes_btn");
+const themeCardsContainer = selector("#personalized_theme_cards_container");
+const cancelEditThemesBtn = selector("#cancel_edit_themes_btn");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const navConfigBtns = document.querySelectorAll(".config_menu_btn_action");
-const configMenu = document.querySelector("#config_menu");
-const themeBtns = document.querySelectorAll(".theme_btn");
+const navConfigBtns = selectorAll(".config_menu_btn_action");
+const configMenu = selector("#config_menu");
+const themeBtns = selectorAll(".theme_btn");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const searchInputNumber = document.querySelector("#search_input_number");
-const searchInputName = document.querySelector("#search_input_name");
-const searchBtn = document.querySelector("#search_btn");
+const searchInputNumber = selector("#search_input_number");
+const searchInputName = selector("#search_input_name");
+const searchBtn = selector("#search_btn");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const langMenuBtns = document.querySelectorAll(".lang_menu_modal_btn");
-const langBtnsModal = document.querySelectorAll(".lang_modal_action_btn");
-const langMenuNavBtns = document.querySelectorAll(".lang_menu_btn");
-const langMenuNav = document.querySelector(".lang_menu_nav");
-const langMenuModalStart = document.querySelector("#lang_menu_modal_start");
-const langMenuModalAlert = document.querySelector("#lang_menu_modal_alert");
-const langMenuModalThemes = document.querySelector("#lang_menu_modal_themes");
-const langMenuModalPersonalizedTheme = document.querySelector("#lang_menu_modal_personalized_theme");
-const langMenuModalEditPersonalizedThemes = document.querySelector("#lang_menu_modal_edit_personalized_themes");
-const langMenuModalEditPersonalizedTheme = document.querySelector("#lang_menu_modal_edit_personalized_theme");
-const langMenuModalfav = document.querySelector("#lang_menu_modal_fav");
+const langMenuBtns = selectorAll(".lang_menu_modal_btn");
+const langBtnsModal = selectorAll(".lang_modal_action_btn");
+const langMenuNavBtns = selectorAll(".lang_menu_btn");
+const langMenuNav = selector(".lang_menu_nav");
+const langMenuModalStart = selector("#lang_menu_modal_start");
+const langMenuModalAlert = selector("#lang_menu_modal_alert");
+const langMenuModalThemes = selector("#lang_menu_modal_themes");
+const langMenuModalPersonalizedTheme = selector("#lang_menu_modal_personalized_theme");
+const langMenuModalEditPersonalizedThemes = selector("#lang_menu_modal_edit_personalized_themes");
+const langMenuModalEditPersonalizedTheme = selector("#lang_menu_modal_edit_personalized_theme");
+const langMenuModalfav = selector("#lang_menu_modal_fav");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentListVarieties = document.createDocumentFragment();
-const selectionListTemplate = document.querySelector("#option_list_template").content;
-const optionListVarientTemplate = document.querySelector("#option_list_varients_btn_template").content;
-const optionListVarientsBtnsContainer = document.querySelector("#option_list_varieties_btns_container");
-const savePokemonBtn = document.querySelector("#save_pokemon_btn");
-const iconSave = document.querySelector("#icon_save");
-const iconSaveError = document.querySelector("#icon_save_error");
-const imgContainer = document.querySelector("#img_container");
+const selectionListTemplate = selector("#option_list_template").content;
+const optionListVarientTemplate = selector("#option_list_varients_btn_template").content;
+const optionListVarientsBtnsContainer = selector("#option_list_varieties_btns_container");
+const savePokemonBtn = selector("#save_pokemon_btn");
+const iconSave = selector("#icon_save");
+const iconSaveError = selector("#icon_save_error");
+const imgContainer = selector("#img_container");
 
-const btnPrevious = document.querySelector(".previous_btn");
-const btnNext = document.querySelector(".next_btn");
+const btnPrevious = selector(".previous_btn");
+const btnNext = selector(".next_btn");
 
-const optionListMeasurmentsBtns = document.querySelectorAll(".option_list_measurements_btn");
-const optionListMeasurmentsArrow = document.querySelector("#arrow_btn_option_list_measurements_svg");
-const optionListMeasurments = document.querySelector("#option_list_measurements");
+const optionListMeasurmentsBtns = selectorAll(".option_list_measurements_btn");
+const optionListMeasurmentsArrow = selector("#arrow_btn_option_list_measurements_svg");
+const optionListMeasurments = selector("#option_list_measurements");
 
-const measurmentOptionListFistText = document.querySelector("#option_list_measurements_first_text");
-const measurmentOptionListMetricBtn = document.querySelector("#option_list_measurements_metric");
-const measurmentOptionListImperialBtn = document.querySelector("#option_list_measurements_imperial");
+const measurmentOptionListFistText = selector("#option_list_measurements_first_text");
+const measurmentOptionListMetricBtn = selector("#option_list_measurements_metric");
+const measurmentOptionListImperialBtn = selector("#option_list_measurements_imperial");
 
-const evoChainContainer = document.querySelector("#evo_chain_container");
+const evoChainContainer = selector("#evo_chain_container");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentFavCards = document.createDocumentFragment();
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const favCardsContainer = document.querySelector("#fav_cards_container");
-const nameOptioListFavBtn = document.querySelector("#name_option_list_fav_btn");
-const dateOptioListFavBtn = document.querySelector("#date_option_list_fav_btn");
-const idOptioListFavBtn = document.querySelector("#id_option_list_fav_btn");
-const typeOptioListFavBtn = document.querySelector("#type_option_list_fav_btn");
+const favCardsContainer = selector("#fav_cards_container");
+const nameOptioListFavBtn = selector("#name_option_list_fav_btn");
+const dateOptioListFavBtn = selector("#date_option_list_fav_btn");
+const idOptioListFavBtn = selector("#id_option_list_fav_btn");
+const typeOptioListFavBtn = selector("#type_option_list_fav_btn");
 
-const optionListFav = document.querySelector("#option_list_fav");
-const optionListFavArrow = document.querySelector("#arrow_btn_select_list_fav_svg");
-const optionListFavFirstBtnText = document.querySelector("#option_list_fav_first_text");
-const optionListFavBtns = document.querySelectorAll(".option_list_fav_btn");
+const optionListFav = selector("#option_list_fav");
+const optionListFavArrow = selector("#arrow_btn_select_list_fav_svg");
+const optionListFavFirstBtnText = selector("#option_list_fav_first_text");
+const optionListFavBtns = selectorAll(".option_list_fav_btn");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const pokeImg = document.querySelector("#poke_img");
-const pokeId = document.querySelector("#poke_id");
-const pokeName = document.querySelector("#poke_name");
-const pokeTypes = document.querySelector("#poke_types");
-const pokeBg = document.querySelector(".poke_bg");
+const pokeImg = selector("#poke_img");
+const pokeId = selector("#poke_id");
+const pokeName = selector("#poke_name");
+const pokeTypes = selector("#poke_types");
+const pokeBg = selector(".poke_bg");
 
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentListDescriptions = document.createDocumentFragment();
-const optionListDescriptionsTemplate = document.querySelector("#option_list_descriptions_btn_template").content;
-const optionListDescriptions = document.querySelector("#option_list_descriptions");
-const optionListDescriptionsBtnsContainer = document.querySelector("#option_list_descriptions_btns_container");
+const optionListDescriptionsTemplate = selector("#option_list_descriptions_btn_template").content;
+const optionListDescriptions = selector("#option_list_descriptions");
+const optionListDescriptionsBtnsContainer = selector("#option_list_descriptions_btns_container");
 
-const optionListDescriptionsFirstBtnText = document.querySelector("#option_list_descriptions_first_text");
-const optionListDescriptionsArrow = document.querySelector("#arrow_btn_select_list_descriptions_svg");
-const optionListDescriptionsSearchBtn = document.querySelector(".option_list_descriptions_btn_search");
+const optionListDescriptionsFirstBtnText = selectorAll(".option_list_descriptions_first_text");
+const optionListDescriptionsArrow = selector("#arrow_btn_select_list_descriptions_svg");
+const optionListDescriptionsSearchBtn = selector(".option_list_descriptions_btn_search");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const pokeDescriptionVersionTitle = document.querySelector("#name_version_subtitle");
+const pokeDescriptionVersionTitle = selector("#name_version_subtitle");
 
-const pokeDescriptionNameHabitat = document.querySelector("#poke_data_info_name_habitat");
-const pokeDescriptionHabitat = document.querySelector("#poke_data_info_description_habitat");
+const pokeDescriptionNameHabitat = selector("#poke_data_info_name_habitat");
+const pokeDescriptionHabitat = selector("#poke_data_info_description_habitat");
 
-const pokeDescriptionNameWeight = document.querySelector("#poke_data_info_name_weight");
-const pokeDescriptionNameHeight = document.querySelector("#poke_data_info_name_height");
-const pokeDescriptionNameAbilities = document.querySelector("#poke_data_info_name_abilities");
-const pokeDescriptionNameGender = document.querySelector("#poke_data_info_name_gender");
+const pokeDescriptionNameWeight = selector("#poke_data_info_name_weight");
+const pokeDescriptionNameHeight = selector("#poke_data_info_name_height");
+const pokeDescriptionNameAbilities = selector("#poke_data_info_name_abilities");
+const pokeDescriptionNameGender = selector("#poke_data_info_name_gender");
 
-const pokeDescriptionWeight = document.querySelector("#poke_data_info_description_weight");
-const pokeDescriptionHeight = document.querySelector("#poke_data_info_description_height");
+const pokeDescriptionWeight = selector("#poke_data_info_description_weight");
+const pokeDescriptionHeight = selector("#poke_data_info_description_height");
 
-const maleIcon = document.querySelector("#male_icon");
-const femaleIcon = document.querySelector("#female_icon");
-const genderlessIcon = document.querySelector("#genderless_icon");
+const maleIcon = selector("#male_icon");
+const femaleIcon = selector("#female_icon");
+const genderlessIcon = selector("#genderless_icon");
 
-const maleIconText = document.querySelector("#male_icon_text");
-const femaleIconText = document.querySelector("#female_icon_text");
-const genderlessIconText = document.querySelector("#genderless_icon_text");
+const maleIconText = selector("#male_icon_text");
+const femaleIconText = selector("#female_icon_text");
+const genderlessIconText = selector("#genderless_icon_text");
 
-const noneIcon = document.querySelector("#none_icon");
-const babyIcon = document.querySelector("#baby_icon");
-const legendaryIcon = document.querySelector("#legendary_icon");
-const mythicalIcon = document.querySelector("#mythical_icon");
+const noneIcon = selector("#none_icon");
+const babyIcon = selector("#baby_icon");
+const legendaryIcon = selector("#legendary_icon");
+const mythicalIcon = selector("#mythical_icon");
 
-const mythicalIconSvg = document.querySelector("#mythical_icon_svg");
-const mythicalIconSvgGradient = document.querySelector("#mythic_icon_gradient");
+const mythicalIconSvg = selector("#mythical_icon_svg");
+const mythicalIconSvgGradient = selector("#mythic_icon_gradient");
 
-const mythicalIconSvgGradientStop1 = document.querySelector("#mythic_icon_gradient_stop_1");
-const mythicalIconSvgGradientStop2 = document.querySelector("#mythic_icon_gradient_stop_2");
+const mythicalIconSvgGradientStop1 = selector("#mythic_icon_gradient_stop_1");
+const mythicalIconSvgGradientStop2 = selector("#mythic_icon_gradient_stop_2");
 
-const noneIconText = document.querySelector("#none_icon_text");
-const babyIconText = document.querySelector("#baby_icon_text");
-const legendaryIconText = document.querySelector("#legendary_icon_text");
-const mythicalIconText = document.querySelector("#mythical_icon_text");
+const noneIconText = selector("#none_icon_text");
+const babyIconText = selector("#baby_icon_text");
+const legendaryIconText = selector("#legendary_icon_text");
+const mythicalIconText = selector("#mythical_icon_text");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *//
-const graphBars = document.querySelectorAll(".graph_bar");
+const graphBars = selectorAll(".graph_bar");
 
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentAbilityBtns = document.createDocumentFragment();
-const abilityBtnTemplate = document.querySelector("#ability_btn_template").content;
-const pokeDescriptionAbilitiesContainer = document.querySelector("#poke_data_info_description_abilities_container");
+const abilityBtnTemplate = selector("#ability_btn_template").content;
+const pokeDescriptionAbilitiesContainer = selector("#poke_data_info_description_abilities_container");
 
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-const pokeDescriptionGender = document.querySelector("#poke_data_info_description_gender");
+const pokeDescriptionGender = selector("#poke_data_info_description_gender");
 
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-const pokeDescriptionNameVersion = document.querySelector("#poke_data_info_name_version");
-const pokeDescriptionVersion = document.querySelector("#poke_data_info_description_version");
+const pokeDescriptionNameVersion = selector("#poke_data_info_name_version");
+const pokeDescriptionVersion = selector("#poke_data_info_description_version");
 
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const graphContainer = document.querySelector(".graph_container");
-const optionListAbilitySearchBtn = document.querySelector(".option_list_ability_btn_search");
+const graphContainer = selector(".graph_container");
+const optionListAbilitySearchBtn = selector(".option_list_ability_btn_search");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const evoSubtitle = document.querySelector("#evo_subtitle");
+const evoSubtitle = selector("#evo_subtitle");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const fragmentEvoCards = document.createDocumentFragment();
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const evoCardTemplate = document.querySelector("#evo_card_template").content;
-const evoCardsContainer = document.querySelector("#btns_evo_chain_container");
+const evoCardTemplate = selector("#evo_card_template").content;
+const evoCardsContainer = selector("#btns_evo_chain_container");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const modal = document.querySelector("#modal");
+const modal = selector("#modal");
 //! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const startModal = document.querySelector("#start_modal");
+const startModal = selector("#start_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const titleStartModal = document.querySelector("#title_start_modal");
-const textStartModal = document.querySelector("#text_start_modal");
-const startBtns = document.querySelectorAll(".start_modal_btn");
-const acceptBtnStartModal = document.querySelector("#accept_start_modal_btn");
-const deniedBtnStartModal = document.querySelector("#denied_start_modal_btn");
-//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const alertModal = document.querySelector("#alert_modal");
-//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const acceptBtnAlertModal = document.querySelector("#accept_alert_modal_btn");
-const textAlertModal = document.querySelector("#text_modal_alert");
+const titleStartModal = selector("#title_start_modal");
+const textStartModal = selector("#text_start_modal");
+const startBtns = selectorAll(".start_modal_btn");
+const acceptBtnStartModal = selector("#accept_start_modal_btn");
+const deniedBtnStartModal = selector("#denied_start_modal_btn");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const innerAlertModal = document.querySelector("#inner_alert_modal");
+const alertModal = selector("#alert_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const acceptBtnInnerAlertModal = document.querySelector("#accept_inner_alert_modal_btn");
-const titleInnerAlertModal = document.querySelector("#title_inner_alert_modal");
-const textInnerAlertModal = document.querySelector("#text_inner_alert_modal");
-//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const extraModal = document.querySelector("#extra_modal");
-//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const themesModal = document.querySelector("#themes_modal");
-//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const themeActionBtns = document.querySelectorAll(".theme_modal_btn");
+const acceptBtnAlertModal = selector("#accept_alert_modal_btn");
+const textAlertModal = selector("#text_modal_alert");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const personalizedThemeModal = document.querySelector("#personalized_theme_modal");
-const titlePersonalizedThemeModal = document.querySelector("#title_personalized_theme_modal");
-const subtitlePersonalizedThemeModal = document.querySelector("#text_personalized_theme_modal");
+const innerAlertModal = selector("#inner_alert_modal");
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const acceptBtnInnerAlertModal = selector("#accept_inner_alert_modal_btn");
+const titleInnerAlertModal = selector("#title_inner_alert_modal");
+const textInnerAlertModal = selector("#text_inner_alert_modal");
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const extraModal = selector("#extra_modal");
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const themesModal = selector("#themes_modal");
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const themeActionBtns = selectorAll(".theme_modal_btn");
+//~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const personalizedThemeModal = selector("#personalized_theme_modal");
+const titlePersonalizedThemeModal = selector("#title_personalized_theme_modal");
+const subtitlePersonalizedThemeModal = selector("#text_personalized_theme_modal");
 
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const pikerPersonalizedThemeModalBtns = document.querySelectorAll(".piker_personalized_theme_modal_btn");
-const deletePersonalizedThemeBtn = document.querySelector("#delete_changes_btn");
-const nameInputPersonalizedTheme = document.querySelector("#name_input_perzonalized_theme");
-const colorPikersPersonalizedTheme = document.querySelectorAll(".color_piker_personalized_theme");
-const personalizedActionBtns = document.querySelectorAll(".personalized_action_btn");
-const titleThemesModal = document.querySelector("#title_themes_modal");
-const subtitleThemesModal = document.querySelector("#subtitle_themes_modal");
-const newThemeModalBtnLabel = document.querySelector("#new_theme_modal_btn_label");
-const editThemeModalBtnLabel = document.querySelector("#edit_theme_modal_btn_label");
-const tryThemeModalBtnLabel = document.querySelector("#try_theme_modal_btn_label");
-const saveThemeModalBtnLabel = document.querySelector("#save_theme_modal_btn_label");
-const cancelThemeModalBtnLabel = document.querySelector("#cancel_theme_modal_btn_label");
-const deleteThemeModalBtnLabel = document.querySelector("#delete_theme_modal_btn_label");
+const pikerPersonalizedThemeModalBtns = selectorAll(".piker_personalized_theme_modal_btn");
+const deletePersonalizedThemeBtn = selector("#delete_changes_btn");
+const nameInputPersonalizedTheme = selector("#name_input_perzonalized_theme");
+const colorPikersPersonalizedTheme = selectorAll(".color_piker_personalized_theme");
+const personalizedActionBtns = selectorAll(".personalized_action_btn");
+const titleThemesModal = selector("#title_themes_modal");
+const subtitleThemesModal = selector("#subtitle_themes_modal");
+const newThemeModalBtnLabel = selector("#new_theme_modal_btn_label");
+const editThemeModalBtnLabel = selector("#edit_theme_modal_btn_label");
+const tryThemeModalBtnLabel = selector("#try_theme_modal_btn_label");
+const saveThemeModalBtnLabel = selector("#save_theme_modal_btn_label");
+const cancelThemeModalBtnLabel = selector("#cancel_theme_modal_btn_label");
+const deleteThemeModalBtnLabel = selector("#delete_theme_modal_btn_label");
 
-const titleEditPersonalizedThemeModal = document.querySelector("#title_edit_personalized_theme_modal");
+const titleEditPersonalizedThemeModal = selector("#title_edit_personalized_theme_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-const modalEditThemes = document.querySelector("#modal_edit_themes");
-const alertModalEditThemes = document.querySelector("#alert_modal_edit_themes");
-const langMenuModalEditThemesAlert = document.querySelector("#lang_menu_modal_edit_themes_alert");
-const alertModalEditThemesBtns = document.querySelectorAll(".alert_modal_edit_themes_alert_btn");
-const nameAlertModalEditThemes = document.querySelector("#name_modal_edit_themes_alert");
+const modalEditThemes = selector("#modal_edit_themes");
+const alertModalEditThemes = selector("#alert_modal_edit_themes");
+const langMenuModalEditThemesAlert = selector("#lang_menu_modal_edit_themes_alert");
+const alertModalEditThemesBtns = selectorAll(".alert_modal_edit_themes_alert_btn");
+const nameAlertModalEditThemes = selector("#name_modal_edit_themes_alert");
 
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const editPersonalizedThemesModal = document.querySelector("#edit_personalized_themes_modal");
+const editPersonalizedThemesModal = selector("#edit_personalized_themes_modal");
 
-const pikerEditPersonalizedThemeModalBtns = document.querySelectorAll(".piker_edit_personalized_theme_modal_btn");
-const editPersonalizedThemeModal = document.querySelector("#edit_personalized_theme_modal");
-const nameInputEditPersonalizedTheme = document.querySelector("#name_input_edit_personalized_theme");
-const bgColorPikerEditPersonalizedTheme = document.querySelector("#bg_color_piker_edit_personalized_theme");
-const textColorPikerEditPersonalizedTheme = document.querySelector("#text_color_piker_edit_personalized_theme");
-const firstColorPikerEditPersonalizedTheme = document.querySelector("#first_color_piker_edit_personalized_theme");
-const bgAccentPikerEditPersonalizedTheme = document.querySelector("#bg_accent_color_piker_edit_personalized_theme");
-const colorPikersEditPersonalizedTheme = document.querySelectorAll(".color_piker_edit_personalized_theme");
+const pikerEditPersonalizedThemeModalBtns = selectorAll(".piker_edit_personalized_theme_modal_btn");
+const editPersonalizedThemeModal = selector("#edit_personalized_theme_modal");
+const nameInputEditPersonalizedTheme = selector("#name_input_edit_personalized_theme");
+const bgColorPikerEditPersonalizedTheme = selector("#bg_color_piker_edit_personalized_theme");
+const textColorPikerEditPersonalizedTheme = selector("#text_color_piker_edit_personalized_theme");
+const firstColorPikerEditPersonalizedTheme = selector("#first_color_piker_edit_personalized_theme");
+const bgAccentPikerEditPersonalizedTheme = selector("#bg_accent_color_piker_edit_personalized_theme");
+const colorPikersEditPersonalizedTheme = selectorAll(".color_piker_edit_personalized_theme");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const favModal = document.querySelector("#fav_modal");
+const favModal = selector("#fav_modal");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const favCardTemplate = document.querySelector("#fav_card_template").content;
-const titlefavModal = document.querySelector("#title_fav_modal");
-const subtitlefavModal = document.querySelector("#subtitle_fav_modal");
-const sortedText = document.querySelector("#fav_modal_sorted_text");
-const sortBtns = document.querySelectorAll(".sort_fav_btn");
-const favListFirstBtnText = document.querySelector("#option_list_fav_first_text");
+const favCardTemplate = selector("#fav_card_template").content;
+const titlefavModal = selector("#title_fav_modal");
+const subtitlefavModal = selector("#subtitle_fav_modal");
+const sortedText = selector("#fav_modal_sorted_text");
+const sortBtns = selectorAll(".sort_fav_btn");
+const favListFirstBtnText = selector("#option_list_fav_first_text");
 
-const modalFav = document.querySelector("#modal_fav");
-const alertModalFav = document.querySelector("#alert_modal_fav");
-const langMenuModalFavAlert = document.querySelector("#lang_menu_modal_fav_alert");
-const alertModalFavBtns = document.querySelectorAll(".alert_modal_fav_alert_btn");
-const nameAlertModalFav = document.querySelector("#name_modal_fav_alert");
-const idAlertModalFav = document.querySelector("#id_modal_fav_alert");
+const modalFav = selector("#modal_fav");
+const alertModalFav = selector("#alert_modal_fav");
+const langMenuModalFavAlert = selector("#lang_menu_modal_fav_alert");
+const alertModalFavBtns = selectorAll(".alert_modal_fav_alert_btn");
+const nameAlertModalFav = selector("#name_modal_fav_alert");
+const idAlertModalFav = selector("#id_modal_fav_alert");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const modalDeleteDataAlert = document.querySelector("#modal_delete_data_alert");
-const alertModalDeleteDataAlert = document.querySelector("#alert_modal_delete_data_alert");
+const modalDeleteDataAlert = selector("#modal_delete_data_alert");
+const alertModalDeleteDataAlert = selector("#alert_modal_delete_data_alert");
 
-const langMenuModalDeleteDataAlert = document.querySelector("#lang_menu_modal_delete_data_alert");
-const titleModalDeleteDataAlert = document.querySelector("#title_modal_delete_data_alert");
-const textModalDeleteDataAlert = document.querySelector("#text_modal_delete_data_alert");
-const deleteDataListItems = document.querySelectorAll(".delete_data_list_item");
-const alertModalDeleteDataAlertBtns = document.querySelectorAll(".alert_modal_delete_data_alert_btn");
+const langMenuModalDeleteDataAlert = selector("#lang_menu_modal_delete_data_alert");
+const titleModalDeleteDataAlert = selector("#title_modal_delete_data_alert");
+const textModalDeleteDataAlert = selector("#text_modal_delete_data_alert");
+const deleteDataListItems = selectorAll(".delete_data_list_item");
+const alertModalDeleteDataAlertBtns = selectorAll(".alert_modal_delete_data_alert_btn");
 
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-const abilityModal = document.querySelector("#ability_modal");
-const langMenuModalAbility = document.querySelector("#lang_menu_modal_ability");
+const abilityModal = selector("#ability_modal");
+const langMenuModalAbility = selector("#lang_menu_modal_ability");
 
-const titleModalAbility = document.querySelector("#modal_title_ability");
-const subtitleModalAbility = document.querySelector("#modal_subtitle_ability");
-const optionListAbility = document.querySelector("#option_list_ability");
-const optionListBtnsContainerAbility = document.querySelector("#option_list_btns_container_ability");
-const optionListAbilityArrow = document.querySelector("#arrow_btn_select_list_ability_svg");
+const titleModalAbility = selector("#modal_title_ability");
+const subtitleModalAbility = selector("#modal_subtitle_ability");
+const optionListAbility = selector("#option_list_ability");
+const optionListBtnsContainerAbility = selector("#option_list_btns_container_ability");
+const optionListAbilityArrow = selector("#arrow_btn_select_list_ability_svg");
 const fragmentOptionListAbilityBtns = document.createDocumentFragment();
-const optionListAbilityBtnTemplate = document.querySelector("#option_list_ability_btn_template").content;
+const optionListAbilityBtnTemplate = selector("#option_list_ability_btn_template").content;
 
-const titleAbilityFlavorsModal = document.querySelector("#title_modal_ability");
-const textAbilityFlavorsModal = document.querySelector("#text_modal_ability");
+const titleAbilityFlavorsModal = selector("#title_modal_ability");
+const textAbilityFlavorsModal = selector("#text_modal_ability");
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //! |||||||||||||||||||||||||||||||//
@@ -353,6 +357,7 @@ let currentPersonilizedTheme = {};
 let currentEditingTheme = "";
 
 let currentAbilityFlavors = [];
+let currentAbilityOpen = { es: "", en: "" };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 let configMenuStatus = close;
@@ -658,7 +663,7 @@ const changeToHexa = (valueToCheck) => {
     }
 };
 const setCurrentColors = () => {
-    const target = document.querySelector(`.${BODY.className}`);
+    const target = selector(`.${BODY.className}`);
     const targetStyle = getComputedStyle(target);
     const getBgColorStyle = targetStyle.getPropertyValue("--bgColor");
     const getFirstColorStyle = targetStyle.getPropertyValue("--firstColor");
@@ -967,9 +972,11 @@ const closeMenu = (menu, delay = 250) => {
     }, delay);
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const footerText = document.querySelector("FOOTER").querySelector("P");
+
 const changeLang = (lang) => {
-    const varietiesListFirstBtnText = document.querySelector("#option_list_varients_first_text");
+    const footerText = selector("FOOTER").querySelector("P");
+    const varietiesListFirstBtnText = selector("#option_list_varients_first_text");
+
     //! AGREGAR CAMBIO DE NOMBRE A CAMBIO DE LISTAS DE FAVORITOS  //
     if (lang === es) {
         currentLang = es;
@@ -984,17 +991,18 @@ const changeLang = (lang) => {
         if (varietiesListFirstBtnText) {
             varietiesListFirstBtnText.textContent = "Variantes";
         }
-        footerText.textContent = "Pokémon y Los Nombres De Personajes Pokémon Son Una Marca Registrada De Nintendo.";
+        footerText.textContent = "PokéAPI fue creada por Paul Hallett y otros contribuidores alrededor del mundo. Pokémon y los Nombres de personajes Pokémon son marca registrada de Nintendo.";
         searchInputName.setAttribute("placeholder", "Nombre");
         titleStartModal.textContent = "Bienvenido";
-        textStartModal.textContent = "Estás entrando a una página fan made, la única intención es entretenimiento, toda la información es almacenada en la memoria del navegador, ninguna información es recolectada o vendida";
+        textStartModal.innerHTML =
+            "Estás entrando a una página fan made, la única intención es entretenimiento, toda la información es almacenada en la memoria del navegador, ninguna información es recolectada o vendida <br><br> PokéAPI fue creada por Paul Hallett y otros contribuidores alrededor del mundo. Pokémon y los Nombres de personajes Pokémon son marca registrada de Nintendo.";
 
-        optionListDescriptionsFirstBtnText.textContent = "Versión";
+        optionListDescriptionsFirstBtnText.forEach((btn) => (btn.textContent = "Versión"));
         pokeDescriptionVersionTitle.textContent = "Descripción:";
-
         measurmentOptionListFistText.textContent = "Sistema de Medida";
         measurmentOptionListMetricBtn.textContent = "Metrico Decimal";
         measurmentOptionListImperialBtn.textContent = "Metrico Ingles";
+
         pokeDescriptionNameWeight.textContent = "Peso";
         pokeDescriptionNameHeight.textContent = "Altura";
 
@@ -1010,6 +1018,9 @@ const changeLang = (lang) => {
 
         pokeDescriptionNameHabitat.textContent = "Habitad";
         pokeDescriptionNameAbilities.textContent = "Habilidades";
+
+        subtitleModalAbility.textContent = "Descripción:";
+
         evoSubtitle.textContent = "Cadena De Evolución";
         titlefavModal.textContent = "Favoritos";
         favListFirstBtnText.textContent = "Ordenar";
@@ -1122,12 +1133,13 @@ const changeLang = (lang) => {
         if (varietiesListFirstBtnText) {
             varietiesListFirstBtnText.textContent = "Varieties";
         }
-        footerText.textContent = "Pokémon And Pokémon Character Names Are Trademarks Of Nintendo.";
+        footerText.textContent = "Created by Paul Hallett and other PokéAPI contributors around the world. Pokémon and Pokémon character names are trademarks of Nintendo.";
 
         searchInputName.setAttribute("placeholder", "Name");
         titleStartModal.textContent = "Welcome";
-        textStartModal.textContent = "You enter in a fan made page, the only intention is entertainment, all information stored is in the browser's memory, no information is collected or sold";
-        optionListDescriptionsFirstBtnText.textContent = "Version";
+        textStartModal.innerHTML =
+            "You enter in a fan made page, the only intention is entertainment, all information stored is in the browser's memory, no information is collected or sold. <br><br> Created by Paul Hallett and other PokéAPI contributors around the world. Pokémon and Pokémon character names are trademarks of Nintendo.";
+        optionListDescriptionsFirstBtnText.forEach((btn) => (btn.textContent = "Version"));
         pokeDescriptionVersionTitle.textContent = "Flavor:";
 
         measurmentOptionListFistText.textContent = "Measurment System";
@@ -1135,7 +1147,6 @@ const changeLang = (lang) => {
         measurmentOptionListImperialBtn.textContent = "Imperial System";
         pokeDescriptionNameWeight.textContent = "Weight";
         pokeDescriptionNameHeight.textContent = "Height";
-
         pokeDescriptionNameGender.textContent = "Genders";
 
         maleIconText.textContent = "Male";
@@ -1149,6 +1160,9 @@ const changeLang = (lang) => {
 
         pokeDescriptionNameHabitat.textContent = "Habitat";
         pokeDescriptionNameAbilities.textContent = "Abilities";
+
+        subtitleModalAbility.textContent = "Description:";
+
         evoSubtitle.textContent = "Evolution Chain";
         titlefavModal.textContent = "Favorite";
         favListFirstBtnText.textContent = "Sort";
@@ -1254,20 +1268,20 @@ const changeLang = (lang) => {
     }
     if (editPersonalizedThemesModalStatus === open) {
         if (currentLang === es) {
-            const cardsBgColorTexts = document.querySelectorAll(".name_data_bg");
-            const cardsTextColorTexts = document.querySelectorAll(".name_data_text");
-            const cardsFirstColorColorTexts = document.querySelectorAll(".name_data_firstColor");
-            const cardsBgAccentColorTexts = document.querySelectorAll(".name_data_bgAccent");
+            const cardsBgColorTexts = selectorAll(".name_data_bg");
+            const cardsTextColorTexts = selectorAll(".name_data_text");
+            const cardsFirstColorColorTexts = selectorAll(".name_data_firstColor");
+            const cardsBgAccentColorTexts = selectorAll(".name_data_bgAccent");
 
             cardsBgColorTexts.forEach((item) => (item.textContent = "Fondo"));
             cardsTextColorTexts.forEach((item) => (item.textContent = "Texto"));
             cardsFirstColorColorTexts.forEach((item) => (item.textContent = "Acento"));
             cardsBgAccentColorTexts.forEach((item) => (item.textContent = "Tarjetas"));
         } else if (currentLang === en) {
-            const cardsBgColorTexts = document.querySelectorAll(".name_data_bg");
-            const cardsTextColorTexts = document.querySelectorAll(".name_data_text");
-            const cardsFirstColorColorTexts = document.querySelectorAll(".name_data_firstColor");
-            const cardsBgAccentColorTexts = document.querySelectorAll(".name_data_bgAccent");
+            const cardsBgColorTexts = selectorAll(".name_data_bg");
+            const cardsTextColorTexts = selectorAll(".name_data_text");
+            const cardsFirstColorColorTexts = selectorAll(".name_data_firstColor");
+            const cardsBgAccentColorTexts = selectorAll(".name_data_bgAccent");
             cardsBgColorTexts.forEach((item) => (item.textContent = "Background"));
             cardsTextColorTexts.forEach((item) => (item.textContent = "Text"));
             cardsFirstColorColorTexts.forEach((item) => (item.textContent = "Accent"));
@@ -1320,11 +1334,9 @@ const changeLang = (lang) => {
     //! BUSCAR OBJETO CON TEXTOS FLAVOR DE ABILITIES Y CAMBIARLO SEGUN IDIOMA ASI COMO LOS TEXTOS DE LOS BOTONES ! //
     // ! ************************************************* ! //
     if (abilityModalStatus === open) {
-        if (currentLang === es) {
-            subtitleModalAbility.textContent = "Descripción:";
-        } else if (currentLang === en) {
-            subtitleModalAbility.textContent = "Description:";
-        }
+        console.log(currentAbilityOpen);
+        titleModalAbility.textContent = currentAbilityOpen[currentLang];
+        createOptionListAbilityBtns();
     }
     if (itsFirstPokemonSearch === false) {
         catchEmAll(currentPokemon);
@@ -1356,7 +1368,7 @@ const fetchFunc = async (url) => {
     }
 };
 const createFavCardBtns = () => {
-    const favCardBtns = document.querySelectorAll(".fav_card_btn");
+    const favCardBtns = selectorAll(".fav_card_btn");
     favCardBtns.forEach((btn) => {
         btn.addEventListener("click", () => {
             let btnName = btn.getAttribute("data-btnName");
@@ -1616,7 +1628,14 @@ const optionListAbilitySearchBtnActions = () => {
 };
 const optionListAbilitiesActions = (action) => {
     titleAbilityFlavorsModal.textContent = properCase(action);
-    currentAbilityFlavors.forEach((abilityFlavor) => {
+    let thisFlavors;
+    if (currentLang === en) {
+        thisFlavors = currentAbilityFlavors.en;
+    } else if (currentLang === es) {
+        thisFlavors = currentAbilityFlavors.es;
+    }
+    console.log(action, thisFlavors);
+    thisFlavors.forEach((abilityFlavor) => {
         if (action === abilityFlavor.version) {
             textAbilityFlavorsModal.textContent = properCase(abilityFlavor.flavor);
         }
@@ -1868,13 +1887,24 @@ const optionListDescriptionsActions = (status) => {
     }
 };
 
-const abilityBtnsActions = async (name, url) => {
+const abilityBtnsActions = async (url) => {
     optionListAbilityStatus = close;
     abilityModalStatus = open;
-    titleModalAbility.textContent = name;
+
     console.log(url);
     const abilityData = await fetchFunc(url);
     console.log(abilityData);
+
+    abilityData.names.forEach((item) => {
+        console.log(item);
+        if (item.language.name === es) {
+            currentAbilityOpen.es = item.name;
+        } else if (item.language.name === en) {
+            currentAbilityOpen.en = item.name;
+        }
+    });
+    console.log(currentAbilityOpen);
+    titleModalAbility.textContent = currentAbilityOpen[currentLang];
 
     const abilityFlavorsEn = [];
     const abilityFlavorsEs = [];
@@ -1892,11 +1922,10 @@ const abilityBtnsActions = async (name, url) => {
             });
         }
     });
-    if (currentLang === es) {
-        currentAbilityFlavors = abilityFlavorsEs;
-    } else if (currentLang === en) {
-        currentAbilityFlavors = abilityFlavorsEn;
-    }
+    currentAbilityFlavors = {
+        es: abilityFlavorsEs,
+        en: abilityFlavorsEn,
+    };
 
     animationIn(modal, block, 500);
     animationIn(abilityModal, block, 500);
@@ -1904,12 +1933,16 @@ const abilityBtnsActions = async (name, url) => {
 const createOptionListAbilityBtns = () => {
     deleteArrElements(fragmentOptionListAbilityBtns);
     deleteChildElements(optionListBtnsContainerAbility);
-    /* console.log(abilityFlavorsEn, abilityFlavorsEs, currentAbilityFlavors); */
-    console.log(currentAbilityFlavors[0]);
-
-    titleAbilityFlavorsModal.textContent = properCase(currentAbilityFlavors[0].version);
-    textAbilityFlavorsModal.textContent = currentAbilityFlavors[0].flavor;
-    currentAbilityFlavors.forEach((abilityFlavor) => {
+    console.log(currentAbilityFlavors.es[0]);
+    let thisFlavors;
+    if (currentLang === en) {
+        thisFlavors = currentAbilityFlavors.en;
+    } else if (currentLang === es) {
+        thisFlavors = currentAbilityFlavors.es;
+    }
+    titleAbilityFlavorsModal.textContent = properCase(thisFlavors[0].version);
+    textAbilityFlavorsModal.textContent = thisFlavors[0].flavor;
+    thisFlavors.forEach((abilityFlavor) => {
         const newCloneOptionListBtn = optionListAbilityBtnTemplate.cloneNode(true);
         const abilityOptionListBtn = newCloneOptionListBtn.querySelector(".option_list_ability_btn");
         abilityOptionListBtn.textContent = properCase(abilityFlavor.version);
@@ -1923,7 +1956,7 @@ const createOptionListAbilityBtns = () => {
         optionListBtnsContainerAbility.appendChild(fragmentOptionListAbilityBtns);
 
         setTimeout(() => {
-            abilityOptionListBtns = document.querySelectorAll(".option_list_ability_btn");
+            abilityOptionListBtns = selectorAll(".option_list_ability_btn");
             abilityOptionListBtns.forEach((btn) => {
                 console.log(btn.getAttribute("data-name"));
                 btn.addEventListener("click", () => optionListAbilitiesActions(btn.getAttribute("data-name"), optionListAbilityStatus));
@@ -1986,7 +2019,7 @@ const createPokeData = async (data) => {
 
         // ! //
         const watchContainer = () => {
-            document.querySelectorAll(".graph_item").forEach((itemGraph) => {
+            selectorAll(".graph_item").forEach((itemGraph) => {
                 currentStats.children.forEach((item) => {
                     graphBars.forEach((bar) => {
                         let graphStatValue = bar.querySelector(".graph_stat").getAttribute("data-value");
@@ -2233,6 +2266,7 @@ const createPokeData = async (data) => {
         abilities.forEach(async (ability) => {
             abilitieBtnsCount++;
             console.log(ability);
+            //! checa el correcto fetch
             const abilitiesData = await fetchFunc(ability.ability.url);
             setTimeout(() => {
                 console.log(abilitiesData);
@@ -2253,10 +2287,10 @@ const createPokeData = async (data) => {
         setTimeout(() => {
             pokeDescriptionAbilitiesContainer.appendChild(fragmentAbilityBtns);
             setTimeout(() => {
-                const abilityBtns = document.querySelectorAll(".ability_btn");
+                const abilityBtns = selectorAll(".ability_btn");
                 abilityBtns.forEach((btn) => {
                     btn.addEventListener("click", async () => {
-                        abilityBtnsActions(btn.getAttribute("data-name"), btn.getAttribute("data-url"));
+                        abilityBtnsActions(btn.getAttribute("data-url"));
                         setTimeout(() => {
                             createOptionListAbilityBtns();
                         }, 500);
@@ -2295,9 +2329,9 @@ const createPokeData = async (data) => {
 
             optionListVarientsBtnsContainer.appendChild(selectionListTemplateClone);
 
-            optionListVarients = document.querySelector("#option_list_varients");
-            optionListVarientsArrow = document.querySelector("#arrow_btn_option_list_varients_svg");
-            optionListVarientsBtns = document.querySelectorAll(".option_list_varients_btn");
+            optionListVarients = selector("#option_list_varients");
+            optionListVarientsArrow = selector("#arrow_btn_option_list_varients_svg");
+            optionListVarientsBtns = selectorAll(".option_list_varients_btn");
             optionListVarientsBtns.forEach((btn) => {
                 btn.addEventListener("click", async () => {
                     const actionName = btn.getAttribute("data-name");
@@ -2385,7 +2419,7 @@ const createPokeData = async (data) => {
         });
         optionListDescriptionsBtnsContainer.appendChild(fragmentListDescriptions);
         setTimeout(() => {
-            const descriptionsBtns = document.querySelectorAll(".option_list_descriptions_btn");
+            const descriptionsBtns = selectorAll(".option_list_descriptions_btn");
             descriptionsBtns.forEach((btn) => {
                 /* console.log(btn); */
                 btn.addEventListener("click", () => {
@@ -2570,7 +2604,7 @@ const createPokeData = async (data) => {
             console.log(itemToSave);
             //^SETING CARD BTN
             setTimeout(() => {
-                const cardBtns = document.querySelectorAll(".card_btn");
+                const cardBtns = selectorAll(".card_btn");
                 cardBtns.forEach((btn) => {
                     console.log(btn.getAttribute("data-name"));
                     btn.addEventListener("click", () => catchEmAll(btn.getAttribute("data-name")));
@@ -3109,7 +3143,7 @@ const savePokedex = () => {
 };
 //^^ ************************************************************************** *//
 const personalizedProperty = (id, propertyName, propertyValue) => {
-    const currentItem = document.querySelector(`.${id}`);
+    const currentItem = selector(`.${id}`);
     currentItem.style.setProperty(propertyName, propertyValue);
 };
 //^^ ************************************************************************** *//
@@ -3201,7 +3235,7 @@ const createPersonalizedBtns = () => {
         fragmentPersonalizedThemeBtns.appendChild(cloneTemplate);
     });
     personalizedBtnsContainer.appendChild(fragmentPersonalizedThemeBtns);
-    const personalizedThemeBtns = document.querySelectorAll(".personalized_theme_btn");
+    const personalizedThemeBtns = selectorAll(".personalized_theme_btn");
     personalizedThemeBtns.forEach((btn) => btn.addEventListener("click", () => changePersonalizedTheme(btn.getAttribute("data-name"))));
 };
 const checkStorageAnswer = () => {
@@ -3265,7 +3299,7 @@ checkStorageAnswer();
 
 //^^ ************************************************************************** *//
 const themeCardBtnActions = () => {
-    const actionBtns = document.querySelectorAll(".personalized_theme_card_action");
+    const actionBtns = selectorAll(".personalized_theme_card_action");
     actionBtns.forEach((btn) => {
         btn.addEventListener("click", () => {
             console.log(btn.getAttribute("data-name"));
@@ -3842,4 +3876,4 @@ btnNext.addEventListener("click", next);
 btnPrevious.addEventListener("click", previous);
 optionListDescriptionsSearchBtn.addEventListener("click", () => optionListDescriptionsActions(optionListDescriptionsStatus));
 deletePersonalizedThemeBtn.addEventListener("click", deletePersonalizedTheme);
-document.querySelector("#top_btn").addEventListener("click", toThetop);
+selector("#top_btn").addEventListener("click", toThetop);

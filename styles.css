@@ -826,7 +826,8 @@ NAV {
     font-size: var(--fontSizeXL);
     font-weight: 400;
     color: var(--firstColor);
-    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .section_subtitle {
@@ -1371,6 +1372,7 @@ fieldset {
     background: var(--bgContrast);
     color: var(--textContrastColor);
     margin-top: 0.5rem;
+    font-size: var(--fontSizeG);
     padding: 1rem;
     border-radius: 0.5rem;
     border: none;
@@ -1589,6 +1591,11 @@ fieldset {
 #ability_modal {
     height: fit-content;
     overflow: visible;
+
+    .title_modal_ability {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
 }
 
 #ability_options_container {
