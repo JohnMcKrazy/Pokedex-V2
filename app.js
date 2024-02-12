@@ -1073,7 +1073,7 @@ const changeLang = (lang) => {
         if (varietiesListFirstBtnText) {
             varietiesListFirstBtnText.textContent = "Variantes";
         }
-        footerText.textContent = "PokéAPI fue creada por Paul Hallett y otros contribuidores alrededor del mundo. Pokémon y los Nombres de personajes Pokémon son marca registrada de Nintendo.";
+        /* footerText.textContent = "PokéAPI fue creada por Paul Hallett y otros contribuidores alrededor del mundo. Pokémon y los Nombres de personajes Pokémon son marca registrada de Nintendo."; */
         searchInputName.setAttribute("placeholder", "Nombre");
         titleStartModal.textContent = "Bienvenido";
         textStartModal.innerHTML =
@@ -1156,7 +1156,7 @@ const changeLang = (lang) => {
         if (varietiesListFirstBtnText) {
             varietiesListFirstBtnText.textContent = "Varieties";
         }
-        footerText.textContent = "Created by Paul Hallett and other PokéAPI contributors around the world. Pokémon and Pokémon character names are trademarks of Nintendo.";
+        /* footerText.textContent = "Created by Paul Hallett and other PokéAPI contributors around the world. Pokémon and Pokémon character names are trademarks of Nintendo."; */
 
         searchInputName.setAttribute("placeholder", "Name");
         titleStartModal.textContent = "Welcome";
@@ -1303,12 +1303,16 @@ const changeLang = (lang) => {
         catchEmAll(currentPokemon);
     }
 
-    selectorAll(".theme_btn").forEach((btn) => {
+    selectorAll(".default_theme_btn").forEach((btn) => {
         const name = btn.getAttribute("data-name");
         const id = btn.getAttribute("data-id");
-        console.log(name, id, defaultPokeThemes[id]);
+        console.log(selector(`.${name}_theme_btn`).querySelector(".label_btn"));
         selector(`.${name}_theme_btn`).querySelector(".label_btn").textContent = defaultPokeThemes[id].name[currentLang];
     });
+    selectorAll(`[data-change]`).forEach((item) => {
+        item.textContent = item.getAttribute(`data-lang-${currentLang}`);
+    });
+
     document.documentElement.setAttribute("lang", currentLang);
 };
 //^^ ************************************************************************** *//
