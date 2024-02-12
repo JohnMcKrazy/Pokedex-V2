@@ -25,6 +25,7 @@ const personalizedThemeBtnTemplate = selector("#personalized_theme_btn_template"
 const personalizedBtnsContainer = selector("#personalized_themes_btns_container");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+const themeBtns = selectorAll(".theme_btn");
 const themeCardTemplate = selector("#theme_card_template").content;
 const fragmentThemeCards = document.createDocumentFragment();
 
@@ -33,7 +34,7 @@ const cancelEditThemesBtn = selector("#cancel_edit_themes_btn");
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const navConfigBtns = selectorAll(".config_menu_btn_action");
 const configMenu = selector("#config_menu");
-const themeBtns = selectorAll(".theme_btn");
+
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const searchInputNumber = selector("#search_input_number");
 const searchInputName = selector("#search_input_name");
@@ -434,6 +435,116 @@ let itemToSave = {
     },
 };
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const defaultPokeThemes = [
+    {
+        id: 0,
+        name: { es: "Claro", en: "light" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Claro</title><path class="cls-1" d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z" /></svg>',
+    },
+    {
+        id: 1,
+        name: { es: "Obscuro", en: "Dark" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Obscuro</title><path class="cls-1" d="M10 7a7 7 0 0 0 12 4.9v.1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2h.1A6.979 6.979 0 0 0 10 7zm-6 5a8 8 0 0 0 15.062 3.762A9 9 0 0 1 8.238 4.938 7.999 7.999 0 0 0 4 12z" /></svg>',
+    },
+    {
+        id: 2,
+        name: { es: "Agua", en: "Water" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Agua</title><path class="cls-1" d="M12 3.1L7.05 8.05a7 7 0 1 0 9.9 0L12 3.1zm0-2.828l6.364 6.364a9 9 0 1 1-12.728 0L12 .272z" /></svg>',
+    },
+    {
+        id: 3,
+        name: { es: "Fuego", en: "Fire" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Fuego</title><path class="cls-1" d="M12 23a7.5 7.5 0 0 0 7.5-7.5c0-.866-.23-1.697-.5-2.47-1.667 1.647-2.933 2.47-3.8 2.47 3.995-7 1.8-10-4.2-14 .5 5-2.796 7.274-4.138 8.537A7.5 7.5 0 0 0 12 23zm.71-17.765c3.241 2.75 3.257 4.887.753 9.274-.761 1.333.202 2.991 1.737 2.991.688 0 1.384-.2 2.119-.595a5.5 5.5 0 1 1-9.087-5.412c.126-.118.765-.685.793-.71.424-.38.773-.717 1.118-1.086 1.23-1.318 2.114-2.78 2.566-4.462z"/></svg>',
+    },
+    {
+        id: 4,
+        name: { es: "Hierba", en: "Grass" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Hierba</title><path class="cls-1" d="M6 3c3.49 0 6.383 2.554 6.913 5.895C14.088 7.724 15.71 7 17.5 7H22v2.5c0 3.59-2.91 6.5-6.5 6.5H13v5h-2v-8H9c-3.866 0-7-3.134-7-7V3h4zm14 6h-2.5c-2.485 0-4.5 2.015-4.5 4.5v.5h2.5c2.485 0 4.5-2.015 4.5-4.5V9zM6 5H4v1c0 2.761 2.239 5 5 5h2v-1c0-2.761-2.239-5-5-5z"/></svg>',
+    },
+    {
+        id: 5,
+        name: { es: "Normal", en: "Normal" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Normal</title><path class="cls-1" d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-5-8h2a3 3 0 0 0 6 0h2a5 5 0 0 1-10 0z" /></svg>',
+    },
+    {
+        id: 6,
+        name: { es: "Fantasma", en: "Ghost" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Fantasma</title><path class="cls-1" d="M12 2a9 9 0 0 1 9 9v7.5a3.5 3.5 0 0 1-6.39 1.976 2.999 2.999 0 0 1-5.223 0 3.5 3.5 0 0 1-6.382-1.783L3 18.499V11a9 9 0 0 1 9-9zm0 2a7 7 0 0 0-6.996 6.76L5 11v7.446l.002.138a1.5 1.5 0 0 0 2.645.88l.088-.116a2 2 0 0 1 3.393.142.999.999 0 0 0 1.74.003 2 2 0 0 1 3.296-.278l.097.13a1.5 1.5 0 0 0 2.733-.701L19 18.5V11a7 7 0 0 0-7-7zm0 8c1.105 0 2 1.12 2 2.5s-.895 2.5-2 2.5-2-1.12-2-2.5.895-2.5 2-2.5zM9.5 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>',
+    },
+    {
+        id: 7,
+        name: { es: "Psíquico", en: "Psychic" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Psyquico</title><path class="cls-1" d="M12 3c5.392 0 9.878 3.88 10.819 9-.94 5.12-5.427 9-10.819 9-5.392 0-9.878-3.88-10.819-9C2.121 6.88 6.608 3 12 3zm0 16a9.005 9.005 0 0 0 8.777-7 9.005 9.005 0 0 0-17.554 0A9.005 9.005 0 0 0 12 19zm0-2.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-2a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>',
+    },
+    {
+        id: 8,
+        name: { es: "Hada", en: "Fairy" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Hada</title><path class="cls-1" d="M10 6a8 8 0 0 0 11.955 6.956C21.474 18.03 17.2 22 12 22 6.477 22 2 17.523 2 12c0-5.2 3.97-9.474 9.044-9.955A7.963 7.963 0 0 0 10 6zm-6 6a8 8 0 0 0 8 8 8.006 8.006 0 0 0 6.957-4.045c-.316.03-.636.045-.957.045-5.523 0-10-4.477-10-10 0-.321.015-.64.045-.957A8.006 8.006 0 0 0 4 12zm14.164-9.709L19 2.5v1l-.836.209a2 2 0 0 0-1.455 1.455L16.5 6h-1l-.209-.836a2 2 0 0 0-1.455-1.455L13 3.5v-1l.836-.209A2 2 0 0 0 15.29.836L15.5 0h1l.209.836a2 2 0 0 0 1.455 1.455zm5 5L24 7.5v1l-.836.209a2 2 0 0 0-1.455 1.455L21.5 11h-1l-.209-.836a2 2 0 0 0-1.455-1.455L18 8.5v-1l.836-.209a2 2 0 0 0 1.455-1.455L20.5 5h1l.209.836a2 2 0 0 0 1.455 1.455z"/></svg>',
+    },
+    { id: 9, name: { es: "Electrico", en: "Electric" }, svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Electrico</title><path class="cls-1" d="M13 9h8L11 24v-9H4l9-15v9zm-2 2V7.22L7.532 13H13v4.394L17.263 11H11z" /></svg>' },
+    {
+        id: 10,
+        name: { es: "Volador", en: "Flying" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Volador</title><path class="cls-1" d="M10.5 17H4v-2h6.5a3.5 3.5 0 1 1-3.278 4.73l1.873-.703A1.5 1.5 0 1 0 10.5 17zM5 11h13.5a3.5 3.5 0 1 1-3.278 4.73l1.873-.703A1.5 1.5 0 1 0 18.5 13H5a3 3 0 0 1 0-6h8.5a1.5 1.5 0 1 0-1.405-2.027l-1.873-.702A3.501 3.501 0 0 1 17 5.5 3.5 3.5 0 0 1 13.5 9H5a1 1 0 1 0 0 2z"/></svg>',
+    },
+    {
+        id: 11,
+        name: { es: "Hielo", en: "Ice" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Hielo</title><path class="cls-1" d="M13 16.268l1.964-1.134 1 1.732L14 18l1.964 1.134-1 1.732L13 19.732V22h-2v-2.268l-1.964 1.134-1-1.732L10 18l-1.964-1.134 1-1.732L11 16.268V14h2v2.268zM17 18v-2h.5a3.5 3.5 0 1 0-2.5-5.95V10a6 6 0 1 0-8 5.659v2.089a8 8 0 1 1 9.458-10.65A5.5 5.5 0 1 1 17.5 18l-.5.001z"/></svg>',
+    },
+    {
+        id: 12,
+        name: { es: "Veneno", en: "Poison" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Veneno</title><path class="cls-1" d="M16 2v2h-1v3.243c0 1.158.251 2.301.736 3.352l4.282 9.276c.347.753.018 1.644-.734 1.99-.197.092-.411.139-.628.139H5.344c-.828 0-1.5-.672-1.5-1.5 0-.217.047-.432.138-.629l4.282-9.276C8.749 9.545 9 8.401 9 7.243V4H8V2h8zm-2.612 8.001h-2.776c-.104.363-.23.721-.374 1.071l-.158.361L6.125 20h11.749l-3.954-8.567c-.214-.464-.392-.943-.532-1.432zM11 7.243c0 .253-.01.506-.029.758h2.058c-.01-.121-.016-.242-.021-.364L13 7.243V4h-2v3.243z"/></svg>',
+    },
+    {
+        id: 13,
+        name: { es: "Peleador", en: "Fighter" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Pelea</title><path class="cls-1" d="M16.5 2A5.5 5.5 0 0 1 22 7.5V10c0 .888-.386 1.686-1 2.235V17a3.001 3.001 0 0 1-2 2.829V21a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-1.17A3.001 3.001 0 0 1 3 17V6a4 4 0 0 1 4-4h9.5zm-7 9H5v6a1 1 0 0 0 .883.993L6 18h12a1 1 0 0 0 .993-.883L19 17v-4h-6.036A3.5 3.5 0 0 1 9.5 16H6v-2h3.5a1.5 1.5 0 0 0 1.493-1.356L11 12.5a1.5 1.5 0 0 0-1.356-1.493L9.5 11zm7-7H7a2 2 0 0 0-1.995 1.85L5 6v3h4.5a3.5 3.5 0 0 1 3.163 2H19a1 1 0 0 0 .993-.883L20 10V7.5a3.5 3.5 0 0 0-3.308-3.495L16.5 4z"/></svg>',
+    },
+    {
+        id: 14,
+        name: { es: "Roca", en: "Rock" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Piedra</title><path class="cls-1" d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-6a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" /></svg>',
+    },
+    { id: 15, name: { es: "Metal", en: "Steel" }, svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Metal</title><path class="cls-1" d="M10 10.111V1l11 6v14H3V7l7 3.111zm2-5.742v8.82l-7-3.111V19h14V8.187L12 4.37z" /></svg>' },
+    {
+        id: 16,
+        name: { es: "Insecto", en: "Bug" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Insecto</title><path class="cls-1" d="M10.562 4.148a7.03 7.03 0 0 1 2.876 0l1.683-1.684 1.415 1.415-1.05 1.05A7.03 7.03 0 0 1 18.326 8H21v2h-2.07c.046.327.07.66.07 1v1h2v2h-2v1c0 .34-.024.673-.07 1H21v2h-2.674a7 7 0 0 1-12.652 0H3v-2h2.07A7.06 7.06 0 0 1 5 15v-1H3v-2h2v-1c0-.34.024-.673.07-1H3V8h2.674a7.03 7.03 0 0 1 2.84-3.072l-1.05-1.05L8.88 2.465l1.683 1.684zM12 6a5 5 0 0 0-5 5v4a5 5 0 0 0 10 0v-4a5 5 0 0 0-5-5zm-3 8h6v2H9v-2zm0-4h6v2H9v-2z"/></svg>',
+    },
+    {
+        id: 17,
+        name: { es: "Ultra", en: "Ultra" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Ultrararo</title><path class="cls-1" d="M12 18.26l-7.053 3.948 1.575-7.928L.587 8.792l8.027-.952L12 .5l3.386 7.34 8.027.952-5.935 5.488 1.575 7.928L12 18.26zm0-2.292l4.247 2.377-.949-4.773 3.573-3.305-4.833-.573L12 5.275l-2.038 4.42-4.833.572 3.573 3.305-.949 4.773L12 15.968z" /></svg>',
+    },
+    {
+        id: 18,
+        name: { es: "Legendario", en: "Legendary" },
+        svg: '<svg class="icon_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tema Legendario</title><path class="cls-1" d="M13 16.938V19h5v2H6v-2h5v-2.062A8.001 8.001 0 0 1 4 9V3h16v6a8.001 8.001 0 0 1-7 7.938zM6 5v4a6 6 0 1 0 12 0V5H6zM1 5h2v4H1V5zm20 0h2v4h-2V5z" /></svg>',
+    },
+];
+const defaultThemeBtnTemplate = selector("#theme_btn_template").content;
+const setDefautThemeBtns = () => {
+    defaultPokeThemes.forEach((theme) => {
+        const newClone = defaultThemeBtnTemplate.cloneNode(true);
+        const newBtn = newClone.querySelector(".theme_btn");
+        const labelBtn = newClone.querySelector(".label_btn");
+        const iconContainer = newClone.querySelector(".icon_container");
+        labelBtn.textContent = theme.name[currentLang];
+        newBtn.classList.add(`${theme.name[en].toLowerCase()}_theme_btn`);
+        newBtn.setAttribute("data-name", theme.name[en].toLowerCase());
+        newBtn.setAttribute("data-id", theme.id);
+        iconContainer.innerHTML = theme.svg;
+        selector("#themes_btns_container").appendChild(newBtn);
+    });
+    setTimeout(() => {
+        selectorAll(".theme_btn").forEach((btn) => {
+            btn.addEventListener("click", () => changeBasicTheme(`${btn.getAttribute("data-name")}_theme`));
+        });
+    }, 500);
+};
+setDefautThemeBtns();
 const pokeThemes = {};
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //! ||||||||||||||!!!!!//
@@ -728,34 +839,6 @@ const deleteArrElements = (parentElement) => {
 const properCase = (string) => {
     return `${string[0].toUpperCase()}${string.slice(1).toLowerCase()}`;
 };
-
-//! CREATE CHARTS TRY --- START //
-/* const ctx = document.getElementById("myChart").getContext("2d");
-const chart = new Chart(ctx, {
-    type: "radar",
-
-    data: {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
-        datasets: [
-            {
-                label: "Jose",
-                backgroundColor: "rgba(135, 206, 235,.5)",
-                borderColor: "transparent",
-                data: [0, 10, 15, 45, 40, 16, 20],
-            },
-            {
-                label: "Pedro",
-                backgroundColor: "red",
-                borderColor: "transparent",
-                data: [30, 40, 6, 16, 20, 26, 2],
-            },
-        ],
-    },
-
-    options: {}, 
-});
-*/
-//! CREATE CHARTS TRY --- OVER //
 const newFirstPokeSearch = async (currentId, status) => {
     const generalData = await fetchFunc(pokeApi(currentId));
     console.log(generalData);
@@ -977,7 +1060,6 @@ const changeLang = (lang) => {
     const footerText = selector("FOOTER").querySelector("P");
     const varietiesListFirstBtnText = selector("#option_list_varients_first_text");
 
-    //! AGREGAR CAMBIO DE NOMBRE A CAMBIO DE LISTAS DE FAVORITOS  //
     if (lang === es) {
         currentLang = es;
         console.log("cambiando idioma a español");
@@ -1042,65 +1124,6 @@ const changeLang = (lang) => {
         saveThemeModalBtnLabel.textContent = "Salvar";
         cancelThemeModalBtnLabel.textContent = "Cancelar";
         deleteThemeModalBtnLabel.textContent = "Borrar";
-
-        themeBtns.forEach((btn) => {
-            switch (btn.getAttribute("data-name")) {
-                case "light_theme":
-                    btn.querySelector(".label_btn").textContent = "Claro";
-                    break;
-                case "dark_theme":
-                    btn.querySelector(".label_btn").textContent = "Obscuro";
-                    break;
-                case "water_theme":
-                    btn.querySelector(".label_btn").textContent = "Agua";
-                    break;
-                case "fire_theme":
-                    btn.querySelector(".label_btn").textContent = "Fuego";
-                    break;
-                case "grass_theme":
-                    btn.querySelector(".label_btn").textContent = "Hierba";
-                    break;
-                case "ghost_theme":
-                    btn.querySelector(".label_btn").textContent = "Fantasma";
-                    break;
-                case "psychic_theme":
-                    btn.querySelector(".label_btn").textContent = "Psyquico";
-                    break;
-                case "fairy_theme":
-                    btn.querySelector(".label_btn").textContent = "Hada";
-                    break;
-                case "electric_theme":
-                    btn.querySelector(".label_btn").textContent = "Electrico";
-                    break;
-                case "flying_theme":
-                    btn.querySelector(".label_btn").textContent = "Volador";
-                    break;
-                case "ice_theme":
-                    btn.querySelector(".label_btn").textContent = "Hielo";
-                    break;
-                case "poison_theme":
-                    btn.querySelector(".label_btn").textContent = "Veneno";
-                    break;
-                case "fighter_theme":
-                    btn.querySelector(".label_btn").textContent = "Peleador";
-                    break;
-                case "rock_theme":
-                    btn.querySelector(".label_btn").textContent = "Piedra";
-                    break;
-                case "steel_theme":
-                    btn.querySelector(".label_btn").textContent = "Metal";
-                    break;
-                case "bug_theme":
-                    btn.querySelector(".label_btn").textContent = "Insecto";
-                    break;
-                case "ultra_rare_theme":
-                    btn.querySelector(".label_btn").textContent = "Ultra Raro";
-                    break;
-                case "legendary_theme":
-                    btn.querySelector(".label_btn").textContent = "Legendario";
-                    break;
-            }
-        });
 
         titleEditPersonalizedThemeModal.textContent = "Edita Tu Tema";
 
@@ -1184,65 +1207,6 @@ const changeLang = (lang) => {
         saveThemeModalBtnLabel.textContent = "Save";
         cancelThemeModalBtnLabel.textContent = "Cancel";
         deleteThemeModalBtnLabel.textContent = "Delete";
-
-        themeBtns.forEach((btn) => {
-            switch (btn.getAttribute("data-name")) {
-                case "light_theme":
-                    btn.querySelector(".label_btn").textContent = "Light";
-                    break;
-                case "dark_theme":
-                    btn.querySelector(".label_btn").textContent = "Dark";
-                    break;
-                case "water_theme":
-                    btn.querySelector(".label_btn").textContent = "Water";
-                    break;
-                case "fire_theme":
-                    btn.querySelector(".label_btn").textContent = "Fire";
-                    break;
-                case "grass_theme":
-                    btn.querySelector(".label_btn").textContent = "Grass";
-                    break;
-                case "ghost_theme":
-                    btn.querySelector(".label_btn").textContent = "Ghost";
-                    break;
-                case "psychic_theme":
-                    btn.querySelector(".label_btn").textContent = "Psychic";
-                    break;
-                case "fairy_theme":
-                    btn.querySelector(".label_btn").textContent = "Fairy";
-                    break;
-                case "electric_theme":
-                    btn.querySelector(".label_btn").textContent = "Electric";
-                    break;
-                case "flying_theme":
-                    btn.querySelector(".label_btn").textContent = "Flying";
-                    break;
-                case "ice_theme":
-                    btn.querySelector(".label_btn").textContent = "Ice";
-                    break;
-                case "poison_theme":
-                    btn.querySelector(".label_btn").textContent = "Poison";
-                    break;
-                case "fighter_theme":
-                    btn.querySelector(".label_btn").textContent = "Fighter";
-                    break;
-                case "rock_theme":
-                    btn.querySelector(".label_btn").textContent = "Rock";
-                    break;
-                case "steel_theme":
-                    btn.querySelector(".label_btn").textContent = "Steel";
-                    break;
-                case "bug_theme":
-                    btn.querySelector(".label_btn").textContent = "Bug";
-                    break;
-                case "ultra_rare_theme":
-                    btn.querySelector(".label_btn").textContent = "Ultra Rare";
-                    break;
-                case "legendary_theme":
-                    btn.querySelector(".label_btn").textContent = "Legendary";
-                    break;
-            }
-        });
 
         titleEditPersonalizedThemeModal.textContent = "Edit Your Theme";
 
@@ -1330,9 +1294,6 @@ const changeLang = (lang) => {
         }
     }
 
-    // ! ************************************************* ! //
-    //! BUSCAR OBJETO CON TEXTOS FLAVOR DE ABILITIES Y CAMBIARLO SEGUN IDIOMA ASI COMO LOS TEXTOS DE LOS BOTONES ! //
-    // ! ************************************************* ! //
     if (abilityModalStatus === open) {
         console.log(currentAbilityOpen);
         titleModalAbility.textContent = currentAbilityOpen[currentLang];
@@ -1342,6 +1303,12 @@ const changeLang = (lang) => {
         catchEmAll(currentPokemon);
     }
 
+    selectorAll(".theme_btn").forEach((btn) => {
+        const name = btn.getAttribute("data-name");
+        const id = btn.getAttribute("data-id");
+        console.log(name, id, defaultPokeThemes[id]);
+        selector(`.${name}_theme_btn`).querySelector(".label_btn").textContent = defaultPokeThemes[id].name[currentLang];
+    });
     document.documentElement.setAttribute("lang", currentLang);
 };
 //^^ ************************************************************************** *//
@@ -3763,9 +3730,7 @@ langMenuNavBtns.forEach((btn) => {
 navConfigBtns.forEach((btn) => {
     btn.addEventListener("click", () => configMenuOptions(btn.getAttribute("data-name")));
 });
-themeBtns.forEach((btn) => {
-    btn.addEventListener("click", () => changeBasicTheme(btn.getAttribute("data-name")));
-});
+
 themeActionBtns.forEach((btn) => {
     btn.addEventListener("click", () => themeActionsBtnsActions(btn.getAttribute("data-name")));
 });

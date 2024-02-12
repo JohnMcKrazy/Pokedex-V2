@@ -83,6 +83,13 @@ HTML {
 }
 
 /*!THEMES START */
+.theme_btn .icon_container {
+    width: 2rem;
+    height: auto;
+}
+
+
+
 .light_theme {
     /*¿COLORS */
     --textColor: rgb(25, 25, 25);
@@ -306,7 +313,7 @@ HTML {
     /*¿GENERALS */
 }
 
-.ultra_rare_theme {
+.ultra_theme {
     /*¿COLORS */
     --textColor: rgb(20, 20, 20);
     --textContrastColor: rgb(25, 25, 25);
