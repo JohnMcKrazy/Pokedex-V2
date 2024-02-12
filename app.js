@@ -539,7 +539,7 @@ const setDefautThemeBtns = () => {
         selector("#themes_btns_container").appendChild(newBtn);
     });
     setTimeout(() => {
-        selectorAll(".theme_btn").forEach((btn) => {
+        selectorAll(".default_theme_btn").forEach((btn) => {
             btn.addEventListener("click", () => changeBasicTheme(`${btn.getAttribute("data-name")}_theme`));
         });
     }, 500);
@@ -1306,7 +1306,6 @@ const changeLang = (lang) => {
     selectorAll(".default_theme_btn").forEach((btn) => {
         const name = btn.getAttribute("data-name");
         const id = btn.getAttribute("data-id");
-        console.log(selector(`.${name}_theme_btn`).querySelector(".label_btn"));
         selector(`.${name}_theme_btn`).querySelector(".label_btn").textContent = defaultPokeThemes[id].name[currentLang];
     });
     selectorAll(`[data-change]`).forEach((item) => {
