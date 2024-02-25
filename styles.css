@@ -1288,14 +1288,17 @@ MAIN {
     max-height: 15rem;
     overflow-y: auto;
     z-index: var(--zIndexOptionList);
+
+    border-radius: 1rem;
 }
 
 .option_list_varieties_btns_container {
     position: absolute;
-    top: 6rem;
+    top: 8rem;
     left: 50%;
     translate: -50% 0;
     z-index: var(--zIndexOptionList);
+    border-radius: 2rem;
 }
 
 .option_list {
@@ -1303,6 +1306,7 @@ MAIN {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    gap: 1rem;
     align-items: center;
     text-align: center;
     font-size: var(--fontSizeN);
@@ -1327,6 +1331,7 @@ MAIN {
     background: var(--whiteOffT);
     height: 3rem;
     width: 100%;
+    border-radius: 2rem;
     cursor: pointer;
 }
 
@@ -1679,6 +1684,34 @@ FOOTER P {
     font-size: var(--fontSizeS);
     background: var(--whiteOff);
     color: var(--blackOff);
+}
+
+@keyframes glower {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 400% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+#option_list_varieties_btns_container::after {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    background: linear-gradient(45deg, #e8f74d, #ff6600d9, #00ff66, #13ff13, #ad27ad, #bd2681, #6512b9, #ff3300de, #5aabde);
+    background-size: 400%;
+    width: calc(100% + 5px);
+    height: calc(100% + 5px);
+    border-radius: 2rem;
+    z-index: -1;
+    animation: glower 20s linear infinite;
 }
 
 @media screen and (min-width: 440px) {

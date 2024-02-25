@@ -2325,8 +2325,8 @@ const createPokeData = async (data) => {
             const movementVarientsContainer = [{ top: "6rem" }, { top: "9rem" }];
 
             const movementVarientList = [{ background: "none" }, { background: "yellow" }];
-            optionListVarientsBtnsContainer.animate(movementVarientsContainer, timingAnimations);
-            optionListVarients.animate(movementVarientList, timingAnimations);
+            /*  optionListVarientsBtnsContainer.animate(movementVarientsContainer, timingAnimations);
+            optionListVarients.animate(movementVarientList, timingAnimations); */
         } else if (varieties.length === 1) {
             /* console.log("este pokemon no tiene variantes"); */
         }
