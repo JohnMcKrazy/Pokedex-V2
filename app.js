@@ -1954,6 +1954,7 @@ const createPokeData = async (data) => {
         deleteChildElements(pokeDescriptionAbilitiesContainer);
         deleteArrElements(fragmentListDescriptions);
 
+        optionListVarientsBtnsContainer.style.opacity = 0;
         searchInputNumber.value = "";
         searchInputNumber.value = "";
         //¬ DELETE ALL POKEDATA -- OVER //
@@ -2296,7 +2297,7 @@ const createPokeData = async (data) => {
                 //~~  */
             });
             newList.appendChild(fragmentListVarieties);
-
+            optionListVarientsBtnsContainer.style.opacity = 1;
             optionListVarientsBtnsContainer.appendChild(selectionListTemplateClone);
 
             optionListVarients = selector("#option_list_varients");

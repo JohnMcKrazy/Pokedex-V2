@@ -1299,7 +1299,24 @@ MAIN {
     translate: -50% 0;
     z-index: var(--zIndexOptionList);
     border-radius: 2rem;
+    opacity: 0;
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: -2px;
+        top: -2px;
+        background: linear-gradient(45deg, #e8f74d, #ff6600d9, #00ff66, #13ff13, #ad27ad, #bd2681, #6512b9, #ff3300de, #5aabde);
+        background-size: 400%;
+        width: calc(100% + 5px);
+        height: calc(100% + 5px);
+        border-radius: 2rem;
+        z-index: -1;
+        animation: glower 20s linear infinite;
+    }
 }
+
+
 
 .option_list {
     position: relative;
@@ -1700,19 +1717,7 @@ FOOTER P {
     }
 }
 
-#option_list_varieties_btns_container::after {
-    content: '';
-    position: absolute;
-    left: -2px;
-    top: -2px;
-    background: linear-gradient(45deg, #e8f74d, #ff6600d9, #00ff66, #13ff13, #ad27ad, #bd2681, #6512b9, #ff3300de, #5aabde);
-    background-size: 400%;
-    width: calc(100% + 5px);
-    height: calc(100% + 5px);
-    border-radius: 2rem;
-    z-index: -1;
-    animation: glower 20s linear infinite;
-}
+
 
 @media screen and (min-width: 440px) {
     HTML {
