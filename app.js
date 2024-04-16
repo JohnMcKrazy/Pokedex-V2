@@ -3198,13 +3198,14 @@ const deletePersonalizedTheme = () => {
 const createPersonalizedBtns = () => {
     deleteChildElements(fragmentPersonalizedThemeBtns);
     deleteChildElements(personalizedBtnsContainer);
-    storagePokedex[storageThemes].forEach((theme) => {
+    storageContent[storageThemes].forEach((theme) => {
         let cloneTemplate = personalizedThemeBtnTemplate.cloneNode(true);
         let btn = cloneTemplate.querySelector(".personalized_theme_btn");
         btn.textContent = theme.name;
         btn.setAttribute("data-name", theme.name);
         fragmentPersonalizedThemeBtns.appendChild(cloneTemplate);
     });
+
     personalizedBtnsContainer.appendChild(fragmentPersonalizedThemeBtns);
     const personalizedThemeBtns = selectorAll(".personalized_theme_btn");
     personalizedThemeBtns.forEach((btn) => btn.addEventListener("click", () => changePersonalizedTheme(btn.getAttribute("data-name"))));
@@ -3225,45 +3226,34 @@ const checkStorageAnswer = () => {
         console.log("local storage item is created");
         animationIn(modal, block, 500);
         setTimeout(() => animationIn(startModal, block, 500), 1500);
-    } else if (storageContent && storageContent[storageAlert] === open) {
-        updatePokedex();
-        storagePokedex[storageView] = storageContent[storageView] + 1;
+    } else {
+        storagePokedex = storageContent;
         savePokedex();
-        console.log(`local storage item answer= ${storagePokedex[storageAlert]}, page views= ${storagePokedex[storageView]}`);
-
-        animationIn(modal, block, 500);
-        setTimeout(() => animationIn(startModal, block, 500), 1500);
-    } else if (storageContent && storageContent[storageAlert] === close) {
-        updatePokedex();
-        storagePokedex[storageAlert] = storageContent[storageAlert];
-        storagePokedex[storageView] = storageContent[storageView] + 1;
-        savePokedex();
-        console.log(`local storage item answer= ${storagePokedex[storageAlert]}, page views= ${storagePokedex[storageView]}`);
-    }
-
-    if (storageContent && storageContent[storageThemes].length > 0) {
-        console.log("tienes temas");
-        createPersonalizedBtns();
-    }
-    if (storageContent && storageContent && storageContent[storageThemeSaved]["tag"] === personalizedT) {
-        console.log(storageContent[storageThemeSaved]);
-        BODY.className = personalizedT;
-
-        console.log(storageContent[storageThemeSaved]);
-        console.log(storageContent[storageThemeSaved].name);
-        storageContent[storageThemes].forEach((theme) => {
-            console.log(theme);
-            if (storageContent[storageThemeSaved].name === theme.name) {
-                console.log(theme);
-                currentPersonilizedTheme = theme;
-                personalizedProperty(personalizedT, `--bgColor`, theme["bgColor"]);
-                personalizedProperty(personalizedT, `--firstColor`, theme["firstColor"]);
-                personalizedProperty(personalizedT, `--textColor`, theme["textColor"]);
-                personalizedProperty(personalizedT, `--bgAccent`, theme["bgAccent"]);
+        console.log(storageContent[storageThemes].length);
+        if (storageContent[storageThemes].length >= 1) {
+            console.log("tienes temas");
+            createPersonalizedBtns();
+        }
+        if (storageContent[storageThemeSaved])
+            if (storageContent[storageThemeSaved]["tag"] === personalizedT) {
+                console.log(storageContent[storageThemeSaved]);
+                BODY.className = personalizedT;
+                console.log(storageContent[storageThemeSaved]);
+                console.log(storageContent[storageThemeSaved].name);
+                storageContent[storageThemes].forEach((theme) => {
+                    console.log(theme);
+                    if (storageContent[storageThemeSaved].name === theme.name) {
+                        console.log(theme);
+                        currentPersonilizedTheme = theme;
+                        personalizedProperty(personalizedT, `--bgColor`, theme["bgColor"]);
+                        personalizedProperty(personalizedT, `--firstColor`, theme["firstColor"]);
+                        personalizedProperty(personalizedT, `--textColor`, theme["textColor"]);
+                        personalizedProperty(personalizedT, `--bgAccent`, theme["bgAccent"]);
+                    }
+                });
+            } else if (storageContent[storageThemeSaved]["tag"] !== personalizedT) {
+                changeBasicTheme(storageContent[storageThemeSaved]["tag"]);
             }
-        });
-    } else if (storageContent && storageContent && storageContent[storageThemeSaved]["tag"] !== personalizedT) {
-        changeBasicTheme(storageContent[storageThemeSaved]["tag"]);
     }
 };
 checkStorageAnswer();
@@ -3400,6 +3390,7 @@ const themeActionsBtnsActions = (action) => {
         }, 1000);
     } else if (action === save) {
         themeModalStatus = close;
+        console.log(storagePokedex[storageThemeSaved]);
         storagePokedex[storageThemeSaved] = currentPersonilizedTheme;
         savePokedex();
         animationOut(themesModal);
@@ -3496,6 +3487,7 @@ const pikerThemeActionBtns = (action) => {
     } else if (action === save) {
         console.log("Tema personalizado salvado");
         currentTheme = personalizedT;
+        console.log(currentTheme);
         if (nameInputPersonalizedTheme.value !== "") {
             console.log(nameInputPersonalizedTheme.value);
             const newItem = {
@@ -3506,7 +3498,7 @@ const pikerThemeActionBtns = (action) => {
                 bgAccent: currentBgAccent,
             };
             storagePokedex[storageThemes].push(newItem);
-            console.log(storagePokedex);
+            console.log(storagePokedex[storageThemes]);
             createPersonalizedBtns();
             savePokedex();
             animationOut(personalizedThemeModal);
