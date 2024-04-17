@@ -3225,7 +3225,6 @@ const checkStorageAnswer = () => {
         savePokedex();
         changeBasicTheme();
         console.log("local storage item is created");
-        animationIn(modal, block, 500);
     } else {
         storagePokedex = storageContent;
         savePokedex();
