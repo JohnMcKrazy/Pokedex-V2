@@ -757,7 +757,7 @@ let storagePokedex = {
 //! |||||||||||||||||//
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-const ConvertDecimals = (convNum) => {
+const convertDecimals = (convNum) => {
     return Math.round(convNum * 1e12) / 1e12;
 };
 
@@ -1415,8 +1415,8 @@ const optionListFavActions = (status) => {
     }
 };
 const optionListMeasurmentsActions = (action) => {
-    let currentMetricHeight = ConvertDecimals(currentPokemonHeight * 0.1);
-    let currentMetricWeight = ConvertDecimals(currentPokemonWeight * 0.1);
+    let currentMetricHeight = convertDecimals(currentPokemonHeight * 0.1);
+    let currentMetricWeight = convertDecimals(currentPokemonWeight * 0.1);
     switch (action) {
         case openClose:
             console.log(action);
@@ -2195,8 +2195,8 @@ const createPokeData = async (data) => {
         currentPokemonHeight = pokemonHeight;
         currentPokemonWeight = pokemonWeight;
 
-        currentMetricHeight = ConvertDecimals(pokemonHeight * 0.1);
-        currentMetricWeight = ConvertDecimals(pokemonWeight * 0.1);
+        currentMetricHeight = convertDecimals(pokemonHeight * 0.1);
+        currentMetricWeight = convertDecimals(pokemonWeight * 0.1);
         // ! //
         if (currentMeasurmentSystem === metricSystem) {
             pokeDescriptionHeight.textContent = `${currentMetricHeight}m`;
@@ -3069,7 +3069,7 @@ const favMenuActions = () => {
                             /*  setTimeout(() => {
                                 console.log(favModal.clientHeight);
                                 console.log(BODY.clientWidth);
-                                const contentModalHeightFix = favModal.clientHeight - ConvertDecimals(BODY.clientHeight * 0.1) - 100;
+                                const contentModalHeightFix = favModal.clientHeight - convertDecimals(BODY.clientHeight * 0.1) - 100;
                                 console.log(contentModalHeightFix);
                                 favCardsContainer.style.height = ` ${contentModalHeightFix}px`;
                             }, 500); */
@@ -3226,7 +3226,6 @@ const checkStorageAnswer = () => {
         changeBasicTheme();
         console.log("local storage item is created");
         animationIn(modal, block, 500);
-        setTimeout(() => animationIn(startModal, block, 500), 1500);
     } else {
         storagePokedex = storageContent;
         savePokedex();
