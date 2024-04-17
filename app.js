@@ -1078,7 +1078,7 @@ const changeLang = (lang) => {
         titleStartModal.textContent = "Bienvenido";
         textStartModal.innerHTML =
             "Estás entrando a una página fan made, la única intención es entretenimiento, toda la información es almacenada en la memoria del navegador, ninguna información es recolectada o vendida <br><br> PokéAPI fue creada por Paul Hallett y otros contribuidores alrededor del mundo. Pokémon y los Nombres de personajes Pokémon son marca registrada de Nintendo.";
-
+        selector(".personal_msg").innerHTML = 'Te invito a ver más de mi trabajo en mi <a href="https://johnmckrazy.github.io/JohnK_Portafolio/" class="link_btn">página personal</a>';
         optionListDescriptionsFirstBtnText.forEach((btn) => (btn.textContent = "Versión"));
         pokeDescriptionVersionTitle.textContent = "Descripción:";
         measurmentOptionListFistText.textContent = "Sistema de Medida";
@@ -1162,6 +1162,7 @@ const changeLang = (lang) => {
         titleStartModal.textContent = "Welcome";
         textStartModal.innerHTML =
             "You enter in a fan made page, the only intention is entertainment, all information stored is in the browser's memory, no information is collected or sold. <br><br> Created by Paul Hallett and other PokéAPI contributors around the world. Pokémon and Pokémon character names are trademarks of Nintendo.";
+        selector(".personal_msg").innerHTML = 'I invite you to see my work in my <a href="https://johnmckrazy.github.io/JohnK_Portafolio/" class="link_btn">personal page</a>';
         optionListDescriptionsFirstBtnText.forEach((btn) => (btn.textContent = "Version"));
         pokeDescriptionVersionTitle.textContent = "Flavor:";
 
