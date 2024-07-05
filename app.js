@@ -315,7 +315,7 @@ const lightT = "light_theme";
 const darkT = "dark_theme";
 const personalizedT = "personalized_theme";
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-let storageContent = "";
+let storagePokedex = "";
 const DB_NAME = "pokedex_storage";
 //~ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const storageAlert = "page_alert_status";
@@ -634,7 +634,7 @@ const monthsOfTheYear = [
 //!  DATA OBJECTS //
 //! ||||||||||||||//
 //^ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-let storagePokedex = {
+let storageContent = {
     page_alert_status: open,
     page_themes: [],
     theme_saved: {},
@@ -3107,7 +3107,6 @@ const themeMenuActions = () => {
 };
 const updatePokedex = () => {
     storagePokedex = JSON.parse(localStorage.getItem(DB_NAME));
-    /* console.log("Pokedex Updated"); */
 };
 const savePokedex = () => {
     localStorage.setItem(DB_NAME, JSON.stringify(storagePokedex));
@@ -3199,7 +3198,7 @@ const deletePersonalizedTheme = () => {
 const createPersonalizedBtns = () => {
     deleteChildElements(fragmentPersonalizedThemeBtns);
     deleteChildElements(personalizedBtnsContainer);
-    storageContent[storageThemes].forEach((theme) => {
+    storagePokedex[storageThemes].forEach((theme) => {
         let cloneTemplate = personalizedThemeBtnTemplate.cloneNode(true);
         let btn = cloneTemplate.querySelector(".personalized_theme_btn");
         btn.textContent = theme.name;
@@ -3220,28 +3219,28 @@ const checkStorageAnswer = () => {
         console.log("navegador en otro idioma no español");
         changeLang(en);
     }
-    storageContent = JSON.parse(localStorage.getItem(DB_NAME));
-    if (!storageContent) {
-        savePokedex();
+    storagePokedex = JSON.parse(localStorage.getItem(DB_NAME));
+    if (!storagePokedex) {
+        localStorage.setItem(DB_NAME, JSON.stringify(storageContent));
         changeBasicTheme();
         console.log("local storage item is created");
     } else {
-        storagePokedex = storageContent;
+        storagePokedex = storagePokedex;
         savePokedex();
-        console.log(storageContent[storageThemes].length);
-        if (storageContent[storageThemes].length >= 1) {
+        console.log(storagePokedex[storageThemes].length);
+        if (storagePokedex[storageThemes].length >= 1) {
             console.log("tienes temas");
             createPersonalizedBtns();
         }
-        if (storageContent[storageThemeSaved])
-            if (storageContent[storageThemeSaved]["tag"] === personalizedT) {
-                console.log(storageContent[storageThemeSaved]);
+        if (storagePokedex[storageThemeSaved])
+            if (storagePokedex[storageThemeSaved]["tag"] === personalizedT) {
+                console.log(storagePokedex[storageThemeSaved]);
                 BODY.className = personalizedT;
-                console.log(storageContent[storageThemeSaved]);
-                console.log(storageContent[storageThemeSaved].name);
-                storageContent[storageThemes].forEach((theme) => {
+                console.log(storagePokedex[storageThemeSaved]);
+                console.log(storagePokedex[storageThemeSaved].name);
+                storagePokedex[storageThemes].forEach((theme) => {
                     console.log(theme);
-                    if (storageContent[storageThemeSaved].name === theme.name) {
+                    if (storagePokedex[storageThemeSaved].name === theme.name) {
                         console.log(theme);
                         currentPersonilizedTheme = theme;
                         personalizedProperty(personalizedT, `--bgColor`, theme["bgColor"]);
@@ -3250,8 +3249,8 @@ const checkStorageAnswer = () => {
                         personalizedProperty(personalizedT, `--bgAccent`, theme["bgAccent"]);
                     }
                 });
-            } else if (storageContent[storageThemeSaved]["tag"] !== personalizedT) {
-                changeBasicTheme(storageContent[storageThemeSaved]["tag"]);
+            } else if (storagePokedex[storageThemeSaved]["tag"] !== personalizedT) {
+                changeBasicTheme(storagePokedex[storageThemeSaved]["tag"]);
             }
     }
 };
@@ -3441,11 +3440,11 @@ const editPikerThemeActions = (action) => {
             animationOut(editPersonalizedThemeModal);
             editPersonalizedThemeModalStatus = close;
             deletePersonalizedTheme();
-            console.log(storageContent[storageThemeSaved]);
-            /*   if (storageContent[storageThemeSaved] !== {}) {
-                storageContent[storageThemeSaved].name;
-                console.log(storageContent[storageThemeSaved]);
-                const temaSalvadoPrueba = storageContent[storageThemes].filter((theme) => (theme.name === storageContent[storageThemeSaved].name ? theme : console.log("error en checar tema anterior despues de salvar personalizado")));
+            console.log(storagePokedex[storageThemeSaved]);
+            /*   if (storagePokedex[storageThemeSaved] !== {}) {
+                storagePokedex[storageThemeSaved].name;
+                console.log(storagePokedex[storageThemeSaved]);
+                const temaSalvadoPrueba = storagePokedex[storageThemes].filter((theme) => (theme.name === storagePokedex[storageThemeSaved].name ? theme : console.log("error en checar tema anterior despues de salvar personalizado")));
                 console.log(temaSalvadoPrueba);
             } */
             setTimeout(() => {
